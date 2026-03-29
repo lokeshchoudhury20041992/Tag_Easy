@@ -28,9 +28,9 @@ export default function Footer() {
               viewport={{ once: true }}
             >
               <div className="mb-8">
-                <img 
-                  src={logo} 
-                  alt="TAG EASY" 
+                <img
+                  src={logo}
+                  alt="TAG EASY"
                   className="h-12 w-auto object-contain"
                 />
               </div>
@@ -90,7 +90,7 @@ export default function Footer() {
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <p className="text-zinc-600 text-xs font-label">
-              © 2024 TAG EASY | Thynk Unlimited. Built for performance.
+              © 2026 TAG EASY | Thynk Unlimited. Built for performance.
             </p>
             <div className="flex gap-8 text-xs font-label text-zinc-600">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>

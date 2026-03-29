@@ -16,10 +16,10 @@ export const teamMembers = [
     }
   },
   {
-    slug: 'soudip-bhattacharya',
-    name: 'Soudip Bhattacharya',
-    role: 'Co-founder & QA Engineering Head',
-    bio: 'Soudip ensures the highest quality standards for all our deployments, overseeing complex QA architectures and testing workflows.',
+    slug: 'Sam B',
+    name: 'Sam  B.',
+    role: ' QA Engineering Head',
+    bio: 'Sam ensures the highest quality standards for all our deployments, overseeing complex QA architectures and testing workflows.',
     image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400&h=500',
     socials: {
       linkedin: '#',
