@@ -82,7 +82,7 @@ export const teamMembers = [
   {
     slug: 'Sam B',
     name: 'Sam  B.',
-    role: ' QA Engineering Head',
+    role: 'Co-Founder + QA Engineer Head',
     bio: 'Sam ensures the highest quality standards for all our deployments, overseeing complex QA architectures and testing workflows.',
     image: '/SAM.jpeg',
     socials: {

@@ -11,7 +11,7 @@ import TeamSection from '../components/TeamSection';
 // --- Sub-components ---
 
 const SectionContainer = ({ children, className, id }) => (
-  <section id={id} className={cn("bg-black relative overflow-hidden px-6 py-24 md:py-32", className)}>
+  <section id={id} className={cn("bg-black relative overflow-hidden px-4 md:px-6 py-16 md:py-32", className)}>
     <div className="max-w-7xl mx-auto">
       {children}
     </div>
@@ -19,7 +19,7 @@ const SectionContainer = ({ children, className, id }) => (
 );
 
 const GlassCard = ({ children, className }) => (
-  <div className={cn("liquid-glass rounded-[2rem] p-8 h-full transition-all duration-500 hover:bg-white/[0.03]", className)}>
+  <div className={cn("liquid-glass rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-8 h-full transition-all duration-500 hover:bg-white/[0.03]", className)}>
     {children}
   </div>
 );
@@ -107,19 +107,22 @@ const Hero = () => {
         onCanPlay={handleCanPlay}
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleEnded}
-        muted autoPlay playsInline preload="auto"
-        className="absolute inset-0 w-full h-full object-cover object-bottom z-0"
+        muted autoPlay playsInline preload="metadata"
+        className="absolute inset-0 w-full h-full object-cover z-0"
         style={{ opacity: videoOpacity }}
       >
-        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4" type="video/mp4" />
+        <source src="/Hero Section Tag easy-ezremove.mp4" type="video/mp4" />
       </video>
+      
+      {/* Dark Overlay for Readability */}
+      <div className="absolute inset-0 bg-black/45 z-[1] pointer-events-none" />
 
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-32 pb-12 text-center -translate-y-[10%]">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 md:px-6 pt-28 md:pt-44 pb-12 text-center -translate-y-[10%]">
         <motion.h1 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="text-7xl md:text-8xl lg:text-9xl text-white tracking-tight font-instrument mb-12"
+          className="text-4xl md:text-8xl lg:text-9xl text-white tracking-tight font-instrument mb-8 md:mb-12 drop-shadow-2xl"
         >
           Know it then <em className="italic">all</em>.
         </motion.h1>
@@ -137,7 +140,7 @@ const Hero = () => {
           </div>
         </div>
 
-        <p className="text-white/60 text-sm leading-relaxed max-w-md mb-10 px-4">
+        <p className="text-white/80 text-sm leading-relaxed max-w-md mb-10 px-4 drop-shadow-md">
           Stay updated with the latest news and insights from Tag Easy. Subscribe to our newsletter today and never miss out on exciting updates.
         </p>
 
@@ -267,7 +270,7 @@ const StatsBento = () => {
   ];
 
   return (
-    <SectionContainer className="pt-0 pb-32">
+    <SectionContainer className="pt-0 pb-20 md:pb-32">
       <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-auto md:h-[600px]">
         {stats.map((s, i) => (
           <motion.div
@@ -288,7 +291,7 @@ const StatsBento = () => {
               </div>
               <div>
                 <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase block mb-4">{s.label}</span>
-                <p className={cn("text-white tracking-tighter font-instrument mb-4", s.size === "lg" ? "text-8xl" : "text-5xl")}>
+                <p className={cn("text-white tracking-tighter font-instrument mb-4", s.size === "lg" ? "text-5xl md:text-8xl" : "text-3xl md:text-5xl")}>
                   {s.val}
                 </p>
               </div>
@@ -346,10 +349,40 @@ const AboutSection = () => {
 
 const BentoServices = () => {
   const services = [
-    { tag: "Strategy", title: "Technical SEO & Scale", icon: Monitor, desc: "We dig deep into data, culture, and human behavior to surface the insights that drive organic dominance.", video: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4" },
-    { tag: "Craft", title: "Web Engineering", icon: Cpu, desc: "From concept to launch, we obsess over every line of code to deliver experiences that feel effortless.", video: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_151826_c7218672-6e92-402c-9e45-f1e0f454bdc4.mp4" },
-    { tag: "Intelligence", title: "AI Integration", icon: BarChart3, desc: "Automate your logic with modular AI systems built for real-world business impact.", video: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4" }
+    { tag: "Strategy", title: "Technical SEO & Scale", icon: Monitor, desc: "We dig deep into data, culture, and human behavior to surface the insights that drive organic dominance.", video: "https://www.youtube.com/embed/dQw4w9WgXcQ", videoType: "youtube" },
+    { tag: "Craft", title: "Web Engineering", icon: Cpu, desc: "From concept to launch, we obsess over every line of code to deliver experiences that feel effortless.", video: "https://player.vimeo.com/video/76979871", videoType: "vimeo" },
+    { tag: "Intelligence", title: "AI Integration", icon: BarChart3, desc: "Automate your logic with modular AI systems built for real-world business impact.", video: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4", videoType: "direct" }
   ];
+
+  const VideoRenderer = ({ service }) => {
+    if (service.videoType === 'youtube') {
+      const videoId = service.video.split('/').pop().split('?')[0];
+      return (
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&modestbranding=1&rel=0`}
+          className="w-full h-full object-cover scale-[1.5] grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 pointer-events-none"
+          allow="autoplay; encrypted-media"
+          title={service.title}
+        />
+      );
+    }
+    if (service.videoType === 'vimeo') {
+      const videoId = service.video.split('/').pop();
+      return (
+        <iframe
+          src={`https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&background=1&loop=1`}
+          className="w-full h-full object-cover scale-[1.5] grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 pointer-events-none"
+          allow="autoplay; fullscreen"
+          title={service.title}
+        />
+      );
+    }
+    return (
+      <video autoPlay loop muted playsInline preload="metadata" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100">
+        <source src={service.video} type="video/mp4" />
+      </video>
+    );
+  };
 
   return (
     <SectionContainer id="services" className="pb-40">
@@ -367,10 +400,8 @@ const BentoServices = () => {
             viewport={{ once: true }}
           >
             <GlassCard className="group overflow-hidden !p-0">
-              <div className="aspect-[16/10] relative overflow-hidden">
-                <video autoPlay loop muted playsInline preload="auto" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100">
-                  <source src={s.video} type="video/mp4" />
-                </video>
+              <div className="aspect-[16/10] relative overflow-hidden pointer-events-none">
+                <VideoRenderer service={s} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent pointer-events-none" />
               </div>
               <div className="p-8">
@@ -393,8 +424,8 @@ const BentoServices = () => {
 
 const InteractiveCTA = () => {
   return (
-    <SectionContainer className="pb-32">
-      <div className="liquid-glass rounded-[4rem] p-12 md:p-24 text-center relative group overflow-hidden border border-white/10">
+    <SectionContainer className="pb-24 md:pb-40">
+      <div className="liquid-glass rounded-[2rem] md:rounded-[4rem] p-8 md:p-24 text-center relative group overflow-hidden border border-white/10">
         {/* Animated Glow */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.1)_0%,_transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
         
@@ -402,7 +433,7 @@ const InteractiveCTA = () => {
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-8xl text-white tracking-tight font-instrument mb-10 leading-none"
+            className="text-4xl md:text-8xl text-white tracking-tight font-instrument mb-8 md:mb-10 leading-none"
           >
             Next wave <br /><span className="italic text-white/40">engineered.</span>
           </motion.h2>
