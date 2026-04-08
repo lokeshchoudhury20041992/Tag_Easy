@@ -152,28 +152,13 @@ export const teamMembers = [
       email: 'mailto:shyanil@tageasy.org'
     }
   },
-  {
-    slug: 'ananya-sadhukhan',
-    name: 'Ananya Sadhukhan',
-    role: 'Frontend Developer',
-    bio: 'Ananya specializes in creating immersive and performant user interfaces using modern frameworks and cutting-edge design patterns.',
-    image: '/female_placeholder.png',
-    socials: {
-      linkedin: '#',
-      github: '#',
-      facebook: '#',
-      instagram: '#',
-      youtube: '#',
-      reddit: '#',
-      quora: '#'
-    }
-  },
+
   {
     slug: 'ankita-singh',
     name: 'Ankita Singh',
     role: 'Frontend Developer (Collaborator)',
     bio: 'Ankita brings fresh perspectives to our UI/UX processes, collaborating on high-impact frontend projects and interaction models.',
-    image: '/female_placeholder.png',
+    image: '/ankita.png',
     socials: {
       linkedin: '#',
       github: '#',
@@ -216,20 +201,4 @@ export const teamMembers = [
       quora: '#'
     }
   },
-  {
-    slug: 'ankur-roy-chowdhury',
-    name: 'Ankur Roy Chowdhury',
-    role: 'Creative & Video Production',
-    bio: 'Ankur leads our multi-media content creation, focusing on high-end video production and creative storytelling for digital platforms.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
-    socials: {
-      linkedin: '#',
-      github: '#',
-      facebook: '#',
-      instagram: '#',
-      youtube: '#',
-      reddit: '#',
-      quora: '#'
-    }
-  }
 ];

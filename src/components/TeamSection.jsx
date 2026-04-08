@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { teamMembers } from '../lib/teamData';
 
 const TeamSection = () => {
@@ -27,17 +26,17 @@ const TeamSection = () => {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex overflow-x-auto pb-8 gap-6 no-scrollbar hide-scrollbar scroll-smooth snap-x snap-mandatory">
           {teamMembers.map((member, i) => (
             <motion.div 
               key={member.slug}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="liquid-glass rounded-3xl overflow-hidden group flex flex-col h-full border border-white/5 hover:border-red-500/50 hover:bg-black/60 hover:backdrop-blur-2xl transition-all duration-700"
+              className="flex-none w-[280px] md:w-[350px] snap-center liquid-glass rounded-3xl overflow-hidden group flex flex-col h-full border border-white/5 hover:border-red-500/50 hover:bg-black/60 hover:backdrop-blur-2xl transition-all duration-700"
             >
-              <Link to={`/team/${member.slug}`} className="block flex-1 flex flex-col">
+              <div className="flex-1 flex flex-col">
                 <div className="aspect-[3/4] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
                   <img 
                     src={member.image} 
@@ -55,7 +54,7 @@ const TeamSection = () => {
                     {member.role}
                   </p>
                 </div>
-              </Link>
+              </div>
             </motion.div>
           ))}
         </div>

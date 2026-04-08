@@ -26,10 +26,9 @@
     width: 100%;
     height: 100%;
     background: url('https://grainy-gradients.vercel.app/noise.svg');
-    opacity: 0.12;
+    opacity: 0.08;
     pointer-events: none;
     z-index: 9999;
-    filter: contrast(180%) brightness(150%);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -61,6 +60,22 @@
 
   .text-shadow-neon {
     text-shadow: 0 0 10px rgba(var(--neon-red), 0.5);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 

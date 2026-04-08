@@ -10,14 +10,14 @@ import Button from './Button';
 
 const PRICING_DATA = {
   web: {
-    title: "Website Design",
+    title: "Website Design & Development",
     packages: [
       {
         id: 'starter',
         name: 'Starter Package',
         subtitle: 'Best for small businesses / landing pages',
-        usd: 249,
-        inr: 20000,
+        usd: 224,
+        inr: 18000,
         features: [
           '1–5 Pages (Home, About, Services, Contact)',
           'Responsive Design (Mobile + Desktop)',
@@ -32,8 +32,8 @@ const PRICING_DATA = {
         id: 'growth',
         name: 'Growth Package',
         subtitle: 'Best for businesses who want leads + SEO',
-        usd: 499,
-        inr: 40000,
+        usd: 449,
+        inr: 36000,
         isPopular: true,
         features: [
           'Up to 10 Pages',
@@ -50,8 +50,8 @@ const PRICING_DATA = {
         id: 'pro',
         name: 'Pro Business Website',
         subtitle: 'Best for serious brands / startups',
-        usd: 999,
-        inr: 80000,
+        usd: 899,
+        inr: 72000,
         features: [
           'Unlimited Pages',
           'Fully Custom Design System',
@@ -67,8 +67,8 @@ const PRICING_DATA = {
         id: 'premium',
         name: 'Premium / Custom Web App',
         subtitle: 'Best for SaaS / platforms / dashboards',
-        usd: 1500,
-        inr: 120000,
+        usd: 1350,
+        inr: 108000,
         isPlus: true,
         features: [
           'Full custom development (React / Next.js)',
@@ -81,16 +81,16 @@ const PRICING_DATA = {
       }
     ],
     addons: [
-      { id: 'extra_page', name: 'Extra Page', usd: 30, inr: 2500 },
-      { id: 'blog_setup', name: 'Blog Setup', usd: 80, inr: 6500 },
-      { id: 'adv_seo', name: 'Advanced SEO Setup', usd: 150, inr: 12000 },
-      { id: 'monthly_seo', name: 'Monthly SEO Retainer', usd: 150, inr: 12000 },
-      { id: 'speed_opt', name: 'Speed Optimization', usd: 50, inr: 4000 },
-      { id: 'ui_figma', name: 'Full UI Design (Figma)', usd: 150, inr: 12000 },
-      { id: 'copywriting', name: 'Copywriting Support', usd: 100, inr: 8000 },
-      { id: 'payment_gw', name: 'Payment Gateway', usd: 120, inr: 10000 },
-      { id: 'cms', name: 'CMS Integration', usd: 150, inr: 12000 },
-      { id: 'animations', name: 'Premium UI / Animations', usd: 100, inr: 8000 }
+      { id: 'extra_page', name: 'Extra Page', usd: 27, inr: 2250 },
+      { id: 'blog_setup', name: 'Blog Setup', usd: 72, inr: 5850 },
+      { id: 'adv_seo', name: 'Advanced SEO Setup', usd: 135, inr: 10800 },
+      { id: 'monthly_seo', name: 'Monthly SEO Retainer', usd: 135, inr: 10800 },
+      { id: 'speed_opt', name: 'Speed Optimization', usd: 45, inr: 3600 },
+      { id: 'ui_figma', name: 'Full UI Design (Figma)', usd: 135, inr: 10800 },
+      { id: 'copywriting', name: 'Copywriting Support', usd: 90, inr: 7200 },
+      { id: 'payment_gw', name: 'Payment Gateway', usd: 108, inr: 9000 },
+      { id: 'cms', name: 'CMS Integration', usd: 135, inr: 10800 },
+      { id: 'animations', name: 'Premium UI / Animations', usd: 90, inr: 7200 }
     ]
   },
   marketing: {
@@ -100,8 +100,8 @@ const PRICING_DATA = {
         id: 'meta',
         name: 'Meta Ads Management',
         subtitle: 'Facebook + Instagram Ads scaling',
-        usd: 120,
-        inr: 10000,
+        usd: 108,
+        inr: 9000,
         isMonthly: true,
         features: [
           'Campaign Strategy',
@@ -116,8 +116,8 @@ const PRICING_DATA = {
         id: 'google',
         name: 'Google Ads Management',
         subtitle: 'Search + Display network dominance',
-        usd: 120,
-        inr: 10000,
+        usd: 108,
+        inr: 9000,
         isMonthly: true,
         features: [
           'Keyword Research',
@@ -132,8 +132,8 @@ const PRICING_DATA = {
         id: 'linkedin',
         name: 'LinkedIn / TikTok Ads',
         subtitle: 'High-intent or High-viral management',
-        usd: 240,
-        inr: 20000,
+        usd: 216,
+        inr: 18000,
         isMonthly: true,
         features: [
           'Enterprise/B2B targeting',
@@ -146,7 +146,7 @@ const PRICING_DATA = {
       }
     ],
     addons: [
-      { id: 'ads_setup', name: 'One-time Setup Fee', usd: 80, inr: 6500 }
+      { id: 'ads_setup', name: 'One-time Setup Fee', usd: 72, inr: 5850 }
     ]
   },
   apps: {
@@ -156,8 +156,8 @@ const PRICING_DATA = {
         id: 'app_basic',
         name: 'Basic App Package',
         subtitle: 'MVP development for startups',
-        usd: 999,
-        inr: 80000,
+        usd: 899,
+        inr: 72000,
         features: [
           'Cross-platform (Flutter / React Native)',
           '5–7 Screens',
@@ -171,8 +171,8 @@ const PRICING_DATA = {
         id: 'app_adv',
         name: 'Advanced App Package',
         subtitle: 'Full-scale enterprise infrastructure',
-        usd: 2500,
-        inr: 200000,
+        usd: 2250,
+        inr: 180000,
         isPlus: true,
         features: [
           'Unlimited Screens',
@@ -185,8 +185,8 @@ const PRICING_DATA = {
       }
     ],
     addons: [
-      { id: 'push_notify', name: 'Push Notifications', usd: 100, inr: 8000 },
-      { id: 'multilang', name: 'Multi-language Support', usd: 150, inr: 12000 }
+      { id: 'push_notify', name: 'Push Notifications', usd: 90, inr: 7200 },
+      { id: 'multilang', name: 'Multi-language Support', usd: 135, inr: 10800 }
     ]
   },
   automation: {
@@ -196,8 +196,8 @@ const PRICING_DATA = {
         id: 'auto_basic',
         name: 'Basic Automation',
         subtitle: 'Workflow optimization (n8n/Zapier)',
-        usd: 299,
-        inr: 25000,
+        usd: 269,
+        inr: 22500,
         features: [
           'Lead Capture Automation',
           'CRM Integration',
@@ -209,8 +209,8 @@ const PRICING_DATA = {
         id: 'auto_adv',
         name: 'Advanced Automation',
         subtitle: 'Intelligent AI-driven ecosystem',
-        usd: 999,
-        inr: 80000,
+        usd: 899,
+        inr: 72000,
         features: [
           'Full-scale lead flow',
           'AI Agent Integration',
