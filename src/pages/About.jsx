@@ -4,6 +4,7 @@ import { cn } from '../lib/utils';
 import TeamSection from '../components/TeamSection';
 import { ArrowUpRight } from 'lucide-react';
 import Button from '../components/Button';
+import SEO from '../components/SEO';
 
 const SectionContainer = ({ children, className, id }) => (
   <section id={id} className={cn("bg-black relative overflow-hidden px-4 md:px-6 py-16 md:py-24", className)}>
@@ -21,8 +22,11 @@ const GlassCard = ({ children, className }) => (
 
 const About = () => {
   return (
-    <main className="bg-black pt-20">
-      <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none z-50 mix-blend-overlay" />
+    <div className="bg-black relative min-h-screen">
+      <SEO 
+        title="About Us | Tag Easy"
+        description="Learn about Tag Easy's mission, vision, and team of digital engineers."
+      />
       
       <header className="pt-16 md:pt-24 pb-16 px-6 max-w-7xl mx-auto">
         <motion.div 
@@ -98,7 +102,7 @@ const About = () => {
       </SectionContainer>
 
       <TeamSection />
-    </main>
+    </div>
   );
 };
 

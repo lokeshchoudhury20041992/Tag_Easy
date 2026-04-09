@@ -9,7 +9,9 @@ import Spline from '@splinetool/react-spline';
 import { cn, getCalendlyUrl } from '../lib/utils';
 import TeamSection from '../components/TeamSection';
 import Button from '../components/Button';
+import SEO from '../components/SEO';
 import { testimonials } from '../lib/testimonialData';
+import { submitToGoogleAppsScript } from '../lib/submitForm';
 
 // --- Sub-components ---
 
@@ -98,13 +100,7 @@ const Hero = () => {
     setSubmitStatus(null);
 
     try {
-      const url = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL || "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
-      
-      const response = await fetch(url + '?email=' + encodeURIComponent(email), {
-        method: 'POST',
-        mode: 'no-cors',
-      });
-
+      await submitToGoogleAppsScript({ Email: email });
       setSubmitStatus('success');
       setEmail('');
       setTimeout(() => setSubmitStatus(null), 3000);
@@ -169,7 +165,7 @@ const Hero = () => {
             Creative Engineering Lab
           </span>
           <h1 className="text-4xl md:text-7xl lg:text-[7.5rem] text-white tracking-tighter font-instrument mb-12 drop-shadow-2xl leading-[0.85] whitespace-nowrap">
-            Know it then all
+            Scale Revenue With<br/>Data-Driven Engineering
           </h1>
           <p className="text-white/40 text-xl md:text-2xl font-light max-w-2xl mx-auto mb-16 leading-relaxed hover:text-white/80 transition-colors duration-500">
             We architect high-performance digital ecosystems, Ads Hub dominance, and modular AI integrations for the next wave of global brands.
@@ -191,7 +187,7 @@ const Hero = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder={submitStatus === 'success' ? "Welcome to the network!" : "Join our network"}
+                placeholder={submitStatus === 'success' ? "Welcome to the network!" : "Enter email for Free Audit"}
                 disabled={isSubmitting || submitStatus === 'success'}
                 className="bg-transparent flex-1 text-white placeholder:text-white/30 outline-none text-[11px] font-medium uppercase tracking-widest disabled:opacity-50"
               />
@@ -218,7 +214,21 @@ const Hero = () => {
                 </motion.p>
               )}
             </AnimatePresence>
+            <p className="absolute -bottom-12 left-0 right-0 text-white/30 text-[10px] uppercase tracking-widest text-center transition-colors">
+              We respond within 24 hours
+            </p>
           </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={showContent ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="mb-6"
+        >
+          <span className="text-red-500 text-[10px] uppercase font-bold tracking-[0.2em] block drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]">
+            Limited Slots Available This Week
+          </span>
         </motion.div>
 
         <motion.div 
@@ -229,7 +239,7 @@ const Hero = () => {
         >
           <Button variant="secondary" onClick={() => window.open(getCalendlyUrl(), '_blank')} className="px-10">
             <Phone className="w-4 h-4" />
-            Get a call
+            Get Free Audit
           </Button>
           <Button variant="primary" href="https://adamsalve.com" target="_blank" className="px-10">
             Try Adamsalve
@@ -818,7 +828,7 @@ const InteractiveCTA = () => {
               className="px-12 py-5 text-xs transition-all duration-700"
               onClick={() => window.open(getCalendlyUrl(), '_blank')}
             >
-              START EXPLORATION
+              CLAIM YOUR FREE AUDIT
             </Button>
             <Button variant="secondary" href="https://adamsalve.com" className="px-16 py-6 text-xs tracking-[0.2em]">
               TRY ADAMSALVE
@@ -835,6 +845,17 @@ const InteractiveCTA = () => {
 const Home = () => {
   return (
     <main className="bg-black relative">
+      <SEO 
+        title="Tag Easy | Revenue Driven Digital Engineering" 
+        description="We scale revenue with high-performance digital ecosystems, Ads Hub dominance, and data driven architectures."
+        schemaData={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "Tag Easy",
+          "url": "https://tageasy.org",
+          "logo": "https://tageasy.org/favicon.png"
+        }}
+      />
       <Hero />
       <PioneeringIdeas />
       <BrandMarquee />

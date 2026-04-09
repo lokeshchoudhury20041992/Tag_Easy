@@ -4,7 +4,7 @@ export const teamMembers = [
     name: 'Lokesh Choudhury',
     role: 'Founder & Director',
     bio: 'Lokesh leads the vision and strategic direction of Tag Easy, bringing over a decade of experience in digital engineering and business growth.',
-    image: '/lokesh.png',
+    image: '/lokesh-choudhury-founder.png',
     socials: {
       linkedin: 'https://www.linkedin.com/in/lokesh-choudhury-67516437a/',
       github: '#',
@@ -84,7 +84,7 @@ export const teamMembers = [
     name: 'Sam  B.',
     role: 'Co-Founder + QA Engineer Head',
     bio: 'Sam ensures the highest quality standards for all our deployments, overseeing complex QA architectures and testing workflows.',
-    image: '/SAM.jpeg',
+    image: '/sam-b-qa-engineer.jpeg',
     socials: {
       linkedin: '#',
       github: '#',
@@ -100,7 +100,7 @@ export const teamMembers = [
     name: 'Antara Sadhukhan',
     role: 'Associate Partner',
     bio: 'Antara focuses on strategic partnerships and operational excellence, ensuring seamless collaboration between technical teams and business goals.',
-    image: '/antara.png',
+    image: '/antara-associate-partner.png',
     socials: {
       linkedin: '#',
       github: '#',
@@ -116,7 +116,7 @@ export const teamMembers = [
     name: 'Shyanil Mishra',
     role: 'Lead Software Architect',
     bio: 'Shyanil is the lead architect for our most complex digital systems, specializing in scalable cloud infrastructures and high-performance engineering.',
-    image: '/shyanil.jpeg',
+    image: '/shyanil-lead-architect.jpeg',
     experience: [
       {
         title: 'Operation Executive',
@@ -187,10 +187,10 @@ export const teamMembers = [
   },
   {
     slug: 'arpita-das',
-    name: 'Arpita Das',
+    name: 'Arpita DUTTA',
     role: 'Business Development Manager',
     bio: 'Arpita drives growth and client relations, identifying new opportunities where Tag Easy’s engineering can solve business challenges.',
-    image: '/arpita.jpg',
+    image: '/arpita-business-development.jpg',
     socials: {
       linkedin: '#',
       github: '#',

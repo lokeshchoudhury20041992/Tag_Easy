@@ -29,7 +29,7 @@ export default function Navbar() {
             />
           </NavLink>
           <div className="hidden lg:flex items-center gap-6 ml-8">
-            {[
+            {location.pathname !== '/free-audit' && [
               { name: 'Case Studies', href: '/case-studies' },
               { name: 'Industries', href: '/industries' },
               { name: 'Services', href: '/services' },
@@ -53,7 +53,7 @@ export default function Navbar() {
             onClick={() => window.open(getCalendlyUrl(), '_blank')}
             className="text-white/50 text-[10px] uppercase tracking-widest font-medium hover:text-white transition-colors"
           >
-            Get a call
+            Get Free Audit
           </button>
           <a
             href="https://adamsalve.com"

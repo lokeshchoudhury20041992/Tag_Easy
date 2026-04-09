@@ -5,7 +5,9 @@ import {
   Monitor, Cpu, BarChart3, Rocket, 
   Smartphone, Brain, Zap, ArrowUpRight 
 } from 'lucide-react';
+import Footer from '../components/Footer';
 import Button from '../components/Button';
+import SEO from '../components/SEO';
 
 import PricingCalculator from '../components/PricingCalculator';
 
@@ -61,8 +63,11 @@ const Services = () => {
   ];
 
   return (
-    <main className="bg-black pt-20">
-      <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none z-50 mix-blend-overlay" />
+    <div className="bg-black relative min-h-screen">
+      <SEO 
+        title="Our Services | Tag Easy"
+        description="Comprehensive digital engineering services including SEO, Ads Hub, and AI Automation."
+      />
       
       <header className="pt-16 md:pt-24 pb-16 px-6 max-w-7xl mx-auto">
         <motion.div 
@@ -105,7 +110,7 @@ const Services = () => {
           </div>
         </div>
       </SectionContainer>
-    </main>
+    </div>
   );
 };
 
