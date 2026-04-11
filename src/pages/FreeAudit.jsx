@@ -5,7 +5,7 @@ import { cn, getCalendlyUrl } from '../lib/utils';
 import Button from '../components/Button';
 import { testimonials } from '../lib/testimonialData';
 import SEO from '../components/SEO';
-import { submitToGoogleAppsScript } from '../lib/submitForm';
+import { submitToWebhook } from '../lib/submitForm';
 
 const SectionContainer = ({ children, className, id }) => (
   <section id={id} className={cn("bg-black relative overflow-hidden px-4 md:px-6 py-16 md:py-24", className)}>
@@ -41,7 +41,7 @@ const FreeAudit = () => {
     setSubmitStatus(null);
 
     try {
-      await submitToGoogleAppsScript({ Email: email });
+      await submitToWebhook({ email });
       setSubmitStatus('success');
       setEmail('');
       setTimeout(() => setSubmitStatus(null), 3000);
