@@ -11,7 +11,6 @@ import TeamSection from '../components/TeamSection';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
 import { testimonials } from '../lib/testimonialData';
-import { submitToGoogleAppsScript } from '../lib/submitForm';
 
 // --- Sub-components ---
 
@@ -68,10 +67,6 @@ const Hero = () => {
   const [showContent, setShowContent] = useState(false);
   const fadeDuration = 500;
 
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
-
   // Show UI after 10s delay
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -82,35 +77,6 @@ const Hero = () => {
 
   const handleLaunch = () => {
     // No longer used
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!email) return;
-
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setSubmitStatus('error');
-      setTimeout(() => setSubmitStatus(null), 3000);
-      return;
-    }
-
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    try {
-      await submitToGoogleAppsScript({ Email: email });
-      setSubmitStatus('success');
-      setEmail('');
-      setTimeout(() => setSubmitStatus(null), 3000);
-    } catch (error) {
-      console.error("Error submitting email:", error);
-      setSubmitStatus('error');
-      setTimeout(() => setSubmitStatus(null), 3000);
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
 
@@ -179,42 +145,21 @@ const Hero = () => {
           className="max-w-md w-full mb-12"
         >
           <div className="relative group/form">
-            <form onSubmit={handleSubmit} className={cn(
-              "liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3 transition-all duration-500",
-              submitStatus === 'error' ? "border-red-500/50 neon-red-glow" : "group-hover/form:neon-red-glow focus-within:neon-red-glow"
-            )}>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder={submitStatus === 'success' ? "Welcome to the network!" : "Enter email for Free Audit"}
-                disabled={isSubmitting || submitStatus === 'success'}
-                className="bg-transparent flex-1 text-white placeholder:text-white/30 outline-none text-[11px] font-medium uppercase tracking-widest disabled:opacity-50"
-              />
-              <button 
-                type="submit"
-                disabled={isSubmitting || submitStatus === 'success'}
-                className={cn(
-                  "rounded-full p-4 transition-all shadow-xl active:scale-95 disabled:opacity-50",
-                  submitStatus === 'success' ? "bg-green-500 text-white" : "bg-white text-black hover:scale-105 group-hover/form:neon-white-glow"
-                )}
-              >
+            <p className="absolute -top-8 left-0 right-0 text-white/90 text-[11px] uppercase tracking-widest text-center font-bold">
+              Please share your full details
+            </p>
+            <a 
+              href="/contact" 
+              className="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center justify-between gap-3 transition-all duration-500 hover:neon-red-glow group w-full"
+            >
+              <span className="bg-transparent flex-1 text-white/50 text-[11px] font-medium uppercase tracking-widest text-left">
+                Please share your full details
+              </span>
+              <div className="rounded-full p-4 bg-white text-black transition-all shadow-xl group-hover:scale-105 group-hover:neon-white-glow">
                 <ArrowRight className="w-5 h-5" />
-              </button>
-            </form>
-            <AnimatePresence>
-              {submitStatus === 'error' && (
-                <motion.p 
-                  initial={{ opacity: 0, y: -10 }} 
-                  animate={{ opacity: 1, y: 0 }} 
-                  exit={{ opacity: 0 }}
-                  className="absolute -bottom-6 left-0 right-0 text-red-500 text-[10px] uppercase font-bold tracking-widest text-center"
-                >
-                  Invalid email or connection error
-                </motion.p>
-              )}
-            </AnimatePresence>
-            <p className="absolute -bottom-12 left-0 right-0 text-white/30 text-[10px] uppercase tracking-widest text-center transition-colors">
+              </div>
+            </a>
+            <p className="absolute -bottom-10 left-0 right-0 text-white/30 text-[10px] uppercase tracking-widest text-center transition-colors">
               We respond within 24 hours
             </p>
           </div>

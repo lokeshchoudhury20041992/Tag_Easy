@@ -33,7 +33,8 @@ export default function Navbar() {
               { name: 'Case Studies', href: '/case-studies' },
               { name: 'Industries', href: '/industries' },
               { name: 'Services', href: '/services' },
-              { name: 'About Us', href: '/about' }
+              { name: 'About Us', href: '/about' },
+              { name: 'Contact Us', href: '/contact' }
             ].map((item) => (
               <NavLink
                 key={item.name}
@@ -59,7 +60,7 @@ export default function Navbar() {
             href="https://adamsalve.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white text-black rounded-full px-5 py-2 text-[10px] uppercase tracking-tighter font-bold hover:scale-105 hover:neon-white-glow transition-all active:scale-95 shadow-xl"
+            className="hidden md:inline-block bg-white text-black rounded-full px-5 py-2 text-[10px] uppercase tracking-tighter font-bold hover:scale-105 hover:neon-white-glow transition-all active:scale-95 shadow-xl"
           >
             Try Adamsalve
           </a>

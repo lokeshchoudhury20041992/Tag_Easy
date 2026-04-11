@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../lib/utils';
 import { Mail, Phone, Video, ArrowRight, Calendar } from 'lucide-react';
 import Button from '../components/Button';
-import { submitToGoogleAppsScript } from '../lib/submitForm';
+import { submitToWebhook } from '../lib/submitForm';
 
 const Contact = () => {
   const itemVariants = {
@@ -12,8 +12,11 @@ const Contact = () => {
   };
 
   const [name, setName] = useState('');
+  const [company, setCompany] = useState('');
+  const [role, setRole] = useState('');
+  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
@@ -25,11 +28,14 @@ const Contact = () => {
     setSubmitStatus(null);
 
     try {
-      await submitToGoogleAppsScript({ Name: name, Email: email, Message: message });
+      await submitToWebhook({ name, company, role, phone, email, notes });
       setSubmitStatus('success');
       setName('');
+      setCompany('');
+      setRole('');
+      setPhone('');
       setEmail('');
-      setMessage('');
+      setNotes('');
       setTimeout(() => setSubmitStatus(null), 5000);
     } catch (error) {
       console.error(error);
@@ -88,15 +94,27 @@ const Contact = () => {
             <h3 className="text-4xl font-instrument text-white mb-12 tracking-tighter">Brief Acquisition</h3>
             <form onSubmit={handleSubmit} className="space-y-10 relative">
                 <div className="relative group/input">
-                    <input type="text" value={name} onChange={e => setName(e.target.value)} required disabled={isSubmitting} className="w-full bg-transparent border-b border-white/10 py-5 text-white outline-none focus:border-red-500 transition-all font-light placeholder:text-white/10 text-lg" placeholder="IDENTIFIER / NAME"/>
+                    <input type="text" value={name} onChange={e => setName(e.target.value)} required disabled={isSubmitting} className="w-full bg-white/5 border-b border-white/40 py-5 px-4 text-white outline-none focus:border-red-500 transition-all font-light placeholder:text-white/50 text-lg" placeholder="NAME"/>
                     <div className="absolute bottom-0 left-0 h-[1.5px] w-0 bg-red-500 group-focus-within/input:w-full transition-all duration-700 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
                 </div>
                 <div className="relative group/input">
-                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} required disabled={isSubmitting} className="w-full bg-transparent border-b border-white/10 py-5 text-white outline-none focus:border-red-500 transition-all font-light placeholder:text-white/10 text-lg" placeholder="ELECTRONIC MAIL"/>
+                    <input type="text" value={company} onChange={e => setCompany(e.target.value)} disabled={isSubmitting} className="w-full bg-white/5 border-b border-white/40 py-5 px-4 text-white outline-none focus:border-red-500 transition-all font-light placeholder:text-white/50 text-lg" placeholder="COMPANY"/>
                     <div className="absolute bottom-0 left-0 h-[1.5px] w-0 bg-red-500 group-focus-within/input:w-full transition-all duration-700 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
                 </div>
                 <div className="relative group/input">
-                    <textarea value={message} onChange={e => setMessage(e.target.value)} required disabled={isSubmitting} className="w-full bg-transparent border-b border-white/10 py-5 text-white outline-none focus:border-red-500 transition-all font-light placeholder:text-white/10 text-lg h-40 resize-none" placeholder="STRUCTURAL REQUIREMENTS..."></textarea>
+                    <input type="text" value={role} onChange={e => setRole(e.target.value)} disabled={isSubmitting} className="w-full bg-white/5 border-b border-white/40 py-5 px-4 text-white outline-none focus:border-red-500 transition-all font-light placeholder:text-white/50 text-lg" placeholder="ROLE"/>
+                    <div className="absolute bottom-0 left-0 h-[1.5px] w-0 bg-red-500 group-focus-within/input:w-full transition-all duration-700 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+                </div>
+                <div className="relative group/input">
+                    <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} disabled={isSubmitting} className="w-full bg-white/5 border-b border-white/40 py-5 px-4 text-white outline-none focus:border-red-500 transition-all font-light placeholder:text-white/50 text-lg" placeholder="PHONE"/>
+                    <div className="absolute bottom-0 left-0 h-[1.5px] w-0 bg-red-500 group-focus-within/input:w-full transition-all duration-700 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+                </div>
+                <div className="relative group/input">
+                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} required disabled={isSubmitting} className="w-full bg-white/5 border-b border-white/40 py-5 px-4 text-white outline-none focus:border-red-500 transition-all font-light placeholder:text-white/50 text-lg" placeholder="EMAIL"/>
+                    <div className="absolute bottom-0 left-0 h-[1.5px] w-0 bg-red-500 group-focus-within/input:w-full transition-all duration-700 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+                </div>
+                <div className="relative group/input">
+                    <textarea value={notes} onChange={e => setNotes(e.target.value)} required disabled={isSubmitting} className="w-full bg-white/5 border-b border-white/40 py-5 px-4 text-white outline-none focus:border-red-500 transition-all font-light placeholder:text-white/50 text-lg h-40 resize-none" placeholder="NOTES"></textarea>
                     <div className="absolute bottom-0 left-0 h-[1.5px] w-0 bg-red-500 group-focus-within/input:w-full transition-all duration-700 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
                 </div>
                 <Button variant="primary" type="submit" disabled={isSubmitting} className="w-full py-6 text-[11px] uppercase tracking-[0.3em] font-bold group">

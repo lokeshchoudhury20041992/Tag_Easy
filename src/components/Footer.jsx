@@ -110,15 +110,22 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Section */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8"
         >
+          <a
+            href="https://adamsalve.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="md:hidden bg-white text-black rounded-full px-5 py-2 text-[10px] uppercase tracking-tighter font-bold hover:scale-105 hover:neon-white-glow transition-all active:scale-95 shadow-xl"
+          >
+            Try Adamsalve
+          </a>
           <p className="text-zinc-600 text-[10px] font-medium uppercase tracking-widest">
-            © 2026 TAG EASY | ARCHITECTED BY ADAMSALVE
+            @2019-2026 Tag Easy | Trademark & All rights reserved
           </p>
           <div className="flex gap-10 text-[10px] font-bold uppercase tracking-widest text-zinc-600">
             <a href="#" className="hover:text-white transition-colors">Infrastructure</a>
