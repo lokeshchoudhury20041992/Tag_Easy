@@ -12,3 +12,6 @@ export function getCalendlyUrl() {
   const YYYYMM = `${year}-${month}`;
   return `https://calendly.com/shyanil-tageasy/30min?back=1&month=${YYYYMM}`;
 }
+export function getWhatsAppUrl() {
+  return "https://wa.me/917980761008?text=Hi%2C%20I%20am%20interested%20in%20growing%20my%20business%20online.";
+}

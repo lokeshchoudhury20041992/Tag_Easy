@@ -447,9 +447,10 @@ const PricingCalculator = () => {
                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />
                  </Button>
                </div>
-               <p className="text-[10px] text-center text-white/20 font-light uppercase tracking-widest mt-4">
-                 * Final quote subject to engineering audit
-               </p>
+                <p className="text-[10px] text-center text-white/20 font-light uppercase tracking-widest mt-4">
+                  * Final quote subject to engineering audit <br />
+                  <span className="text-red-500/60 mt-1 block">Pricing is adjustable based on scale</span>
+                </p>
             </div>
           </div>
 

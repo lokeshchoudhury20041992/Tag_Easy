@@ -1,9 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { cn, getCalendlyUrl } from '../lib/utils';
+import { cn, getCalendlyUrl, getWhatsAppUrl } from '../lib/utils';
 import { 
   Monitor, Cpu, BarChart3, Rocket, 
-  Smartphone, Brain, Zap, ArrowUpRight 
+  Smartphone, Brain, Zap, ArrowUpRight,
+  MessageCircle, Calendar
 } from 'lucide-react';
 import Footer from '../components/Footer';
 import Button from '../components/Button';
@@ -69,7 +70,7 @@ const Services = () => {
         description="Comprehensive digital engineering services including SEO, Ads Hub, and AI Automation."
       />
       
-      <header className="pt-16 md:pt-24 pb-16 px-6 max-w-7xl mx-auto">
+      <header className="pt-16 md:pt-24 pb-16 px-6 max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -85,12 +86,46 @@ const Services = () => {
             Our stack is more than code; it's the architectural foundation for the brands of tomorrow.
           </p>
         </motion.div>
+
+        {/* Up and Right Heading Callout */}
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="liquid-glass p-8 rounded-3xl border border-red-500/20 bg-black/40 max-w-md w-full relative overflow-hidden group mb-4 lg:mb-0"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(239,68,68,0.05)_0%,_transparent_50%)]" />
+          <span className="text-red-500 text-[10px] font-bold uppercase tracking-[0.4em] block mb-3">Investment Strategy</span>
+          <h3 className="text-white text-xl font-instrument mb-4 tracking-tight">
+            Standard Pricing for <span className="text-white/20 italic">Top Experience</span> — <br />
+            <span className="text-red-500/80">Adjustable based on your style</span>
+          </h3>
+          <div className="flex flex-col gap-3 relative z-10">
+            <Button 
+              variant="primary" 
+              className="w-full py-4 bg-[#25D366] hover:bg-[#22c35e] border-none text-[10px] tracking-widest text-white flex items-center justify-center gap-3 group/wa"
+              onClick={() => window.open(getWhatsAppUrl(), '_blank')}
+            >
+              <MessageCircle className="w-4 h-4 group-hover/wa:scale-110 transition-transform" />
+              WHATSAPP US
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full py-4 border-white/10 text-[10px] tracking-widest text-white hover:bg-white/5 flex items-center justify-center gap-3 group/meet"
+              onClick={() => window.open(getCalendlyUrl(), '_blank')}
+            >
+              <Calendar className="w-4 h-4 group-hover/meet:scale-110 transition-transform" />
+              SCHEDULE MEETING
+            </Button>
+          </div>
+        </motion.div>
       </header>
 
 
       <SectionContainer className="pt-0">
         <PricingCalculator />
       </SectionContainer>
+
 
       <SectionContainer className="pt-0 pb-24">
         <div className="liquid-glass rounded-[3rem] md:rounded-[5rem] p-12 md:p-32 text-center relative group overflow-hidden border border-white/5 hover:border-red-500/30 transition-all duration-1000">
