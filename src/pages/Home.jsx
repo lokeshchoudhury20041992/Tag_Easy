@@ -211,6 +211,9 @@ const Hero = () => {
         <a href="https://www.linkedin.com/company/tag-easy/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="text-white/20 hover:text-red-500 hover:scale-125 transition-all duration-300">
           <Linkedin className="w-5 h-5" />
         </a>
+        <a href="https://www.instagram.com/tag_easy/" target="_blank" rel="noopener noreferrer" className="text-white/20 hover:text-red-500 hover:scale-125 transition-all duration-300">
+          <Instagram className="w-5 h-5" />
+        </a>
         <a href="/" className="text-white/20 hover:text-red-500 hover:scale-125 transition-all duration-300">
           <Globe className="w-5 h-5" />
         </a>
