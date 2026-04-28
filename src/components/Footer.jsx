@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Instagram, ArrowUpRight } from 'lucide-react';
+import { Linkedin, Instagram, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getCalendlyUrl } from '../lib/utils';
 import logo from '../assets/Logo_T.png';
@@ -16,6 +16,7 @@ export default function Footer() {
 
   const socialLinks = [
     { icon: Linkedin, href: 'https://www.linkedin.com/company/tag-easy/posts/?feedView=all', label: 'LinkedIn' },
+    { icon: Instagram, href: 'https://www.instagram.com/tag_easy/', label: 'Instagram' },
   ];
 
   return (
