@@ -34,6 +34,7 @@ export default function Navbar() {
               { name: 'Industries', href: '/industries' },
               { name: 'Services', href: '/services' },
               { name: 'About Us', href: '/about' },
+              { name: 'Blog', href: '/blog' },
               { name: 'Contact Us', href: '/contact' }
             ].map((item) => (
               <NavLink

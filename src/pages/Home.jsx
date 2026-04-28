@@ -12,6 +12,7 @@ import TeamSection from '../components/TeamSection';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
 import { testimonials } from '../lib/testimonialData';
+import BlogSection from '../components/BlogSection';
 
 // --- Sub-components ---
 
@@ -650,11 +651,13 @@ const WhyBetterSection = () => {
               )}
             </AnimatePresence>
 
-            {/* 3D Scene - Only loads when in proximity */}
+            {/* Image Scene - Only loads when in proximity */}
             <div className="w-full h-full relative z-10">
               {shouldRender3D && (
-                <Spline 
-                  scene="/animated_characters_by_heyvlad.spline" 
+                <img 
+                  src="/digital_engineering.png" 
+                  alt="Engineering Edge"
+                  className="w-full h-full object-cover"
                   onLoad={() => setIsLoaded(true)}
                 />
               )}
@@ -882,6 +885,7 @@ const Home = () => {
       <TestimonialsSection />
       <SuccessStoryMaatritva />
       <AdamsalveMockup />
+      <BlogSection />
       <InteractiveCTA />
     </main>
   );

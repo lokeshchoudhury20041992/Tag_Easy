@@ -13,6 +13,8 @@ const TeamMember = React.lazy(() => import('./pages/TeamMember'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
 const FreeAudit = React.lazy(() => import('./pages/FreeAudit'));
 const CaseStudyMaatritva = React.lazy(() => import('./pages/CaseStudyMaatritva'));
+const Blog = React.lazy(() => import('./pages/Blog'));
+const BlogPost = React.lazy(() => import('./pages/BlogPost'));
 
 const AnalyticsTracker = () => {
   const location = useLocation();
@@ -40,6 +42,8 @@ function App() {
             <Route path="team/:slug" element={<TeamMember />} />
             <Route path="free-audit" element={<FreeAudit />} />
             <Route path="case-studies/maatritva" element={<CaseStudyMaatritva />} />
+            <Route path="blog" element={<Blog />} />
+            <Route path="blog/:slug" element={<BlogPost />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
