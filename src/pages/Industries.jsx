@@ -4,7 +4,7 @@ import {
   ShoppingCart, Landmark, Cpu, BarChart3, 
   Building2, GraduationCap, Plane, HeartPulse 
 } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { getAuditCalendarUrl } from '../lib/utils';
 
 const IndustryCard = ({ icon: Icon, title, desc, i }) => (
   <motion.div
@@ -63,7 +63,11 @@ const Industries = () => {
           <h2 className="text-3xl md:text-5xl text-white tracking-tight font-instrument mb-8 leading-none">
             Ready for your vertical <br /><span className="italic text-white/40">takeover?</span>
           </h2>
-          <button className="bg-white text-black rounded-full px-10 py-4 text-sm font-black uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_40px_rgba(255,255,255,0.2)]">
+          <button
+            type="button"
+            onClick={() => window.open(getAuditCalendarUrl(), '_blank', 'noopener,noreferrer')}
+            className="bg-white text-black rounded-full px-10 py-4 text-sm font-black uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_40px_rgba(255,255,255,0.2)]"
+          >
             Analyze My Sector
           </button>
         </div>

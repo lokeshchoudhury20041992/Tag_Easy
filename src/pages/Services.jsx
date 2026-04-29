@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { cn, getCalendlyUrl, getWhatsAppUrl } from '../lib/utils';
+import { cn, getAuditCalendarUrl, getWhatsAppUrl } from '../lib/utils';
 import { 
   Monitor, Cpu, BarChart3, Rocket, 
   Smartphone, Brain, Zap, ArrowUpRight,
@@ -112,7 +112,7 @@ const Services = () => {
             <Button 
               variant="outline" 
               className="w-full py-4 border-white/10 text-[10px] tracking-widest text-white hover:bg-white/5 flex items-center justify-center gap-3 group/meet"
-              onClick={() => window.open(getCalendlyUrl(), '_blank')}
+              onClick={() => window.open(getAuditCalendarUrl(), '_blank')}
             >
               <Calendar className="w-4 h-4 group-hover/meet:scale-110 transition-transform" />
               SCHEDULE MEETING
@@ -138,7 +138,7 @@ const Services = () => {
             <Button 
               variant="primary" 
               className="px-16 py-6 text-xs tracking-[0.2em]"
-              onClick={() => window.open(getCalendlyUrl(), '_blank')}
+              onClick={() => window.open(getAuditCalendarUrl(), '_blank')}
             >
               CONSTRUCT YOUR PLAN
             </Button>

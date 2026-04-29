@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, CheckCircle, Globe, Activity, Award } from 'lucide-react';
-import { cn, getCalendlyUrl } from '../lib/utils';
+import { cn, getAuditCalendarUrl } from '../lib/utils';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
 
@@ -59,7 +59,7 @@ const CaseStudyMaatritva = () => {
             transition={{ duration: 1, delay: 0.2 }}
             className="w-full aspect-[4/3] rounded-[2rem] overflow-hidden border border-white/5 relative group bg-black"
         >
-            <img src="/Maatritva.png" alt="Maatritva IVF" className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105" />
+            <img src="/Maatritva.webp" alt="Maatritva IVF" className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
         </motion.div>
         </div>
@@ -142,7 +142,7 @@ const CaseStudyMaatritva = () => {
             <Button 
                 variant="primary" 
                 className="px-16 py-6 text-xs tracking-[0.2em]"
-                onClick={() => window.open(getCalendlyUrl(), '_blank')}
+                onClick={() => window.open(getAuditCalendarUrl(), '_blank')}
             >
                 START YOUR BUILD
             </Button>

@@ -2,8 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Linkedin, Instagram, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { getCalendlyUrl } from '../lib/utils';
-import logo from '../assets/Logo_T.png';
+import { getAuditCalendarUrl } from '../lib/utils';
+import logo from '../assets/Logo_T.webp';
 
 export default function Footer() {
   const platformLinks = [
@@ -101,7 +101,7 @@ export default function Footer() {
                 Ready to build something that redefines your market?
               </p>
               <button 
-                onClick={() => window.open(getCalendlyUrl(), '_blank')}
+                onClick={() => window.open(getAuditCalendarUrl(), '_blank')}
                 className="text-red-500 text-[10px] font-bold uppercase tracking-[0.3em] flex items-center hover:tracking-[0.4em] transition-all"
               >
                 INITIATE PROJECT <ArrowUpRight className="w-3 h-3 ml-2" />

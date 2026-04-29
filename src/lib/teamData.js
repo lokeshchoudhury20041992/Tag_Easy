@@ -4,7 +4,7 @@ export const teamMembers = [
     name: 'Lokesh Choudhury',
     role: 'Founder & Director',
     bio: 'Lokesh leads the vision and strategic direction of Tag Easy, bringing over a decade of experience in digital engineering and business growth.',
-    image: '/lokesh-choudhury-founder.png',
+    image: '/lokesh-choudhury-founder.webp',
     socials: {
       linkedin: 'https://www.linkedin.com/in/lokesh-choudhury-67516437a/',
       github: '#',
@@ -84,7 +84,7 @@ export const teamMembers = [
     name: 'Sam B.',
     role: 'Co-Founder + QA Engineer Head',
     bio: 'Sam ensures the highest quality standards for all our deployments, overseeing complex QA architectures and testing workflows.',
-    image: '/sam-b-qa-engineer.jpeg',
+    image: '/sam-b-qa-engineer.webp',
     socials: {
       linkedin: '#',
       github: '#',
@@ -100,7 +100,7 @@ export const teamMembers = [
     name: 'Antara Sadhukhan',
     role: 'Associate Partner',
     bio: 'Antara focuses on strategic partnerships and operational excellence, ensuring seamless collaboration between technical teams and business goals.',
-    image: '/antara-associate-partner.png',
+    image: '/antara-associate-partner.webp',
     socials: {
       linkedin: '#',
       github: '#',
@@ -114,9 +114,9 @@ export const teamMembers = [
   {
     slug: 'shyanil-mishra',
     name: 'Shyanil Mishra',
-    role: 'Lead Software Architect',
-    bio: 'Shyanil is the lead architect for our most complex digital systems, specializing in scalable cloud infrastructures and high-performance engineering.',
-    image: '/shyanil-lead-architect.jpeg',
+    role: 'Chief Technology Officer',
+    bio: 'Shyanil leads Tag Easy’s technology direction, architecture decisions, and high-performance engineering systems.',
+    image: '/shyanil-lead-architect.webp',
     experience: [
       {
         title: 'Operation Executive',
@@ -152,13 +152,28 @@ export const teamMembers = [
       email: 'mailto:shyanil@tageasy.org'
     }
   },
-
   {
-    slug: 'ankita-singh',
-    name: 'Ankita Singh',
-    role: 'Frontend Developer (Collaborator)',
-    bio: 'Ankita brings fresh perspectives to our UI/UX processes, collaborating on high-impact frontend projects and interaction models.',
-    image: '/ankita.png',
+    slug: 'arpita-dutta',
+    name: 'Arpita Dutta',
+    role: 'Business Development Manager',
+    bio: 'Arpita drives growth and client relations, identifying new opportunities where Tag Easy’s engineering can solve business challenges.',
+    image: '/arpita-business-development.webp',
+    socials: {
+      linkedin: '#',
+      github: '#',
+      facebook: '#',
+      instagram: '#',
+      youtube: '#',
+      reddit: '#',
+      quora: '#'
+    }
+  },
+  {
+    slug: 'drik-sarker',
+    name: 'Drik Sarker',
+    role: 'SEO & Local Search Specialist',
+    bio: 'Drik strengthens organic and local search visibility for clients, supporting SEO execution and Google Business Profile optimization.',
+    image: '/drik.webp',
     socials: {
       linkedin: '#',
       github: '#',
@@ -174,7 +189,7 @@ export const teamMembers = [
     name: 'Sandip Majumder',
     role: 'Creative Head',
     bio: 'Sandip oversees the artistic direction at Tag Easy, ensuring every project balances technical power with aesthetic dominance.',
-    image: '/sandip.jpg',
+    image: '/sandip.webp',
     socials: {
       linkedin: '#',
       github: '#',
@@ -186,11 +201,11 @@ export const teamMembers = [
     }
   },
   {
-    slug: 'arpita-dutta',
-    name: 'Arpita Dutta',
-    role: 'Business Development Manager',
-    bio: 'Arpita drives growth and client relations, identifying new opportunities where Tag Easy’s engineering can solve business challenges.',
-    image: '/arpita-business-development.jpg',
+    slug: 'ankita-singh',
+    name: 'Ankita Singh',
+    role: 'Frontend Developer (Collaborator)',
+    bio: 'Ankita brings fresh perspectives to our UI/UX processes, collaborating on high-impact frontend projects and interaction models.',
+    image: '/ankita.webp',
     socials: {
       linkedin: '#',
       github: '#',

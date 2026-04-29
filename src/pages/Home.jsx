@@ -6,13 +6,13 @@ import {
   ShieldCheck, LayoutDashboard, Monitor, Brain
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Spline from '@splinetool/react-spline';
-import { cn, getCalendlyUrl } from '../lib/utils';
+import { cn, getAuditCalendarUrl } from '../lib/utils';
 import TeamSection from '../components/TeamSection';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
 import { testimonials } from '../lib/testimonialData';
 import BlogSection from '../components/BlogSection';
+import logoT from '../assets/Logo_T.webp';
 
 // --- Sub-components ---
 
@@ -67,36 +67,26 @@ const Hero = () => {
   const videoRef = useRef(null);
   const [videoOpacity, setVideoOpacity] = useState(0);
   const [showContent, setShowContent] = useState(false);
-  const fadeDuration = 500;
+  const [showLoader, setShowLoader] = useState(true);
 
-  // Show UI after 5s delay on desktop, instantly on mobile
+  // Keep the branded intro visible while the video starts loading in the background.
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    const delay = isMobile ? 0 : 5000;
-    
     const timer = setTimeout(() => {
+      setShowLoader(false);
       setShowContent(true);
-    }, delay);
+    }, 4200);
     
     return () => clearTimeout(timer);
   }, []);
 
-  const handleLaunch = () => {
-    // No longer used
-  };
-
   const handleCanPlay = () => {
     videoRef.current?.play();
     setVideoOpacity(1);
-    
-    const isMobile = window.innerWidth < 768;
-    if (!isMobile) {
-      setTimeout(() => {
-        setShowContent(true);
-      }, 5000);
-    } else {
+
+    setTimeout(() => {
+      setShowLoader(false);
       setShowContent(true);
-    }
+    }, 1600);
   };
 
   const handleEnded = () => {
@@ -118,7 +108,7 @@ const Hero = () => {
         ref={videoRef}
         onCanPlay={handleCanPlay}
         onEnded={handleEnded}
-        muted autoPlay playsInline preload="metadata"
+        muted autoPlay playsInline preload="auto"
         className="hidden md:block absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-1000 will-change-[opacity]"
         style={{ opacity: videoOpacity, filter: 'brightness(0.85)' }}
       >
@@ -126,6 +116,57 @@ const Hero = () => {
       </video>
       
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/90 z-[1] pointer-events-none" />
+
+      <AnimatePresence>
+        {showLoader && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 z-30 flex items-center justify-center bg-black/75 backdrop-blur-sm px-6"
+          >
+            <div className="flex flex-col items-center text-center">
+              <motion.img
+                src={logoT}
+                alt="Tag Easy Logo"
+                initial={{ opacity: 0, y: 24, scale: 0.94 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                className="w-24 md:w-32 h-auto mb-8 drop-shadow-[0_0_30px_rgba(239,68,68,0.35)]"
+              />
+              <motion.span
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.25 }}
+                className="text-red-500 text-[10px] uppercase font-semibold tracking-[0.45em] mb-5"
+              >
+                Tag Easy
+              </motion.span>
+              <motion.p
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.45 }}
+                className="text-white text-2xl md:text-4xl font-instrument tracking-tight leading-tight max-w-xl"
+              >
+                Engineering momentum for brands that refuse to wait.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.7 }}
+                className="mt-10 h-px w-56 bg-white/10 overflow-hidden"
+              >
+                <motion.div
+                  className="h-full bg-red-500"
+                  initial={{ x: '-100%' }}
+                  animate={{ x: '100%' }}
+                  transition={{ duration: 1.25, repeat: Infinity, ease: 'easeInOut' }}
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className={cn(
         "relative z-10 flex-1 flex flex-col items-center justify-center px-4 md:px-6 pt-32 md:pt-44 pb-20 text-center transition-all duration-1000",
@@ -192,7 +233,7 @@ const Hero = () => {
           transition={{ duration: 1, delay: 0.6 }}
           className="flex flex-col sm:flex-row gap-6"
         >
-          <Button variant="secondary" onClick={() => window.open(getCalendlyUrl(), '_blank')} className="px-10">
+          <Button variant="secondary" onClick={() => window.open(getAuditCalendarUrl(), '_blank')} className="px-10">
             <Phone className="w-4 h-4" />
             Get Free Audit
           </Button>
@@ -502,39 +543,16 @@ const BentoServices = () => {
   };
 
   const ServiceCard = ({ s, i }) => {
-    const cardRef = useRef(null);
-    const { scrollYProgress } = useScroll({
-      target: cardRef,
-      offset: ["start end", "end start"]
-    });
-
-    // High-intensity 3D Stacking Projection mapping
-    const rotateX = useTransform(scrollYProgress, [0, 0.45, 0.5, 0.55, 1], [30, 15, 0, -15, -30]);
-    const scale = useTransform(scrollYProgress, [0, 0.45, 0.5, 0.55, 1], [0.6, 0.95, 1.15, 0.95, 0.6]);
-    const z = useTransform(scrollYProgress, [0, 0.45, 0.5, 0.55, 1], [-400, -100, 100, -100, -400]);
-    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0, 1, 1, 1, 0]);
-    const brightness = useTransform(scrollYProgress, [0, 0.45, 0.5, 0.55, 1], [0.4, 0.7, 1.2, 0.7, 0.4]);
-    
-    // Parallax effect for the background video
-    const parallaxY = useTransform(scrollYProgress, [0, 1], [-100, 100]);
-
     return (
       <motion.div
-        ref={cardRef}
-        style={{ 
-          perspective: 1500, 
-          rotateX, 
-          scale, 
-          opacity, 
-          translateZ: z, 
-          filter: useTransform(brightness, b => `brightness(${b})`),
-          transformStyle: "preserve-3d" 
-        }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.8, delay: i * 0.1 }}
       >
-        <GlassCard className="group overflow-hidden !p-0 border border-white/5 hover:border-red-500/30 transition-all duration-1000 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-          <div className="aspect-[16/10] relative overflow-hidden pointer-events-none">
-            <VideoRenderer service={s} index={i} parallaxY={parallaxY} />
+        <GlassCard className="group overflow-hidden !p-0 border border-white/5 hover:border-red-500/30 transition-all duration-700 shadow-2xl">
+          <div className="aspect-[16/10] relative overflow-hidden">
+            <VideoRenderer service={s} index={i} parallaxY={0} />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent pointer-events-none" />
           </div>
           <div className="p-10 relative z-10">
@@ -655,7 +673,7 @@ const WhyBetterSection = () => {
             <div className="w-full h-full relative z-10">
               {shouldRender3D && (
                 <img 
-                  src="/digital_engineering.png" 
+                  src="/tim.webp" 
                   alt="Engineering Edge"
                   className="w-full h-full object-cover"
                   onLoad={() => setIsLoaded(true)}
@@ -776,7 +794,7 @@ const SuccessStoryMaatritva = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(239,68,68,0.1)_0%,_transparent_70%)] pointer-events-none" />
         
         <div className="w-full md:w-5/12 aspect-square md:aspect-auto md:h-[400px] bg-black border border-white/5 rounded-3xl flex items-center justify-center grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 relative overflow-hidden">
-            <img src="/Maatritva.png" alt="Maatritva IVF" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <img src="/Maatritva.webp" alt="Maatritva IVF" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,_transparent_0%,_black_90%)] opacity-40 mix-blend-multiply" />
         </div>
         
@@ -844,7 +862,7 @@ const InteractiveCTA = () => {
             <Button 
               variant="primary" 
               className="px-12 py-5 text-xs transition-all duration-700"
-              onClick={() => window.open(getCalendlyUrl(), '_blank')}
+              onClick={() => window.open(getAuditCalendarUrl(), '_blank')}
             >
               CLAIM YOUR FREE AUDIT
             </Button>
@@ -871,7 +889,7 @@ const Home = () => {
           "@type": "Organization",
           "name": "Tag Easy",
           "url": "https://tageasy.org",
-          "logo": "https://tageasy.org/favicon.png"
+          "logo": "https://tageasy.org/favicon-64.png"
         }}
       />
       <Hero />

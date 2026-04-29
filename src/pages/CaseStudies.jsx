@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { cn, getCalendlyUrl } from '../lib/utils';
+import { cn, getAuditCalendarUrl } from '../lib/utils';
 import { Terminal, ArrowUpRight, Shield, Globe, Zap } from 'lucide-react';
 import Button from '../components/Button';
 
@@ -54,7 +54,7 @@ const CaseStudies = () => {
             cat: "Healthcare Scale", 
             stats: "#1 Regional", 
             icon: Globe,
-            image: "/Maatritva.png",
+            image: "/Maatritva.webp",
             link: '/case-studies/maatritva'
         },
         { 
@@ -62,21 +62,21 @@ const CaseStudies = () => {
             cat: "Infrastructure", 
             stats: "400% Growth", 
             icon: Globe,
-            image: '/case-studies/metropolitan.png'
+            image: '/case-studies/metropolitan.webp'
         },
         { 
             title: "Bespoke Commerce", 
             cat: "Digital Systems", 
             stats: "98% Efficiency", 
             icon: Zap,
-            image: '/case-studies/commerce.png'
+            image: '/case-studies/commerce.webp'
         },
         { 
             title: "Legacy Migration", 
             cat: "Engineering", 
             stats: "99% Uptime", 
             icon: Shield,
-            image: '/case-studies/migration.png'
+            image: '/case-studies/migration.webp'
         }
     ];
 
@@ -197,7 +197,7 @@ const CaseStudies = () => {
           <Button 
             variant="primary" 
             className="px-16 py-6 text-xs tracking-[0.2em]"
-            onClick={() => window.open(getCalendlyUrl(), '_blank')}
+            onClick={() => window.open(getAuditCalendarUrl(), '_blank')}
           >
             START EXPLORATION
           </Button>

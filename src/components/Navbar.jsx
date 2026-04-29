@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { cn, getCalendlyUrl } from '../lib/utils';
-import logoT from '../assets/Logo_T.png';
+import { cn, getAuditCalendarUrl } from '../lib/utils';
+import logoT from '../assets/Logo_T.webp';
 
 export default function Navbar() {
   const location = useLocation();
@@ -52,7 +52,7 @@ export default function Navbar() {
         </div>
         <div className="flex items-center gap-4 md:gap-8">
           <button 
-            onClick={() => window.open(getCalendlyUrl(), '_blank')}
+            onClick={() => window.open(getAuditCalendarUrl(), '_blank')}
             className="text-white/50 text-[10px] uppercase tracking-widest font-medium hover:text-white transition-colors"
           >
             Get Free Audit

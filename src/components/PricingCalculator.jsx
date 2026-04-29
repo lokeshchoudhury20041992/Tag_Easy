@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn, getCalendlyUrl } from '../lib/utils';
+import { cn, getAuditCalendarUrl } from '../lib/utils';
 import { 
   Check, Plus, Minus, Globe, 
   Smartphone, Zap, BarChart3, 
@@ -441,7 +441,7 @@ const PricingCalculator = () => {
                  <Button 
                    variant="primary" 
                    className="w-full py-6 group"
-                   onClick={() => window.open(getCalendlyUrl(), '_blank')}
+                   onClick={() => window.open(getAuditCalendarUrl(), '_blank')}
                  >
                    INITIATE COLLABORATION
                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" />

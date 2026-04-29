@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Phone } from 'lucide-react';
-import { cn, getCalendlyUrl } from '../lib/utils';
+import { cn, getAuditCalendarUrl } from '../lib/utils';
 import Button from '../components/Button';
 import { testimonials } from '../lib/testimonialData';
 import SEO from '../components/SEO';
@@ -163,7 +163,7 @@ const FreeAudit = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
           >
-            <Button variant="secondary" onClick={() => window.open(getCalendlyUrl(), '_blank')} className="px-10">
+            <Button variant="secondary" onClick={() => window.open(getAuditCalendarUrl(), '_blank')} className="px-10">
               <Phone className="w-4 h-4" />
               Book Call Directly
             </Button>
