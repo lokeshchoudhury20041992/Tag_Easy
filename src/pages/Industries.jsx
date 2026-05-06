@@ -5,6 +5,7 @@ import {
   Building2, GraduationCap, Plane, HeartPulse 
 } from 'lucide-react';
 import { getAuditCalendarUrl } from '../lib/utils';
+import SEO from '../components/SEO';
 
 const IndustryCard = ({ icon: Icon, title, desc, i }) => (
   <motion.div
@@ -36,6 +37,10 @@ const Industries = () => {
 
   return (
     <main className="min-h-screen bg-black pt-24 pb-16">
+      <SEO
+        title="Industries | Tag Easy"
+        description="Tag Easy builds specialized digital systems for healthcare, e-commerce, SaaS, fintech, real estate, education, travel, and analytics companies."
+      />
       <section className="max-w-7xl mx-auto px-6 mb-24">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { cn, getAuditCalendarUrl } from '../lib/utils';
 import { Terminal, ArrowUpRight, Shield, Globe, Zap } from 'lucide-react';
 import Button from '../components/Button';
+import SEO from '../components/SEO';
 
 const SectionContainer = ({ children, className, id }) => (
   <section id={id} className={cn("bg-black relative overflow-hidden px-4 md:px-6 py-16 md:py-24", className)}>
@@ -82,6 +83,10 @@ const CaseStudies = () => {
 
   return (
     <main className="bg-black pt-20">
+      <SEO
+        title="Case Studies | Tag Easy"
+        description="See Tag Easy case studies showing digital growth, SEO, Ads Hub performance, and engineering results for client brands."
+      />
       <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none z-50 mix-blend-overlay" />
       
       <header className="pt-16 md:pt-24 pb-16 px-6 max-w-7xl mx-auto text-center">

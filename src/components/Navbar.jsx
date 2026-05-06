@@ -32,6 +32,7 @@ export default function Navbar() {
             {location.pathname !== '/free-audit' && [
               { name: 'Case Studies', href: '/case-studies' },
               { name: 'Industries', href: '/industries' },
+              { name: 'AI Automation', href: '/ai-automation' },
               { name: 'Services', href: '/services' },
               { name: 'About Us', href: '/about' },
               { name: 'Blog', href: '/blog' },

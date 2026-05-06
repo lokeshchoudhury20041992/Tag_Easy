@@ -56,9 +56,9 @@ const Services = () => {
     },
     {
       title: 'AI Automation',
-      desc: 'Intelligent systems built to automate logic and scale business intelligence.',
+      desc: 'High-ticket AI systems for ads, lead generation, SEO, CRM workflows, reporting, and business intelligence.',
       icon: Brain,
-      tags: ['Automation', 'Data Insights'],
+      tags: ['Ads', 'Lead Gen', 'SEO', 'AI Agents'],
       video: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4'
     }
   ];

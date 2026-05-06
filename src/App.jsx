@@ -5,6 +5,7 @@ import Layout from './components/Layout';
 
 const Home = React.lazy(() => import('./pages/Home'));
 const Services = React.lazy(() => import('./pages/Services'));
+const AIAutomation = React.lazy(() => import('./pages/AIAutomation'));
 const CaseStudies = React.lazy(() => import('./pages/CaseStudies'));
 const Contact = React.lazy(() => import('./pages/Contact'));
 const About = React.lazy(() => import('./pages/About'));
@@ -35,6 +36,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="services" element={<Services />} />
+            <Route path="ai-automation" element={<AIAutomation />} />
             <Route path="case-studies" element={<CaseStudies />} />
             <Route path="about" element={<About />} />
             <Route path="industries" element={<Industries />} />

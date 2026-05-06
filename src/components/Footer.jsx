@@ -8,6 +8,7 @@ import logo from '../assets/Logo_T.webp';
 export default function Footer() {
   const platformLinks = [
     { name: 'Home', href: '/' },
+    { name: 'AI Automation', href: '/ai-automation' },
     { name: 'Services', href: '/services' },
     { name: 'About', href: '/about' },
     { name: 'Case Studies', href: '/case-studies' },

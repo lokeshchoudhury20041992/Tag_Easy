@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: http://tageasy.org/sitemap.xml
+Sitemap: https://tageasy.org/sitemap.xml

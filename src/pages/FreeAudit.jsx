@@ -219,10 +219,10 @@ const FreeAudit = () => {
                 </div>
 
                 <div className="relative z-10 pt-12 border-t border-white/5 mt-auto">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-red-500 font-bold text-xs group-hover:neon-red-glow transition-all duration-500">
-                      {t.author.charAt(0)}
-                    </div>
+                <div className="flex items-center gap-4 pl-5 border-l border-red-500/30">
+                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-red-500 font-bold text-xs group-hover:neon-red-glow transition-all duration-500">
+                    {t.author.charAt(0)}
+                  </div>
                     <div>
                       <h5 className="text-white text-sm font-semibold">{t.author}</h5>
                       <p className="text-white/30 text-[10px] uppercase tracking-widest">{t.role}</p>

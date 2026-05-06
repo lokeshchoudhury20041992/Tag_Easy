@@ -507,7 +507,7 @@ const BentoServices = () => {
   const services = [
     { tag: "Performance", title: "Ads Hub", icon: Zap, desc: "Intelligent advertising engines built for scaling brand awareness and conversion dominance.", video: "https://www.pexels.com/download/video/8072444/", videoType: "direct" },
     { tag: "Ecosystems", title: "Web Site Development", icon: Monitor, desc: "Intelligent digital ecosystems built to architect scale and engineered for high-performance dominance.", video: "https://www.pexels.com/download/video/2887463/", videoType: "direct" },
-    { tag: "Intelligence", title: "AI Automation", icon: Brain, desc: "Intelligent systems built to automate logic and scale business intelligence.", video: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4", videoType: "direct" }
+    { tag: "Intelligence", title: "AI Automation", icon: Brain, desc: "Intelligent systems built to automate ads, leads, SEO, content, CRM logic, and business intelligence.", video: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4", videoType: "direct", href: "/ai-automation" }
   ];
 
   const VideoRenderer = ({ service, index, parallaxY }) => {
@@ -562,6 +562,12 @@ const BentoServices = () => {
             </div>
             <h3 className="text-4xl text-white font-instrument mb-6 tracking-tighter group-hover:text-red-500 transition-colors">{s.title}</h3>
             <p className="text-white/40 text-lg leading-relaxed font-light group-hover:text-white/80 transition-colors duration-500">{s.desc}</p>
+            {s.href && (
+              <Link to={s.href} className="mt-8 inline-flex items-center gap-2 text-red-500 text-[10px] uppercase tracking-[0.3em] font-bold hover:tracking-[0.35em] transition-all">
+                Explore AI Automation
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
+            )}
           </div>
         </GlassCard>
       </motion.div>
@@ -767,7 +773,7 @@ const TestimonialsSection = () => {
               </div>
 
               <div className="relative z-10 pt-12 border-t border-white/5 mt-auto">
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 pl-5 border-l border-red-500/30">
                   <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-red-500 font-bold text-xs group-hover:neon-red-glow transition-all duration-500">
                     {t.author.charAt(0)}
                   </div>
