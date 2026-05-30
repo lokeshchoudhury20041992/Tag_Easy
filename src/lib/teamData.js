@@ -112,47 +112,6 @@ export const teamMembers = [
     }
   },
   {
-    slug: 'shyanil-mishra',
-    name: 'Shyanil Mishra',
-    role: 'Chief Technology Officer',
-    bio: 'Shyanil leads Tag Easy’s technology direction, architecture decisions, and high-performance engineering systems.',
-    image: '/shyanil-lead-architect.webp',
-    experience: [
-      {
-        title: 'Operation Executive',
-        company: 'IntraSoft Technologies Limited',
-        period: 'Feb 2026 – Present, Kolkata'
-      },
-      {
-        title: 'Business Automation Developer',
-        company: 'SquashCode',
-        period: 'Nov 2024 – Feb 2026, Greater Kolkata Area'
-      },
-      {
-        title: 'Intern',
-        company: 'SquashCode',
-        period: 'Jul 2024 – Nov 2024, Remote'
-      }
-    ],
-    education: [
-      {
-        degree: 'M.Tech (AI & Data Science)',
-        institution: 'Indian Institute of Information Technology, Kalyani',
-        period: '2025 – 2028'
-      },
-      {
-        degree: 'B.Tech (CSE)',
-        institution: 'Maulana Abul Kalam Azad University of Technology, West Bengal',
-        period: '2020 – 2024, CGPA: 8.7'
-      }
-    ],
-    socials: {
-      linkedin: 'https://www.linkedin.com/in/shyanilmishra/',
-      github: 'https://github.com/Shyanil',
-      email: 'mailto:shyanil@tageasy.org'
-    }
-  },
-  {
     slug: 'arpita-dutta',
     name: 'Arpita Dutta',
     role: 'Business Development Manager',
@@ -198,6 +157,47 @@ export const teamMembers = [
       youtube: '#',
       reddit: '#',
       quora: '#'
+    }
+  },
+  {
+    slug: 'shyanil-mishra',
+    name: 'Shyanil Mishra',
+    role: 'Lead Software Engineer',
+    bio: 'Shyanil leads Tag Easy’s technology direction, architecture decisions, and high-performance engineering systems.',
+    image: '/shyanil-lead-architect.webp',
+    experience: [
+      {
+        title: 'Operation Executive',
+        company: 'IntraSoft Technologies Limited',
+        period: 'Feb 2026 – Present, Kolkata'
+      },
+      {
+        title: 'Business Automation Developer',
+        company: 'SquashCode',
+        period: 'Nov 2024 – Feb 2026, Greater Kolkata Area'
+      },
+      {
+        title: 'Intern',
+        company: 'SquashCode',
+        period: 'Jul 2024 – Nov 2024, Remote'
+      }
+    ],
+    education: [
+      {
+        degree: 'M.Tech (AI & Data Science)',
+        institution: 'Indian Institute of Information Technology, Kalyani',
+        period: '2025 – 2028'
+      },
+      {
+        degree: 'B.Tech (CSE)',
+        institution: 'Maulana Abul Kalam Azad University of Technology, West Bengal',
+        period: '2020 – 2024, CGPA: 8.7'
+      }
+    ],
+    socials: {
+      linkedin: 'https://www.linkedin.com/in/shyanilmishra/',
+      github: 'https://github.com/Shyanil',
+      email: 'mailto:shyanil@tageasy.org'
     }
   },
   {
