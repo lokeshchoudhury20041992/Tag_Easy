@@ -16,8 +16,11 @@ const buildCanonical = (canonical, path) => {
       ? window.location.pathname
       : '/';
 
+  // The host serves directory-style URLs with a trailing slash (200), and
+  // 301-redirects the non-slash form to it. Emit the trailing-slash form so the
+  // canonical points at the URL that actually resolves, not at a redirect.
   const clean = fromPath.split('?')[0].split('#')[0].replace(/\/+$/, '');
-  return `${SITE_URL}${clean === '' ? '/' : clean}`;
+  return clean === '' ? `${SITE_URL}/` : `${SITE_URL}${clean}/`;
 };
 
 const SEO = ({

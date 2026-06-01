@@ -125,7 +125,7 @@ export const buildPersonSchema = (member) => ({
   name: member.name,
   jobTitle: member.role,
   description: member.bio,
-  url: `${SITE_URL}/team/${member.slug}`,
+  url: `${SITE_URL}/team/${member.slug}/`,
   image: `${SITE_URL}${member.image}`,
   worksFor: { '@id': ORG_ID },
   sameAs: Object.values(member.socials || {}).filter(

@@ -204,7 +204,10 @@ const escapeHtml = (value) =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 
-const canonicalFor = (routePath) => `${siteUrl}${routePath === '/' ? '/' : routePath}`;
+// Host serves directory-style URLs with a trailing slash (200) and 301s the
+// non-slash form to it, so canonicals + sitemap use the trailing-slash form.
+const canonicalFor = (routePath) =>
+  routePath === '/' ? `${siteUrl}/` : `${siteUrl}${routePath}/`;
 
 const buildHead = (page) => {
   const canonical = canonicalFor(page.path);

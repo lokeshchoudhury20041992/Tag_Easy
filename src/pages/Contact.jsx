@@ -14,8 +14,8 @@ const contactSchema = {
     localBusinessSchema,
     {
       '@type': 'ContactPage',
-      '@id': `${SITE_URL}/contact#webpage`,
-      url: `${SITE_URL}/contact`,
+      '@id': `${SITE_URL}/contact/#webpage`,
+      url: `${SITE_URL}/contact/`,
       name: 'Contact Tag Easy',
       about: { '@id': `${SITE_URL}/#organization` },
     },
