@@ -10,8 +10,11 @@ export default function Footer() {
     { name: 'Home', href: '/' },
     { name: 'AI Automation', href: '/ai-automation' },
     { name: 'Services', href: '/services' },
-    { name: 'About', href: '/about' },
+    { name: 'Industries', href: '/industries' },
     { name: 'Case Studies', href: '/case-studies' },
+    { name: 'About', href: '/about' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Free Audit', href: '/free-audit' },
     { name: 'Contact', href: '/contact' }
   ];
 
@@ -98,10 +101,19 @@ export default function Footer() {
               className="liquid-glass p-10 rounded-[2.5rem] border border-white/5 relative group hover:border-red-500/20 transition-all duration-1000"
             >
               <h3 className="text-white font-instrument text-2xl mb-6 tracking-tighter">Direct Connect</h3>
-              <p className="text-zinc-500 text-lg font-light mb-8 leading-relaxed group-hover:text-zinc-300 transition-colors">
+              <p className="text-zinc-500 text-lg font-light mb-6 leading-relaxed group-hover:text-zinc-300 transition-colors">
                 Ready to build something that redefines your market?
               </p>
-              <button 
+              <address className="not-italic text-zinc-500 text-sm font-light mb-8 space-y-1">
+                <div>Kolkata, West Bengal, India</div>
+                <div>
+                  <a href="mailto:lokesh.choudhury@tageasy.org" className="hover:text-white transition-colors">lokesh.choudhury@tageasy.org</a>
+                </div>
+                <div>
+                  <a href="tel:+917980761008" className="hover:text-white transition-colors">+91 79807 61008</a>
+                </div>
+              </address>
+              <button
                 onClick={() => window.open(getAuditCalendarUrl(), '_blank')}
                 className="text-red-500 text-[10px] font-bold uppercase tracking-[0.3em] flex items-center hover:tracking-[0.4em] transition-all"
               >
@@ -129,8 +141,8 @@ export default function Footer() {
             @2019-2026 Tag Easy | Trademark & All rights reserved
           </p>
           <div className="flex gap-10 text-[10px] font-bold uppercase tracking-widest text-zinc-600">
-            <a href="#" className="hover:text-white transition-colors">Infrastructure</a>
-            <a href="#" className="hover:text-white transition-colors">Governance</a>
+            <Link to="/industries" className="hover:text-white transition-colors">Industries</Link>
+            <Link to="/free-audit" className="hover:text-white transition-colors">Free Audit</Link>
           </div>
         </motion.div>
       </div>

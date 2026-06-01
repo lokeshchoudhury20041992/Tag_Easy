@@ -10,6 +10,7 @@ import { cn, getAuditCalendarUrl } from '../lib/utils';
 import TeamSection from '../components/TeamSection';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
+import { homepageSchema } from '../lib/seoSchema';
 import { testimonials } from '../lib/testimonialData';
 import BlogSection from '../components/BlogSection';
 import logoT from '../assets/Logo_T.webp';
@@ -887,16 +888,11 @@ const InteractiveCTA = () => {
 const Home = () => {
   return (
     <main className="bg-black relative">
-      <SEO 
-        title="Tag Easy | Revenue Driven Digital Engineering" 
+      <SEO
+        title="Tag Easy | Revenue Driven Digital Engineering"
         description="We scale revenue with high-performance digital ecosystems, Ads Hub dominance, and data driven architectures."
-        schemaData={{
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": "Tag Easy",
-          "url": "https://tageasy.org",
-          "logo": "https://tageasy.org/favicon-64.png"
-        }}
+        path="/"
+        schemaData={homepageSchema}
       />
       <Hero />
       <PioneeringIdeas />

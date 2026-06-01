@@ -4,6 +4,23 @@ import { cn } from '../lib/utils';
 import { Mail, Phone, Video, ArrowRight, Calendar, User, Building, Briefcase, MessageSquare, Send } from 'lucide-react';
 import Button from '../components/Button';
 import { submitToWebhook } from '../lib/submitForm';
+import SEO from '../components/SEO';
+import { SITE_URL, organizationSchema, localBusinessSchema } from '../lib/seoSchema';
+
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    organizationSchema,
+    localBusinessSchema,
+    {
+      '@type': 'ContactPage',
+      '@id': `${SITE_URL}/contact#webpage`,
+      url: `${SITE_URL}/contact`,
+      name: 'Contact Tag Easy',
+      about: { '@id': `${SITE_URL}/#organization` },
+    },
+  ],
+};
 
 const Contact = () => {
   const itemVariants = {
@@ -48,6 +65,12 @@ const Contact = () => {
 
   return (
     <main className="bg-black pt-20 overflow-hidden">
+      <SEO
+        title="Contact Tag Easy | SEO, AI Automation & Website Growth"
+        description="Contact Tag Easy for SEO, AI automation, website development, Ads Hub, analytics, and digital growth services in Kolkata, India and remote markets."
+        path="/contact"
+        schemaData={contactSchema}
+      />
       <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none z-50 mix-blend-overlay" />
       
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 py-20 md:py-28 px-6 items-start">

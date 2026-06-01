@@ -1,7 +1,11 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { homepageSchema, buildPersonSchema } from '../src/lib/seoSchema.js';
+import { teamMembers } from '../src/lib/teamData.js';
 
 const siteUrl = 'https://tageasy.org';
+const defaultImage = `${siteUrl}/logo.jpg`;
+const buildDate = new Date().toISOString().split('T')[0];
 const distDir = path.resolve('dist');
 const indexPath = path.join(distDir, 'index.html');
 
@@ -50,6 +54,7 @@ const pages = [
     description: 'Tag Easy scales revenue with AI automation, high-performance websites, Ads Hub systems, SEO, and data-driven digital engineering.',
     priority: '1.0',
     changefreq: 'daily',
+    schema: homepageSchema,
     content: [
       'Tag Easy is a creative engineering lab for brands that need growth, automation, and scalable digital systems.',
       'Services include AI automation, Ads Hub, website development, SEO, lead generation, performance marketing, and business intelligence.',
@@ -154,6 +159,18 @@ const pages = [
       'Articles explain how modern brands can build faster websites, stronger funnels, and smarter automation systems.',
     ],
   },
+  ...teamMembers.map((member) => ({
+    path: `/team/${member.slug}`,
+    title: `${member.name} | ${member.role} at Tag Easy`,
+    description: member.bio,
+    priority: '0.5',
+    changefreq: 'monthly',
+    schema: buildPersonSchema(member),
+    content: [
+      member.bio,
+      `${member.name} is part of the Tag Easy team, contributing as ${member.role}.`,
+    ],
+  })),
   ...blogPosts.map((post) => ({
     path: post.path,
     title: `${post.title} | Tag Easy Journal`,
@@ -191,7 +208,8 @@ const canonicalFor = (routePath) => `${siteUrl}${routePath === '/' ? '/' : route
 
 const buildHead = (page) => {
   const canonical = canonicalFor(page.path);
-  const schema = {
+  const image = page.image || defaultImage;
+  const schema = page.schema || {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: page.title,
@@ -209,10 +227,16 @@ const buildHead = (page) => {
     `<meta name="description" content="${escapeHtml(page.description)}" />`,
     '<meta name="robots" content="index, follow, max-image-preview:large" />',
     `<link rel="canonical" href="${canonical}" />`,
+    '<meta property="og:site_name" content="Tag Easy" />',
     `<meta property="og:title" content="${escapeHtml(page.title)}" />`,
     `<meta property="og:description" content="${escapeHtml(page.description)}" />`,
     '<meta property="og:type" content="website" />',
     `<meta property="og:url" content="${canonical}" />`,
+    `<meta property="og:image" content="${image}" />`,
+    '<meta name="twitter:card" content="summary_large_image" />',
+    `<meta name="twitter:title" content="${escapeHtml(page.title)}" />`,
+    `<meta name="twitter:description" content="${escapeHtml(page.description)}" />`,
+    `<meta name="twitter:image" content="${image}" />`,
     `<script type="application/ld+json">${JSON.stringify(schema)}</script>`,
   ].join('\n    ');
 };
@@ -235,6 +259,7 @@ const stripGeneratedHead = (html) =>
     .replace(/\s*<meta name="robots"[\s\S]*?>/g, '')
     .replace(/\s*<link rel="canonical"[\s\S]*?>/g, '')
     .replace(/\s*<meta property="og:[\s\S]*?>/g, '')
+    .replace(/\s*<meta name="twitter:[\s\S]*?>/g, '')
     .replace(/\s*<script type="application\/ld\+json">[\s\S]*?<\/script>/g, '')
     .replace(/\s*<noscript>[\s\S]*?<\/noscript>/g, '');
 
@@ -260,6 +285,7 @@ const buildSitemap = () => {
   const urls = pages
     .map((page) => `  <url>
     <loc>${canonicalFor(page.path)}</loc>
+    <lastmod>${page.lastmod || buildDate}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
   </url>`)

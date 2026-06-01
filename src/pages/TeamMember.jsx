@@ -13,6 +13,8 @@ import {
   Mail
 } from 'lucide-react';
 import { teamMembers } from '../lib/teamData';
+import SEO from '../components/SEO';
+import { buildPersonSchema } from '../lib/seoSchema';
 
 const TeamMember = () => {
   const { slug } = useParams();
@@ -35,6 +37,14 @@ const TeamMember = () => {
 
   return (
     <main className="min-h-screen pt-32 pb-24 px-8 bg-background">
+      <SEO
+        title={`${member.name} | ${member.role} at Tag Easy`}
+        description={member.bio}
+        path={`/team/${member.slug}`}
+        image={`https://tageasy.org${member.image}`}
+        type="profile"
+        schemaData={buildPersonSchema(member)}
+      />
       <div className="max-w-7xl mx-auto">
         <Link 
           to="/" 
@@ -52,9 +62,13 @@ const TeamMember = () => {
             className="lg:col-span-5 relative"
           >
             <div className="aspect-[4/5] rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl relative">
-              <img 
-                src={member.image} 
-                alt={member.name}
+              <img
+                src={member.image}
+                alt={`${member.name}, ${member.role} at Tag Easy`}
+                width="640"
+                height="800"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover grayscale brightness-75"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>

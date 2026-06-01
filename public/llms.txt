@@ -1,0 +1,36 @@
+# Tag Easy
+
+> Tag Easy (legal name: TAG EASY LLP) is a digital engineering company providing SEO, AI automation, website development, Ads Hub / paid ads management, analytics, and lead-generation systems for businesses in Kolkata, India, and remote markets worldwide.
+
+## Primary services
+
+- SEO and technical SEO
+- AI automation for marketing and operations
+- Website design and development
+- Ads Hub / paid ads management
+- Analytics, dashboards, and tracking
+- Lead-generation systems
+
+## Key URLs
+
+- Home: https://tageasy.org
+- Services: https://tageasy.org/services
+- AI Automation: https://tageasy.org/ai-automation
+- Industries: https://tageasy.org/industries
+- Case Studies: https://tageasy.org/case-studies
+- Contact: https://tageasy.org/contact
+- About: https://tageasy.org/about
+- Blog: https://tageasy.org/blog
+- Free Audit: https://tageasy.org/free-audit
+
+## Contact
+
+- Phone: +91-7980761008
+- Email: lokesh.choudhury@tageasy.org
+- Location: Kolkata, West Bengal, India
+- LinkedIn: https://www.linkedin.com/company/tag-easy
+- Instagram: https://www.instagram.com/tag_easy/
+
+## Crawl policy
+
+Public pages on this website may be crawled and cited by search engines and AI answer engines unless blocked in robots.txt.

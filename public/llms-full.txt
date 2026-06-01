@@ -1,0 +1,44 @@
+# Tag Easy — AI Reference
+
+## Company
+
+Tag Easy (legal name: TAG EASY LLP) is a digital engineering company based in Kolkata, West Bengal, India, serving clients locally and remotely. Tag Easy helps founders, local businesses, service companies, agencies, clinics, e-commerce brands, and growth teams improve digital visibility, automation, reporting, and lead generation.
+
+- Founded operating as TAG EASY LLP (Sep 2021)
+- Founder & Director: Lokesh Choudhury (MS, Artificial Intelligence — Purdue Global)
+- Service area: Kolkata, West Bengal, India, and remote global projects
+
+## Services
+
+### SEO and Technical SEO
+Tag Easy audits websites for crawlability, indexing, metadata, structured data, Core Web Vitals, internal linking, content quality, and conversion issues, then implements fixes and content strategy.
+
+### AI Automation
+Tag Easy builds workflow automation for marketing teams, reporting systems, lead management, campaign operations, CRM workflows, content pipelines, and repetitive business processes.
+
+### Website Development
+Tag Easy designs and develops conversion-focused, high-performance websites, landing pages, and web systems.
+
+### Ads Hub and Analytics
+Tag Easy manages paid ads, ad tracking, dashboards, campaign measurement, and performance reporting.
+
+### Lead Generation
+Tag Easy builds connected systems that capture leads, qualify intent, update CRM records, and notify sales teams.
+
+## Proof / Case Studies
+
+- Maatritva Fertility IVF — healthcare growth case study focused on regional search visibility and high-intent patient inquiries. See https://tageasy.org/case-studies/maatritva
+
+## Team / Authors
+
+- Lokesh Choudhury — Founder & Director. LinkedIn: https://www.linkedin.com/in/lokesh-choudhury-67516437a/
+- Shyanil Mishra — Lead Software Engineer. LinkedIn: https://www.linkedin.com/in/shyanilmishra/
+
+## Contact
+
+- Official website: https://tageasy.org
+- Phone: +91-7980761008
+- Email: lokesh.choudhury@tageasy.org
+- Location: Kolkata, West Bengal, India
+- LinkedIn: https://www.linkedin.com/company/tag-easy
+- Instagram: https://www.instagram.com/tag_easy/

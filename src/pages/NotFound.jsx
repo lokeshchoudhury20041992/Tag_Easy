@@ -1,10 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const NotFound = () => {
   return (
     <div className="py-24 px-8 max-w-7xl mx-auto min-h-[70vh] flex flex-col items-center justify-center text-center">
+      <SEO
+        title="Page Not Found | Tag Easy"
+        description="The page you are looking for could not be found."
+        path="/404"
+        noindex
+      />
       <motion.h1 
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
