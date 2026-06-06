@@ -1,6 +1,8 @@
 // Single source of truth for Tag Easy structured data (JSON-LD).
 // Pure JS (no JSX / browser APIs) so the Node prerender script can import it too.
 
+import { serviceCatalog } from './servicesData.js';
+
 export const SITE_URL = 'https://tageasy.org';
 
 export const ORG_ID = `${SITE_URL}/#organization`;
@@ -64,7 +66,27 @@ export const localBusinessSchema = {
   sameAs,
 };
 
-// Rich graph for the homepage: Organization + WebSite + LocalBusiness.
+// OfferCatalog node (no @context — embedded inside the homepage @graph).
+const homepageOfferCatalog = {
+  '@type': 'OfferCatalog',
+  '@id': `${SITE_URL}/#service-catalog`,
+  name: 'Tag Easy Services',
+  url: `${SITE_URL}/services/`,
+  provider: { '@id': ORG_ID },
+  itemListElement: serviceCatalog.map((svc) => ({
+    '@type': 'Offer',
+    itemOffered: {
+      '@type': 'Service',
+      name: svc.name,
+      description: svc.description,
+      url: `${SITE_URL}${svc.url}`,
+      provider: { '@id': ORG_ID },
+      areaServed: ['Kolkata', 'West Bengal', 'India'],
+    },
+  })),
+};
+
+// Rich graph for the homepage: Organization + WebSite + LocalBusiness + Catalog.
 export const homepageSchema = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -77,6 +99,7 @@ export const homepageSchema = {
       publisher: { '@id': ORG_ID },
     },
     localBusinessSchema,
+    homepageOfferCatalog,
   ],
 };
 
@@ -117,6 +140,106 @@ export const buildServiceSchema = ({ name, description, path, faqs = [] }) => {
 
   return { '@context': 'https://schema.org', '@graph': graph };
 };
+
+// Task 4 — Breadcrumb schema. items: [{ name, path }] (path is route path).
+export const buildBreadcrumbSchema = (items) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    item: item.path === '/' ? `${SITE_URL}/` : `${SITE_URL}${item.path}/`,
+  })),
+});
+
+// Task 11 — FAQ schema from [{ question, answer }].
+export const buildFaqSchema = (faqs) => ({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+});
+
+// Task 2 — BlogPosting schema. `author` is an author object from authors.js.
+// Returns null for posts that must not carry article schema (non-approved).
+export const buildBlogPostingSchema = (post, author) => {
+  if (!post || post.qualityStatus !== 'approved' || !post.indexable) return null;
+  const url = `${SITE_URL}/blog/${post.slug}/`;
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        '@id': `${url}#article`,
+        headline: post.title,
+        description: post.excerpt,
+        image: post.image ? `${SITE_URL}${post.image}` : `${SITE_URL}/logo.jpg`,
+        datePublished: post.date,
+        dateModified: post.dateModified || post.date,
+        articleSection: post.category,
+        keywords: (post.keywords || []).join(', '),
+        mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+        author: author
+          ? {
+              '@type': 'Person',
+              name: author.name,
+              url: author.url,
+              ...(author.sameAs && author.sameAs.length ? { sameAs: author.sameAs } : {}),
+            }
+          : { '@id': ORG_ID },
+        publisher: { '@id': ORG_ID },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE_URL}/blog/` },
+          { '@type': 'ListItem', position: 3, name: post.title, item: url },
+        ],
+      },
+    ],
+  };
+};
+
+// Task 13 — OfferCatalog of Tag Easy services, provided by the organization.
+export const buildOfferCatalogSchema = (catalog) => ({
+  '@context': 'https://schema.org',
+  '@type': 'OfferCatalog',
+  name: 'Tag Easy Services',
+  url: `${SITE_URL}/services/`,
+  provider: { '@id': ORG_ID },
+  itemListElement: catalog.map((svc) => ({
+    '@type': 'Offer',
+    itemOffered: {
+      '@type': 'Service',
+      name: svc.name,
+      description: svc.description,
+      url: `${SITE_URL}${svc.url}`,
+      provider: { '@id': ORG_ID },
+      areaServed: ['Kolkata', 'West Bengal', 'India'],
+    },
+  })),
+});
+
+// Task 14 — DefinedTermSet for the glossary.
+export const buildGlossarySchema = (terms) => ({
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  '@id': `${SITE_URL}/glossary/#glossary`,
+  name: 'Tag Easy Digital Marketing & Engineering Glossary',
+  url: `${SITE_URL}/glossary/`,
+  hasDefinedTerm: terms.map((t) => ({
+    '@type': 'DefinedTerm',
+    '@id': `${SITE_URL}/glossary/#${t.slug}`,
+    name: t.term,
+    description: t.short,
+    inDefinedTermSet: `${SITE_URL}/glossary/`,
+  })),
+});
 
 // Build a Person graph for a team member page.
 export const buildPersonSchema = (member) => ({

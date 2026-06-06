@@ -1,9 +1,41 @@
 # Tag Easy — SEO & GEO Audit
 
 **Audit date:** 2026-05-28
+**Last updated:** 2026-06-06 (remediation pass — see §0)
 **Scope:** entire codebase at `C:\Users\Asus\Tag_Easy`
 **Site:** https://tageasy.org
 **Stack:** React 18 SPA, Vite 5, react-router-dom v6, react-helmet-async, build-time prerendering (`scripts/prerender-seo.mjs`)
+
+---
+
+## 0. Remediation Status (2026-06-06)
+
+A 20-task remediation pass was implemented and verified. `npm run build` passes, `npm run seo:check` reports **41 passed / 0 warnings / 0 errors**, and **26 routes + `404.html`** are prerendered. Full details in `SEO_GEO_IMPLEMENTATION_REPORT.md`.
+
+| # | Task | Status | Evidence |
+|---|---|:-:|---|
+| 1 | Blog cleanup (dedupe/thin, quality fields) | ✅ | `blogData.js` rewritten — 6 original posts, `indexable`/`qualityStatus`/`canonicalSlug`, fixed dates, branded images |
+| 2 | `BlogPosting` schema (approved only) | ✅ | `buildBlogPostingSchema`; prerendered into each `/blog/*` with real Person author |
+| 3 | Central author/Person source | ✅ | `src/lib/authors.js` (built on `teamData.js`) |
+| 4 | `BreadcrumbList` on inner pages | ✅ | `buildBreadcrumbSchema` + `Breadcrumbs.jsx` across services, blog, team, case studies, glossary, FAQs |
+| 5 | Real 404 status | ✅ | `dist/404.html` (noindex) + `_redirects` `/* /404.html 404` |
+| 6 | IndexNow support | ✅ | `scripts/indexnow.mjs`, key file, `npm run indexnow` |
+| 7 | Sitemap priority/changefreq/filtering | ✅ | `lastmod`+priority per URL; noindex excluded; 26 canonical URLs |
+| 8 | Core Web Vitals — hero video | ✅ | `preload="none"` + poster, desktop-only (protects mobile LCP) |
+| 9 | OptimizedImage component | ✅ | `OptimizedImage.jsx` (width/height/lazy/async/fallback); imgs given dimensions |
+| 10 | Branded local images | ✅ | `src/lib/seoImages.js`; picsum generator removed |
+| 11 | Reusable FAQ + `FAQPage` schema | ✅ | `FAQ.jsx` + `faqData.js`; on Services/AI/Audit/Contact/FAQ hub |
+| 12 | Extractable service sections | ✅ | `servicesData.js` + rewritten Services page detail blocks |
+| 13 | OfferCatalog / Service catalog | ✅ | `buildOfferCatalogSchema`; in homepage + Services graph |
+| 14 | Glossary system | ✅ | `/glossary` + `glossaryData.js` + `DefinedTermSet` schema |
+| 15 | FAQ hub | ✅ | `/faqs` with categorized FAQs + `FAQPage` schema |
+| 16 | Case-study template w/ proof | ✅ | `caseStudyData.js` (proof + caveats) + Article schema on Maatritva |
+| 17 | Approved proof-claims library | ✅ | `proofClaims.js`; Home/About stats sourced from it (fixes §4.3 conflicts) |
+| 18 | GA4 conversion events | ✅ | `analytics.js`; wired to forms, phone/email/WhatsApp, CTAs, profile links |
+| 19 | SEO/GEO QA dashboard | ✅ | `seoQaStatus.js` + env-gated noindex `/seo-dashboard` |
+| 20 | Automated SEO validation | ✅ | `scripts/seo-check.mjs`, `npm run seo:check` |
+
+The original findings below are retained for historical context; most P0/P1 items in §2–§7 are now addressed by the above.
 
 Severity legend: **P0** = blocks indexing or causes Google to drop pages • **P1** = significant ranking/visibility loss • **P2** = best-practice gap, fix when convenient.
 

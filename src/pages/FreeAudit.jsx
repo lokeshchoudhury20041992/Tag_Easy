@@ -5,7 +5,36 @@ import { cn, getAuditCalendarUrl } from '../lib/utils';
 import Button from '../components/Button';
 import { testimonials } from '../lib/testimonialData';
 import SEO from '../components/SEO';
+import FAQ from '../components/FAQ';
 import { submitToWebhook } from '../lib/submitForm';
+import { getFaqsByCategories } from '../lib/faqData';
+import {
+  organizationSchema,
+  buildServiceSchema,
+  buildFaqSchema,
+  buildBreadcrumbSchema,
+} from '../lib/seoSchema';
+import { trackFreeAuditSubmit, trackBookCallClick, trackGenerateLead } from '../lib/analytics';
+
+const auditFaqs = getFaqsByCategories(['Pricing & Timelines', 'Working With Tag Easy']);
+
+const freeAuditSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    organizationSchema,
+    ...buildServiceSchema({
+      name: 'Free Technical Audit',
+      description:
+        'A free Tag Easy audit identifying revenue leaks, SEO gaps, automation opportunities, and digital performance issues.',
+      path: '/free-audit',
+    })['@graph'],
+    buildFaqSchema(auditFaqs),
+    buildBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Free Audit', path: '/free-audit' },
+    ]),
+  ],
+};
 
 const SectionContainer = ({ children, className, id }) => (
   <section id={id} className={cn("bg-black relative overflow-hidden px-4 md:px-6 py-16 md:py-24", className)}>
@@ -42,6 +71,8 @@ const FreeAudit = () => {
 
     try {
       await submitToWebhook({ email });
+      trackFreeAuditSubmit('free_audit_form');
+      trackGenerateLead('free_audit_form');
       setSubmitStatus('success');
       setEmail('');
       setTimeout(() => setSubmitStatus(null), 3000);
@@ -76,9 +107,11 @@ const FreeAudit = () => {
 
   return (
     <main className="bg-black relative min-h-screen pt-24 md:pt-32">
-      <SEO 
+      <SEO
         title="Free Technical Audit | Tag Easy"
         description="Identify your revenue leaks. Drop your email to schedule a deep-dive analysis of your digital ecosystem."
+        path="/free-audit"
+        schemaData={freeAuditSchema}
       />
       <SectionContainer className="pt-10 md:pt-20">
         <div className="flex flex-col items-center justify-center text-center">
@@ -163,7 +196,7 @@ const FreeAudit = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
           >
-            <Button variant="secondary" onClick={() => window.open(getAuditCalendarUrl(), '_blank')} className="px-10">
+            <Button variant="secondary" onClick={() => { trackBookCallClick('free_audit'); window.open(getAuditCalendarUrl(), '_blank'); }} className="px-10">
               <Phone className="w-4 h-4" />
               Book Call Directly
             </Button>
@@ -234,6 +267,12 @@ const FreeAudit = () => {
           ))}
         </motion.div>
       </SectionContainer>
+
+      <FAQ
+        faqs={auditFaqs}
+        title="Before you book"
+        subtitle="Pricing, timelines, and what working with Tag Easy looks like."
+      />
     </main>
   );
 };

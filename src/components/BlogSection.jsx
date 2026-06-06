@@ -3,12 +3,12 @@ import { motion } from 'framer-motion';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '../lib/utils';
-import { blogData } from '../lib/blogData';
+import { getApprovedPosts } from '../lib/blogData';
 import Button from './Button';
 
 const BlogSection = () => {
-  // Take exactly 3 posts
-  const recentPosts = blogData.slice(0, 3);
+  // Take exactly 3 most recent approved posts
+  const recentPosts = getApprovedPosts().slice(0, 3);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -60,9 +60,13 @@ const BlogSection = () => {
               <Link to={`/blog/${post.slug}`} className="block h-full flex flex-col">
                 <div className="relative aspect-[4/3] overflow-hidden w-full">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-                  <img 
-                    src={post.image} 
-                    alt={post.title} 
+                  <img
+                    src={post.image}
+                    alt={`${post.title} — ${post.category}`}
+                    width="800"
+                    height="600"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0"
                   />
                   <div className="absolute top-6 right-6 z-20">
@@ -79,7 +83,7 @@ const BlogSection = () => {
                 
                 <div className="p-8 md:p-10 flex-1 flex flex-col relative z-20 bg-black/20 backdrop-blur-sm">
                   <div className="flex items-center gap-3 mb-4 text-[10px] uppercase tracking-widest text-white/40">
-                    <span className="text-red-500/80">{post.date}</span>
+                    <span className="text-red-500/80">{post.displayDate}</span>
                     <div className="w-1 h-1 rounded-full bg-white/20" />
                     <span>5 Min Read</span>
                   </div>

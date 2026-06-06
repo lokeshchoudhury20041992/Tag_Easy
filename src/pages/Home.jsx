@@ -14,6 +14,8 @@ import { homepageSchema } from '../lib/seoSchema';
 import { testimonials } from '../lib/testimonialData';
 import BlogSection from '../components/BlogSection';
 import logoT from '../assets/Logo_T.webp';
+import { getClaim } from '../lib/proofClaims';
+import { trackBookCallClick, trackGenerateLead } from '../lib/analytics';
 
 // --- Sub-components ---
 
@@ -105,11 +107,16 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden flex flex-col bg-black">
+      {/* Desktop-only decorative hero video. Hidden on mobile so it never blocks
+          mobile LCP; uses a branded poster and preload="none" so it loads after
+          first paint rather than competing with the content (Task 8). */}
       <video
         ref={videoRef}
         onCanPlay={handleCanPlay}
         onEnded={handleEnded}
-        muted autoPlay playsInline preload="auto"
+        muted autoPlay playsInline preload="none"
+        poster="/tag_easy_cam.png"
+        aria-hidden="true"
         className="hidden md:block absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-1000 will-change-[opacity]"
         style={{ opacity: videoOpacity, filter: 'brightness(0.85)' }}
       >
@@ -200,8 +207,9 @@ const Hero = () => {
             <p className="absolute -top-8 left-0 right-0 text-white/90 text-[11px] uppercase tracking-widest text-center font-bold">
               Please share your full details
             </p>
-            <a 
-              href="/contact" 
+            <a
+              href="/contact"
+              onClick={() => trackGenerateLead('hero_contact')}
               className="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center justify-between gap-3 transition-all duration-500 hover:neon-red-glow group w-full"
             >
               <span className="bg-transparent flex-1 text-white/50 text-[11px] font-medium uppercase tracking-widest text-left">
@@ -234,7 +242,7 @@ const Hero = () => {
           transition={{ duration: 1, delay: 0.6 }}
           className="flex flex-col sm:flex-row gap-6"
         >
-          <Button variant="secondary" onClick={() => window.open(getAuditCalendarUrl(), '_blank')} className="px-10">
+          <Button variant="secondary" onClick={() => { trackBookCallClick('hero'); window.open(getAuditCalendarUrl(), '_blank'); }} className="px-10">
             <Phone className="w-4 h-4" />
             Get Free Audit
           </Button>
@@ -385,11 +393,13 @@ const AdamsalveMockup = () => {
 // --- Progressive Stats Bento ---
 
 const StatsBento = () => {
+  // Values sourced from the approved proof-claims library (Task 17) so numbers
+  // stay consistent across the site and only verified claims are shown.
   const stats = [
-    { label: "Efficiency Boost", val: "85%", desc: "Automated business workflows.", size: "lg", icon: Zap },
-    { label: "Cost Reduction", val: "40%", desc: "Lowered operational overhead.", size: "sm", icon: ShieldCheck },
-    { label: "Brands Scaled", val: "20+", desc: "Making businesses top-notch in their domain online.", size: "sm", icon: Globe },
-    { label: "Engineering Heritage", val: "10Y+", desc: "A decade of performance focus.", size: "md", icon: Clock },
+    { label: "Efficiency Boost", val: getClaim('efficiencyBoost')?.value || "85%", desc: "Average automated workflow efficiency gain.", size: "lg", icon: Zap },
+    { label: "Cost Reduction", val: getClaim('costReduction')?.value || "40%", desc: "Typical operational overhead reduction.", size: "sm", icon: ShieldCheck },
+    { label: "Brands Scaled", val: getClaim('brandsScaled')?.value || "20+", desc: "Making businesses top-notch in their domain online.", size: "sm", icon: Globe },
+    { label: "Engineering Heritage", val: getClaim('yearsExperience')?.value || "10+", desc: "A decade of performance focus.", size: "md", icon: Clock },
   ];
 
   return (

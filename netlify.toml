@@ -1,0 +1,11 @@
+# Netlify deploy config — version-controlled so the FULL build (Vite + the
+# per-route prerender in scripts/prerender-seo.mjs) always runs and the
+# prerendered static pages in dist/ are what gets published. Without this,
+# a dashboard misconfiguration can publish only the homepage shell.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Redirect rules also live in public/_redirects (copied into dist). Netlify
+# serves existing static files first, so each prerendered page (/about/, /services/,
+# …) is served directly with HTTP 200; only unknown paths fall through.

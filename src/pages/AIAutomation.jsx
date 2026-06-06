@@ -23,6 +23,35 @@ import {
 import { cn, getAuditCalendarUrl, getWhatsAppUrl } from '../lib/utils';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
+import FAQ from '../components/FAQ';
+import { getFaqsByCategory } from '../lib/faqData';
+import {
+  organizationSchema,
+  buildServiceSchema,
+  buildFaqSchema,
+  buildBreadcrumbSchema,
+} from '../lib/seoSchema';
+import { trackWhatsAppClick, trackBookCallClick } from '../lib/analytics';
+
+const aiFaqs = getFaqsByCategory('AI Automation');
+
+const aiAutomationSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    organizationSchema,
+    ...buildServiceSchema({
+      name: 'AI Automation Services',
+      description:
+        'AI automation systems for ads, lead generation, SEO, CRM workflows, reporting, content pipelines, and custom AI agents.',
+      path: '/ai-automation',
+    })['@graph'],
+    buildFaqSchema(aiFaqs),
+    buildBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'AI Automation', path: '/ai-automation' },
+    ]),
+  ],
+};
 
 const SectionContainer = ({ children, className, id }) => (
   <section id={id} className={cn("bg-black relative overflow-hidden px-4 md:px-6 py-16 md:py-24", className)}>
@@ -98,6 +127,8 @@ const AIAutomation = () => {
       <SEO
         title="AI Automation Services | Tag Easy"
         description="Tag Easy builds AI automation systems for ads, lead generation, SEO, CRM workflows, reporting, and custom AI agents."
+        path="/ai-automation"
+        schemaData={aiAutomationSchema}
       />
 
       <section className="relative min-h-[92vh] px-4 md:px-6 pt-32 md:pt-44 pb-20 overflow-hidden flex items-center bg-black">
@@ -125,11 +156,11 @@ const AIAutomation = () => {
               We build automation systems for ads, lead generation, SEO, CRM, reporting, content, and custom AI workflows. If it repeats, waits, routes, analyzes, or follows up, we can usually automate it.
             </p>
             <div className="flex flex-col sm:flex-row gap-5">
-              <Button variant="primary" onClick={() => window.open(getAuditCalendarUrl(), '_blank')} className="px-10 py-5 text-xs tracking-[0.2em]">
+              <Button variant="primary" onClick={() => { trackBookCallClick('ai_hero'); window.open(getAuditCalendarUrl(), '_blank'); }} className="px-10 py-5 text-xs tracking-[0.2em]">
                 Build My Automation
                 <ArrowRight className="w-4 h-4" />
               </Button>
-              <Button variant="secondary" onClick={() => window.open(getWhatsAppUrl(), '_blank')} className="px-10 py-5 text-xs tracking-[0.2em]">
+              <Button variant="secondary" onClick={() => { trackWhatsAppClick('ai_hero'); window.open(getWhatsAppUrl(), '_blank'); }} className="px-10 py-5 text-xs tracking-[0.2em]">
                 WhatsApp Us
                 <MessageCircle className="w-4 h-4" />
               </Button>
@@ -334,7 +365,7 @@ const AIAutomation = () => {
               </p>
             </div>
             <div className="flex flex-col gap-4">
-              <Button variant="primary" onClick={() => window.open(getAuditCalendarUrl(), '_blank')} className="w-full py-5 text-xs tracking-[0.2em]">
+              <Button variant="primary" onClick={() => { trackBookCallClick('ai_audit'); window.open(getAuditCalendarUrl(), '_blank'); }} className="w-full py-5 text-xs tracking-[0.2em]">
                 Get Free Automation Audit
               </Button>
               <Link to="/contact" className="text-center text-white/40 hover:text-white text-[10px] uppercase tracking-[0.3em] font-semibold transition-colors">
@@ -344,6 +375,12 @@ const AIAutomation = () => {
           </div>
         </div>
       </SectionContainer>
+
+      <FAQ
+        faqs={aiFaqs}
+        title="AI automation questions"
+        subtitle="What automation is, how fast it ships, and how we keep humans in control."
+      />
     </main>
   );
 };

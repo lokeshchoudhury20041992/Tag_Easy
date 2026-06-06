@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import SEO from '../components/SEO';
 import Button from '../components/Button';
-import { blogData } from '../lib/blogData';
+import { getApprovedPosts } from '../lib/blogData';
 
 const POSTS_PER_PAGE = 12;
+const approvedPosts = getApprovedPosts();
 
 const Blog = () => {
   const [displayedPosts, setDisplayedPosts] = useState([]);
@@ -18,7 +19,7 @@ const Blog = () => {
   }, []);
 
   useEffect(() => {
-    setDisplayedPosts(blogData.slice(0, page * POSTS_PER_PAGE));
+    setDisplayedPosts(approvedPosts.slice(0, page * POSTS_PER_PAGE));
   }, [page]);
 
   const handleLoadMore = () => {
@@ -29,13 +30,14 @@ const Blog = () => {
     }, 600); // Simulate network delay for smooth experience
   };
 
-  const hasMore = displayedPosts.length < blogData.length;
+  const hasMore = displayedPosts.length < approvedPosts.length;
 
   return (
     <main className="bg-black min-h-screen pt-32 pb-24 px-4 md:px-6">
-      <SEO 
-        title="Engineering Journal | Tag Easy" 
+      <SEO
+        title="Engineering Journal | Tag Easy"
         description="Insights, architectural blueprints, and strategies for building high-performance digital ecosystems."
+        path="/blog"
       />
 
       <div className="max-w-7xl mx-auto">
@@ -71,9 +73,13 @@ const Blog = () => {
               <Link to={`/blog/${post.slug}`} className="block h-full flex flex-col">
                 <div className="relative aspect-[4/3] overflow-hidden w-full">
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-                  <img 
-                    src={post.image} 
-                    alt={post.title} 
+                  <img
+                    src={post.image}
+                    alt={`${post.title} — ${post.category}`}
+                    width="800"
+                    height="600"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0"
                   />
                   <div className="absolute top-6 right-6 z-20">
@@ -90,7 +96,7 @@ const Blog = () => {
                 
                 <div className="p-8 md:p-10 flex-1 flex flex-col relative z-20 bg-black/20 backdrop-blur-sm">
                   <div className="flex items-center gap-3 mb-4 text-[10px] uppercase tracking-widest text-white/40">
-                    <span className="text-red-500/80">{post.date}</span>
+                    <span className="text-red-500/80">{post.displayDate}</span>
                     <div className="w-1 h-1 rounded-full bg-white/20" />
                     <span>5 Min Read</span>
                   </div>

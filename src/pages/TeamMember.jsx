@@ -14,7 +14,9 @@ import {
 } from 'lucide-react';
 import { teamMembers } from '../lib/teamData';
 import SEO from '../components/SEO';
-import { buildPersonSchema } from '../lib/seoSchema';
+import Breadcrumbs from '../components/Breadcrumbs';
+import { buildPersonSchema, buildBreadcrumbSchema } from '../lib/seoSchema';
+import { trackProfileLinkClick } from '../lib/analytics';
 
 const TeamMember = () => {
   const { slug } = useParams();
@@ -23,6 +25,18 @@ const TeamMember = () => {
   if (!member) {
     return <Navigate to="/404" replace />;
   }
+
+  const memberSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      buildPersonSchema(member),
+      buildBreadcrumbSchema([
+        { name: 'Home', path: '/' },
+        { name: 'About', path: '/about' },
+        { name: member.name, path: `/team/${member.slug}` },
+      ]),
+    ],
+  };
 
   const socialIcons = [
     { key: 'linkedin', icon: Linkedin, label: 'LinkedIn' },
@@ -43,15 +57,23 @@ const TeamMember = () => {
         path={`/team/${member.slug}`}
         image={`https://tageasy.org${member.image}`}
         type="profile"
-        schemaData={buildPersonSchema(member)}
+        schemaData={memberSchema}
       />
       <div className="max-w-7xl mx-auto">
-        <Link 
-          to="/" 
+        <Breadcrumbs
+          items={[
+            { name: 'Home', path: '/' },
+            { name: 'About', path: '/about' },
+            { name: member.name, path: `/team/${member.slug}` },
+          ]}
+          className="!px-0 mb-8"
+        />
+        <Link
+          to="/about"
           className="inline-flex items-center gap-2 text-zinc-500 hover:text-primary transition-colors mb-12 group uppercase text-[10px] font-bold tracking-widest"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          Back to Home
+          Back to Team
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
@@ -146,6 +168,7 @@ const TeamMember = () => {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackProfileLinkClick(social.key)}
                     whileHover={{ scale: 1.1, backgroundColor: 'rgba(255, 83, 91, 0.1)' }}
                     whileTap={{ scale: 0.95 }}
                     className="p-5 bg-white/5 rounded-2xl border border-white/5 text-zinc-400 hover:text-primary hover:border-primary/20 transition-all shadow-xl"

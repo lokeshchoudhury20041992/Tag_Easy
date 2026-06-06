@@ -14,6 +14,8 @@ export default function Footer() {
     { name: 'Case Studies', href: '/case-studies' },
     { name: 'About', href: '/about' },
     { name: 'Blog', href: '/blog' },
+    { name: 'Glossary', href: '/glossary' },
+    { name: 'FAQs', href: '/faqs' },
     { name: 'Free Audit', href: '/free-audit' },
     { name: 'Contact', href: '/contact' }
   ];

@@ -1,1 +1,6 @@
-/* /index.html 200
+# All real routes are prerendered to their own static index.html files, so the
+# host serves them directly with HTTP 200. The private SEO dashboard is a
+# client-only route, so it falls back to the SPA shell. Any other unknown path
+# serves the prerendered 404 page with a real HTTP 404 status (Task 5).
+/seo-dashboard    /index.html    200
+/*                /404.html      404

@@ -5,6 +5,19 @@ import TeamSection from '../components/TeamSection';
 import { ArrowUpRight } from 'lucide-react';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
+import { getClaim } from '../lib/proofClaims';
+import { organizationSchema, buildBreadcrumbSchema } from '../lib/seoSchema';
+
+const aboutSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    organizationSchema,
+    buildBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'About', path: '/about' },
+    ]),
+  ],
+};
 
 const SectionContainer = ({ children, className, id }) => (
   <section id={id} className={cn("bg-black relative overflow-hidden px-4 md:px-6 py-16 md:py-24", className)}>
@@ -23,9 +36,11 @@ const GlassCard = ({ children, className }) => (
 const About = () => {
   return (
     <div className="bg-black relative min-h-screen">
-      <SEO 
+      <SEO
         title="About Us | Tag Easy"
-        description="Learn about Tag Easy's mission, vision, and team of digital engineers."
+        description="Learn about Tag Easy's mission, vision, and team of digital engineers building SEO, AI automation, and high-performance websites."
+        path="/about"
+        schemaData={aboutSchema}
       />
       
       <header className="pt-16 md:pt-24 pb-16 px-6 max-w-7xl mx-auto">
@@ -50,16 +65,16 @@ const About = () => {
           <div className="lg:col-span-12">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <GlassCard className="text-center">
-                <div className="text-7xl font-instrument italic text-red-500 mb-4">10+</div>
+                <div className="text-7xl font-instrument italic text-red-500 mb-4">{getClaim('yearsExperience')?.value || '10+'}</div>
                 <div className="text-[10px] font-semibold text-white/40 uppercase tracking-[0.3em]">Years of Excellence</div>
               </GlassCard>
               <GlassCard className="text-center">
-                <div className="text-7xl font-instrument italic text-red-500 mb-4">50+</div>
-                <div className="text-[10px] font-semibold text-white/40 uppercase tracking-[0.3em]">Digital Architects</div>
+                <div className="text-7xl font-instrument italic text-red-500 mb-4">{getClaim('brandsScaled')?.value || '20+'}</div>
+                <div className="text-[10px] font-semibold text-white/40 uppercase tracking-[0.3em]">Brands Scaled</div>
               </GlassCard>
               <GlassCard className="text-center">
-                <div className="text-7xl font-instrument italic text-red-500 mb-4">200+</div>
-                <div className="text-[10px] font-semibold text-white/40 uppercase tracking-[0.3em]">Successful Launches</div>
+                <div className="text-7xl font-instrument italic text-red-500 mb-4">{getClaim('shippedDeliverables')?.value || '200+'}</div>
+                <div className="text-[10px] font-semibold text-white/40 uppercase tracking-[0.3em]">Shipped Deliverables</div>
               </GlassCard>
             </div>
           </div>

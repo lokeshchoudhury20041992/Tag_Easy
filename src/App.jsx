@@ -16,6 +16,9 @@ const FreeAudit = React.lazy(() => import('./pages/FreeAudit'));
 const CaseStudyMaatritva = React.lazy(() => import('./pages/CaseStudyMaatritva'));
 const Blog = React.lazy(() => import('./pages/Blog'));
 const BlogPost = React.lazy(() => import('./pages/BlogPost'));
+const Glossary = React.lazy(() => import('./pages/Glossary'));
+const FAQHub = React.lazy(() => import('./pages/FAQHub'));
+const SeoDashboard = React.lazy(() => import('./pages/SeoDashboard'));
 
 const AnalyticsTracker = () => {
   const location = useLocation();
@@ -46,6 +49,9 @@ function App() {
             <Route path="case-studies/maatritva" element={<CaseStudyMaatritva />} />
             <Route path="blog" element={<Blog />} />
             <Route path="blog/:slug" element={<BlogPost />} />
+            <Route path="glossary" element={<Glossary />} />
+            <Route path="faqs" element={<FAQHub />} />
+            <Route path="seo-dashboard" element={<SeoDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

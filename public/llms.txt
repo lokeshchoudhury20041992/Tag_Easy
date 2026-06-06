@@ -21,6 +21,8 @@
 - Contact: https://tageasy.org/contact
 - About: https://tageasy.org/about
 - Blog: https://tageasy.org/blog
+- Glossary: https://tageasy.org/glossary
+- FAQs: https://tageasy.org/faqs
 - Free Audit: https://tageasy.org/free-audit
 
 ## Contact

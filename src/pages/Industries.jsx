@@ -6,6 +6,18 @@ import {
 } from 'lucide-react';
 import { getAuditCalendarUrl } from '../lib/utils';
 import SEO from '../components/SEO';
+import { organizationSchema, buildBreadcrumbSchema } from '../lib/seoSchema';
+
+const industriesSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    organizationSchema,
+    buildBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Industries', path: '/industries' },
+    ]),
+  ],
+};
 
 const IndustryCard = ({ icon: Icon, title, desc, i }) => (
   <motion.div
@@ -40,6 +52,8 @@ const Industries = () => {
       <SEO
         title="Industries | Tag Easy"
         description="Tag Easy builds specialized digital systems for healthcare, e-commerce, SaaS, fintech, real estate, education, travel, and analytics companies."
+        path="/industries"
+        schemaData={industriesSchema}
       />
       <section className="max-w-7xl mx-auto px-6 mb-24">
         <motion.div 

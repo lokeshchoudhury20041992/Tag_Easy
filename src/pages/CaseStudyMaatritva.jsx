@@ -4,6 +4,34 @@ import { ArrowUpRight, CheckCircle, Globe, Activity, Award } from 'lucide-react'
 import { cn, getAuditCalendarUrl } from '../lib/utils';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
+import { SITE_URL, ORG_ID, organizationSchema, buildBreadcrumbSchema } from '../lib/seoSchema';
+import { getCaseStudy } from '../lib/caseStudyData';
+
+const cs = getCaseStudy('maatritva');
+
+const maatritvaSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    organizationSchema,
+    {
+      '@type': 'Article',
+      '@id': `${SITE_URL}${cs.path}/#article`,
+      headline: `${cs.title} Case Study`,
+      description:
+        'How Tag Easy scaled Maatritva Fertility IVF with multi-domain SEO, technical performance, and high-intent patient lead systems.',
+      image: `${SITE_URL}${cs.image}`,
+      about: cs.clientType,
+      author: { '@id': ORG_ID },
+      publisher: { '@id': ORG_ID },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}${cs.path}/` },
+    },
+    buildBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Case Studies', path: '/case-studies' },
+      { name: cs.title, path: cs.path },
+    ]),
+  ],
+};
 
 const GlassCard = ({ children, className }) => (
   <div className={cn("liquid-glass rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 h-full aura-card border border-white/5 hover:border-red-500/50 hover:bg-black/60 hover:backdrop-blur-2xl transition-all duration-700", className)}>
@@ -14,9 +42,13 @@ const GlassCard = ({ children, className }) => (
 const CaseStudyMaatritva = () => {
   return (
     <main className="bg-black pt-20 min-h-screen">
-      <SEO 
+      <SEO
         title="Maatritva Fertility IVF | Case Study | Tag Easy"
         description="Discover how Tag Easy scaled Maatritva Fertility IVF to become the leading center in Kolkata."
+        path="/case-studies/maatritva"
+        image={`https://tageasy.org${cs.image}`}
+        type="article"
+        schemaData={maatritvaSchema}
       />
       <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none z-50 mix-blend-overlay" />
       

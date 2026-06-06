@@ -5,6 +5,18 @@ import { cn, getAuditCalendarUrl } from '../lib/utils';
 import { Terminal, ArrowUpRight, Shield, Globe, Zap } from 'lucide-react';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
+import { organizationSchema, buildBreadcrumbSchema } from '../lib/seoSchema';
+
+const caseStudiesSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    organizationSchema,
+    buildBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Case Studies', path: '/case-studies' },
+    ]),
+  ],
+};
 
 const SectionContainer = ({ children, className, id }) => (
   <section id={id} className={cn("bg-black relative overflow-hidden px-4 md:px-6 py-16 md:py-24", className)}>
@@ -86,6 +98,8 @@ const CaseStudies = () => {
       <SEO
         title="Case Studies | Tag Easy"
         description="See Tag Easy case studies showing digital growth, SEO, Ads Hub performance, and engineering results for client brands."
+        path="/case-studies"
+        schemaData={caseStudiesSchema}
       />
       <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none z-50 mix-blend-overlay" />
       

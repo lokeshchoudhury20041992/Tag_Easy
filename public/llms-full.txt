@@ -25,9 +25,22 @@ Tag Easy manages paid ads, ad tracking, dashboards, campaign measurement, and pe
 ### Lead Generation
 Tag Easy builds connected systems that capture leads, qualify intent, update CRM records, and notify sales teams.
 
+## Key facts (approved)
+
+- 10+ years of digital engineering experience
+- 20+ brands scaled
+- 200+ shipped deliverables
+- 50+ free audits delivered
+- Typical automation efficiency gain: ~85%; typical operational cost reduction: ~40%
+
 ## Proof / Case Studies
 
-- Maatritva Fertility IVF — healthcare growth case study focused on regional search visibility and high-intent patient inquiries. See https://tageasy.org/case-studies/maatritva
+- Maatritva Fertility IVF — healthcare growth case study focused on regional search visibility and high-intent patient inquiries. Results include #1 IVF center positioning in Kolkata and systematic capture of high-intent inquiries (varies by keyword and time). See https://tageasy.org/case-studies/maatritva
+
+## Reference resources
+
+- Glossary of SEO/AI/GEO terms: https://tageasy.org/glossary
+- Frequently asked questions: https://tageasy.org/faqs
 
 ## Team / Authors
 

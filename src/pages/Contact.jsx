@@ -5,7 +5,23 @@ import { Mail, Phone, Video, ArrowRight, Calendar, User, Building, Briefcase, Me
 import Button from '../components/Button';
 import { submitToWebhook } from '../lib/submitForm';
 import SEO from '../components/SEO';
-import { SITE_URL, organizationSchema, localBusinessSchema } from '../lib/seoSchema';
+import FAQ from '../components/FAQ';
+import {
+  SITE_URL,
+  organizationSchema,
+  localBusinessSchema,
+  buildFaqSchema,
+  buildBreadcrumbSchema,
+} from '../lib/seoSchema';
+import { getFaqsByCategory } from '../lib/faqData';
+import {
+  trackContactFormSubmit,
+  trackGenerateLead,
+  trackPhoneClick,
+  trackEmailClick,
+} from '../lib/analytics';
+
+const contactFaqs = getFaqsByCategory('Working With Tag Easy');
 
 const contactSchema = {
   '@context': 'https://schema.org',
@@ -19,6 +35,11 @@ const contactSchema = {
       name: 'Contact Tag Easy',
       about: { '@id': `${SITE_URL}/#organization` },
     },
+    buildFaqSchema(contactFaqs),
+    buildBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Contact', path: '/contact' },
+    ]),
   ],
 };
 
@@ -46,6 +67,8 @@ const Contact = () => {
 
     try {
       await submitToWebhook({ name, company, role, phone, email, notes });
+      trackContactFormSubmit();
+      trackGenerateLead('contact_form');
       setSubmitStatus('success');
       setName('');
       setCompany('');
@@ -91,20 +114,29 @@ const Contact = () => {
             
             <div className="space-y-12">
                 {[
-                  { icon: Mail, label: 'Email', value: 'lokesh.choudhury@tageasy.org' },
-                  { icon: Phone, label: 'Phone', value: '+91 7980761008' },
+                  { icon: Mail, label: 'Email', value: 'lokesh.choudhury@tageasy.org', href: 'mailto:lokesh.choudhury@tageasy.org', onClick: () => trackEmailClick('contact_page') },
+                  { icon: Phone, label: 'Phone', value: '+91 7980761008', href: 'tel:+917980761008', onClick: () => trackPhoneClick('contact_page') },
                   { icon: Video, label: 'Virtual Node', value: 'Google Meet / Zoom' }
-                ].map((item, i) => (
-                  <motion.div key={i} variants={itemVariants} className="flex items-center gap-4 md:gap-8 group">
-                    <div className="w-12 h-12 md:w-16 md:h-16 shrink-0 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center group-hover:neon-red-glow transition-all duration-700">
-                        <item.icon className="w-5 h-5 md:w-6 md:h-6 text-white/20 group-hover:text-red-500 transition-colors" />
-                    </div>
-                    <div className="min-w-0">
-                        <div className="text-red-500 text-[9px] uppercase font-semibold tracking-[0.3em] mb-1 md:mb-2">{item.label}</div>
-                        <div className="text-white text-base md:text-xl font-light tracking-tight group-hover:text-red-500 transition-colors break-words leading-relaxed">{item.value}</div>
-                    </div>
-                  </motion.div>
-                ))}
+                ].map((item, i) => {
+                  const Inner = (
+                    <>
+                      <div className="w-12 h-12 md:w-16 md:h-16 shrink-0 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center group-hover:neon-red-glow transition-all duration-700">
+                          <item.icon className="w-5 h-5 md:w-6 md:h-6 text-white/20 group-hover:text-red-500 transition-colors" />
+                      </div>
+                      <div className="min-w-0">
+                          <div className="text-red-500 text-[9px] uppercase font-semibold tracking-[0.3em] mb-1 md:mb-2">{item.label}</div>
+                          <div className="text-white text-base md:text-xl font-light tracking-tight group-hover:text-red-500 transition-colors break-words leading-relaxed">{item.value}</div>
+                      </div>
+                    </>
+                  );
+                  return (
+                    <motion.div key={i} variants={itemVariants} className="flex items-center gap-4 md:gap-8 group">
+                      {item.href ? (
+                        <a href={item.href} onClick={item.onClick} className="flex items-center gap-4 md:gap-8 w-full">{Inner}</a>
+                      ) : Inner}
+                    </motion.div>
+                  );
+                })}
             </div>
         </motion.div>
 
@@ -183,6 +215,12 @@ const Contact = () => {
             </form>
         </motion.div>
       </div>
+
+      <FAQ
+        faqs={contactFaqs}
+        title="Working with Tag Easy"
+        subtitle="Where we're based, who we work with, and how to get started."
+      />
     </main>
   );
 };
