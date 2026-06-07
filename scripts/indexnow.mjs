@@ -23,7 +23,7 @@ const canonical = (p) => (p === '/' ? `${SITE_URL}/` : `${SITE_URL}${p}/`);
 
 const urlList = [
   ...corePaths.map(canonical),
-  ...teamMembers.map((m) => canonical(`/team/${m.slug}`)),
+  ...teamMembers.filter((m) => !m.hidden).map((m) => canonical(`/team/${m.slug}`)),
   ...getIndexablePosts().map((post) => canonical(`/blog/${post.slug}`)),
 ];
 

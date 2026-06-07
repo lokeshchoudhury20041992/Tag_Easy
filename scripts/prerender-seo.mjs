@@ -212,7 +212,7 @@ const corePages = [
 
 // --- Team member pages ----------------------------------------------------
 
-const teamPages = teamMembers.map((member) => ({
+const teamPages = teamMembers.filter((member) => !member.hidden).map((member) => ({
   path: `/team/${member.slug}`,
   title: `${member.name} | ${member.role} at Tag Easy`,
   description: member.bio,

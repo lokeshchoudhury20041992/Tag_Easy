@@ -36,6 +36,7 @@ export const authors = teamMembers.reduce((acc, member) => {
     sameAs: cleanSameAs(member.socials),
     expertise: expertiseBySlug[member.slug] || [],
     worksFor: 'Tag Easy',
+    hidden: member.hidden,
   };
   return acc;
 }, {});
@@ -43,4 +44,10 @@ export const authors = teamMembers.reduce((acc, member) => {
 // Default house author for editorial posts without a named individual.
 export const DEFAULT_AUTHOR_ID = 'lokesh-choudhury';
 
-export const getAuthor = (id) => authors[id] || authors[DEFAULT_AUTHOR_ID];
+export const getAuthor = (id) => {
+  const author = authors[id];
+  if (author && !author.hidden) {
+    return author;
+  }
+  return authors[DEFAULT_AUTHOR_ID];
+};

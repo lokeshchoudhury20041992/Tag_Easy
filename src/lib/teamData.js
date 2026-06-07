@@ -115,6 +115,7 @@ export const teamMembers = [
     slug: 'arpita-dutta',
     name: 'Arpita Dutta',
     role: 'Business Development Manager',
+    hidden: true,
     bio: 'Arpita drives growth and client relations, identifying new opportunities where Tag Easy’s engineering can solve business challenges.',
     image: '/arpita-business-development.webp',
     socials: {
@@ -131,6 +132,7 @@ export const teamMembers = [
     slug: 'drik-sarker',
     name: 'Drik Sarker',
     role: 'SEO & Local Search Specialist',
+    hidden: true,
     bio: 'Drik strengthens organic and local search visibility for clients, supporting SEO execution and Google Business Profile optimization.',
     image: '/drik.webp',
     socials: {
@@ -147,6 +149,7 @@ export const teamMembers = [
     slug: 'sandip-majumder',
     name: 'Sandip Majumder',
     role: 'Creative Head',
+    hidden: true,
     bio: 'Sandip oversees the artistic direction at Tag Easy, ensuring every project balances technical power with aesthetic dominance.',
     image: '/sandip.webp',
     socials: {
@@ -163,6 +166,7 @@ export const teamMembers = [
     slug: 'shyanil-mishra',
     name: 'Shyanil Mishra',
     role: 'Lead Software Engineer',
+    hidden: true,
     bio: 'Shyanil leads Tag Easy’s technology direction, architecture decisions, and high-performance engineering systems.',
     image: '/shyanil-lead-architect.webp',
     experience: [
@@ -204,6 +208,7 @@ export const teamMembers = [
     slug: 'ankita-singh',
     name: 'Ankita Singh',
     role: 'Frontend Developer (Collaborator)',
+    hidden: true,
     bio: 'Ankita brings fresh perspectives to our UI/UX processes, collaborating on high-impact frontend projects and interaction models.',
     image: '/ankita.webp',
     socials: {

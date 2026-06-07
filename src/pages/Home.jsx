@@ -807,50 +807,58 @@ const TestimonialsSection = () => {
 const SuccessStoryMaatritva = () => {
   return (
     <SectionContainer className="py-24">
-      <div className="liquid-glass rounded-[3rem] md:rounded-[4rem] border border-white/5 p-8 md:p-16 flex flex-col md:flex-row items-center gap-12 group hover:border-red-500/30 transition-colors duration-1000 relative overflow-hidden backdrop-blur-3xl shadow-[0_0_100px_rgba(239,68,68,0.05)]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(239,68,68,0.1)_0%,_transparent_70%)] pointer-events-none" />
-        
-        <div className="w-full md:w-5/12 aspect-square md:aspect-auto md:h-[400px] bg-black border border-white/5 rounded-3xl flex items-center justify-center grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 relative overflow-hidden">
-            <img src="/Maatritva.webp" alt="Maatritva IVF" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,_transparent_0%,_black_90%)] opacity-40 mix-blend-multiply" />
-        </div>
-        
-        <div className="w-full md:w-7/12 space-y-6 relative z-10">
-            <motion.span 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="text-red-500 text-[10px] uppercase font-bold tracking-[0.4em] block drop-shadow-md"
-            >
-               Success Story &bull; #1 Regional Dominance
-            </motion.span>
-            <motion.h3 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-4xl md:text-6xl lg:text-7xl text-white font-instrument mb-6 tracking-tighter leading-[0.9]"
-            >
-                Very Big In <br /><span className="text-white/20 italic">Kolkata</span>
-            </motion.h3>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-white/40 text-lg md:text-xl leading-relaxed font-light mb-10 max-w-xl group-hover:text-white/80 transition-colors duration-500"
-            >
-                Maatritva Fertility IVF sits at the top of our portfolio. Discover how we architected their multi-domain strategy maatritvaivffertility.com and dedicated doctor workflows to systematically capture massive high-intent medical inquiries.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <Link to="/case-studies/maatritva">
-                  <Button variant="secondary" className="px-10 py-5 text-[10px] tracking-widest gap-2 bg-white/5 hover:bg-white/10 group-hover:border-red-500/50 transition-all">
-                      VIEW FULL CASE STUDY <ArrowUpRight className="w-4 h-4 ml-1 text-white/50 group-hover:text-red-500 transition-colors" />
-                  </Button>
-              </Link>
-            </motion.div>
+      <div className="relative group">
+        {/* Premium ambient card glow aura */}
+        <div className="absolute -inset-1.5 bg-gradient-to-r from-red-500/10 to-purple-500/10 rounded-[3rem] md:rounded-[4rem] blur-3xl opacity-50 group-hover:opacity-85 transition duration-1000 group-hover:duration-300" />
+        <div className="liquid-glass rounded-[3rem] md:rounded-[4rem] border border-white/5 p-8 md:p-16 flex flex-col md:flex-row items-center gap-12 group hover:border-red-500/30 transition-all duration-1000 relative overflow-hidden backdrop-blur-3xl shadow-2xl">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(239,68,68,0.15)_0%,_transparent_60%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(168,85,247,0.1)_0%,_transparent_60%)] pointer-events-none" />
+          
+          <div className="w-full md:w-5/12 aspect-[4/3] md:aspect-auto md:h-[380px] bg-black/50 border border-white/10 rounded-3xl flex items-center justify-center grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 relative overflow-hidden shadow-xl">
+              <img src="/Maatritva.webp" alt="Maatritva IVF Success Story" className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+          </div>
+          
+          <div className="w-full md:w-7/12 space-y-6 relative z-10">
+              <motion.span 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="text-red-500 text-[10px] uppercase font-bold tracking-[0.4em] block drop-shadow-md"
+              >
+                 Success Story &bull; #1 Regional Dominance
+              </motion.span>
+              <motion.h3 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-4xl md:text-6xl lg:text-[5rem] text-white font-instrument mb-6 tracking-tighter leading-[0.95]"
+              >
+                  Very Big In <br />
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-white/70 italic font-semibold">
+                    Kolkata
+                  </span>
+              </motion.h3>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-white/40 text-lg md:text-xl leading-relaxed font-light mb-10 max-w-xl group-hover:text-white/80 transition-colors duration-500"
+              >
+                  Maatritva Fertility IVF sits at the top of our portfolio. Discover how we architected their multi-domain strategy maatritvaivffertility.com and dedicated doctor workflows to systematically capture massive high-intent medical inquiries.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <Link to="/case-studies/maatritva">
+                    <Button variant="secondary" className="px-10 py-5 text-[10px] tracking-widest gap-2 bg-white/5 hover:bg-white/10 group-hover:border-red-500/50 transition-all">
+                        VIEW FULL CASE STUDY <ArrowUpRight className="w-4 h-4 ml-1 text-white/50 group-hover:text-red-500 transition-colors" />
+                    </Button>
+                </Link>
+              </motion.div>
+          </div>
         </div>
       </div>
     </SectionContainer>
@@ -910,10 +918,10 @@ const Home = () => {
 
       <StatsBento />
       <BentoServices />
+      <SuccessStoryMaatritva />
       <TeamSection />
       <WhyBetterSection />
       <TestimonialsSection />
-      <SuccessStoryMaatritva />
       <AdamsalveMockup />
       <BlogSection />
       <InteractiveCTA />
