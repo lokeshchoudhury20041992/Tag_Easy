@@ -16,6 +16,7 @@ import { getBlogImage } from './seoImages.js';
 
 const p = (text) => ({ type: 'paragraph', text });
 const h = (text) => ({ type: 'heading', text });
+const l = (items) => ({ type: 'list', items });
 
 export const blogPosts = [
   {
@@ -175,12 +176,112 @@ export const blogPosts = [
       p('Beyond rich results, schema is increasingly how AI engines understand and attribute content. A site with clean, accurate structured data is far easier for generative engines to parse and cite than one relying on visual layout alone.'),
     ],
   },
+  {
+    id: 7,
+    slug: 'why-react-websites-struggle-with-seo',
+    title: 'Why React Websites Struggle With SEO — And How to Fix Them',
+    excerpt:
+      'React sites look great in the browser but often render blank to crawlers. Here is why React struggles with SEO and the rendering fixes that recover rankings.',
+    category: 'SEO',
+    authorId: 'shyanil-mishra',
+    date: '2026-06-16',
+    dateModified: '2026-06-16',
+    keywords: ['react seo', 'client-side rendering', 'server-side rendering', 'prerendering', 'javascript seo'],
+    indexable: true,
+    canonicalSlug: null,
+    qualityStatus: 'approved',
+    image: '/why-react-websites-struggle-with-seo.webp',
+    content: [
+      p('If your React site looks great in the browser but barely shows up in Google, the problem is usually how React delivers content — not the content itself. A standard React single-page application (SPA) ships an almost-empty HTML file and builds every page in the browser with JavaScript. Search crawlers and AI answer engines, by contrast, reward HTML they can read immediately. The fix is to render real, route-specific HTML before JavaScript runs — through server-side rendering (SSR), static generation (SSG), or prerendering — and to give every route its own title, meta description, and structured data. This article explains why React struggles with SEO and the exact steps we use to fix it.'),
+      h('The root cause: client-side rendering'),
+      p('When a browser requests a React page, the server returns a bare `index.html` containing a single `<div id="root"></div>` and a JavaScript bundle. The real content only appears after that bundle downloads, parses, and executes. Googlebot can run JavaScript, but it does so in a second, deferred wave that is budget-limited and unreliable at scale. AI crawlers behind engines like ChatGPT and Perplexity often do not execute JavaScript at all. So the version of your page that matters most for discovery is frequently blank.'),
+      h('Five ways React quietly loses rankings'),
+      l([
+        'Empty initial HTML: every route returns the same contentless shell, so crawlers see duplicate, thin pages.',
+        'Missing per-route metadata: one static title and meta description get reused for every URL instead of unique ones.',
+        'Deferred rendering: content that depends on JavaScript or an API call may never be indexed if rendering times out.',
+        'Client-side routing: links the React router handles in JavaScript can be hard for crawlers to follow without real, crawlable URLs.',
+        'Heavy JavaScript: large bundles slow Largest Contentful Paint and hurt Core Web Vitals, a confirmed ranking signal.',
+      ]),
+      h('The fix: render HTML before JavaScript runs'),
+      p('The durable solution is to generate real HTML for each route at build time or on the server. Server-side rendering (Next.js, Remix) builds the page on each request; static generation and prerendering (Astro, vite-plugin-ssr, or a custom build step) produce HTML files at build time. Either way, each route should ship its full body text, a unique title, meta description, canonical URL, and JSON-LD before any JavaScript executes. React then hydrates on top of that HTML so users still get the fast, app-like experience.'),
+      p('On Tag Easy builds we prerender every route during the build, write a unique canonical for each page, inject structured data, and include a meaningful `<noscript>` body so crawlers and AI engines always have content to read — without giving up the interactivity React is known for.'),
+      h('Don\'t forget metadata, canonicals, and structured data'),
+      p('Rendering HTML is only half the job. Each page needs a unique title and meta description, a self-referencing canonical that strips tracking parameters, and a complete XML sitemap with `lastmod` dates submitted to Google Search Console. Add JSON-LD — Organization, BreadcrumbList, Article, and FAQPage where relevant — so engines understand and can cite your pages.'),
+      h('How to verify the fix'),
+      p('Use View Source (not Inspect) or run `curl https://yourdomain.com/your-page` and confirm the title and body text match that page rather than the homepage. Then use the URL Inspection tool in Search Console to check the rendered HTML contains your content. When both look right, indexing and rankings usually recover within a few weeks.'),
+      p('React and SEO are not enemies — they simply need the right rendering strategy. Fix how content reaches the crawler and a fast React site can rank as well as any server-rendered one. If your React or Next.js site is underperforming in search, a Tag Easy technical SEO audit will pinpoint exactly where rendering is costing you visibility.'),
+    ],
+  },
+  {
+    id: 8,
+    slug: 'google-business-profile-optimization-checklist',
+    title: 'Google Business Profile Optimization: The Local SEO Checklist Every Business Needs',
+    excerpt:
+      'Your Google Business Profile decides whether you appear in the map pack. This is the practical local SEO checklist we use to win more calls and bookings.',
+    category: 'Local SEO',
+    authorId: 'drik-sarker',
+    date: '2026-06-14',
+    dateModified: '2026-06-16',
+    keywords: ['google business profile', 'local seo', 'gbp optimization', 'map pack', 'local seo checklist'],
+    indexable: true,
+    canonicalSlug: null,
+    qualityStatus: 'approved',
+    image: '/google-business-profile-optimization.webp',
+    content: [
+      p('Your Google Business Profile (GBP) is the single most important asset in local SEO — it decides whether you appear in the Google Maps "map pack" when nearby customers search. A fully completed profile, consistent business information, and a steady flow of reviews are what move you up the local rankings. This article is a practical checklist for business owners and marketers who want more calls, direction requests, and bookings from local search. Work through each section and tick off what you have already done.'),
+      h('1. Complete every field in your profile'),
+      p('Google rewards complete profiles. A half-filled listing gives the algorithm little to rank and gives customers little reason to click. Fill in everything:'),
+      l([
+        'Verify your business and choose the most accurate primary category — it is the strongest relevance signal you control.',
+        'Add secondary categories for the other services you genuinely offer.',
+        'Write a description that reads naturally for humans while mentioning your core services and city.',
+        'List your real services and products, with prices where you can.',
+        'Set accurate opening hours, including special hours for holidays.',
+      ]),
+      h('2. Keep your NAP identical everywhere'),
+      p('NAP stands for Name, Address, and Phone number. Google cross-checks these details across your website, your profile, and third-party directories. Even small differences — "Street" versus "St", or an old phone number on one listing — dilute trust and can suppress your ranking. Make them identical everywhere, and add LocalBusiness schema to your website so the details are machine-readable.'),
+      h('3. Earn and respond to reviews'),
+      p('Reviews are one of the strongest local ranking and trust signals, and how you respond matters as much as the rating:'),
+      l([
+        'Ask every happy customer for a review, ideally with a direct review link you can text or email.',
+        'Respond to every review — positive and negative — within a day or two.',
+        'Mention the service and location naturally in your replies.',
+        'Never buy fake reviews; Google filters them and can penalise the whole profile.',
+      ]),
+      h('4. Add photos, posts, and Q&A'),
+      p('Activity signals that a business is real and current. Keep the profile alive:'),
+      l([
+        'Upload real photos of your premises, team, and work — aim for at least ten and refresh them monthly.',
+        'Publish Google Posts for offers, events, and updates so the profile looks active.',
+        'Seed and answer common questions in the Q&A section before customers have to ask.',
+        'Enable messaging only if you can reply quickly — slow replies hurt more than no messaging.',
+      ]),
+      h('5. Back the profile with local signals'),
+      p('A profile does not rank in isolation. Build consistent citations on relevant directories, earn links from local organisations and suppliers, and create location-specific pages on your website with genuinely unique content. For multi-location businesses, give each location its own page and its own verified profile.'),
+      h('6. Track what actually drives inquiries'),
+      p('Optimisation without measurement is guesswork. In the Google Business Profile dashboard, watch calls, direction requests, website clicks, and the search queries that surface you. Add call tracking and conversion tracking so you know which local efforts generate real customers — then do more of what works.'),
+      h('The quick-win checklist'),
+      l([
+        'Primary category is accurate and specific.',
+        'NAP is identical across your website, profile, and directories.',
+        'At least ten real photos, refreshed monthly.',
+        'A steady stream of reviews, each with a reply.',
+        'LocalBusiness schema added to your website.',
+        'Location pages with unique, locally relevant content.',
+        'Conversion tracking on calls and form submissions.',
+      ]),
+      p('Local SEO rewards consistency more than tricks. Complete your profile, keep your details identical everywhere, earn genuine reviews, and measure what converts — and you will steadily climb the map pack. Want this handled for you? The Tag Easy local SEO team optimises Google Business Profiles and builds the supporting signals that win "near me" searches.'),
+    ],
+  },
 ];
 
-// Attach the branded image + a display date to each post.
+// Attach the branded image + a display date to each post. A post may pin its own
+// hero image (e.g. bespoke art produced for the article); otherwise fall back to
+// the branded category image.
 const withDerived = (post) => ({
   ...post,
-  image: getBlogImage(post.category),
+  image: post.image || getBlogImage(post.category),
   displayDate: new Date(`${post.date}T00:00:00Z`).toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',

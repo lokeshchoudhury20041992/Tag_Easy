@@ -53,3 +53,26 @@ export const trackServiceCtaClick = (service) =>
 
 export const trackProfileLinkClick = (network) =>
   trackEvent('profile_link_click', { event_label: network });
+
+// --- Phase 2 conversion + attribution events (non-PII only) ---
+
+// Service-specific lead form submit (Task 7). `service` is the service slug.
+export const trackServiceInquirySubmit = (service, source = 'service_page') =>
+  trackEvent('service_inquiry_submit', { event_label: service, source });
+
+// Generic lead form submit with a source label (Task 6/7).
+export const trackLeadSubmit = (source) =>
+  trackEvent('lead_submit', { event_label: source });
+
+// Review CTA click on /review-us (Task 5).
+export const trackReviewClick = (source = 'review_us') =>
+  trackEvent('review_click', { event_label: source });
+
+// Thank-you / conversion confirmation page view (Task 17).
+export const trackConversion = (conversionType, source = '') =>
+  trackEvent('conversion', { event_label: conversionType, source });
+
+// Spam submissions are dropped BEFORE any lead event fires; we only record a
+// non-PII counter so the team can see bot volume without polluting conversions.
+export const trackSpamBlocked = (reason, source = '') =>
+  trackEvent('spam_blocked', { event_label: reason, source });

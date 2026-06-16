@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { cn, getAuditCalendarUrl, getWhatsAppUrl } from '../lib/utils';
+import { cn, getAuditCalendarUrl, getWhatsAppUrlForPage } from '../lib/utils';
 import {
   Monitor, Cpu, BarChart3, Rocket,
   Smartphone, Brain, Zap, ArrowUpRight,
@@ -138,7 +138,7 @@ const Services = () => {
             <Button 
               variant="primary" 
               className="w-full py-4 bg-[#25D366] hover:bg-[#22c35e] border-none text-[10px] tracking-widest text-white flex items-center justify-center gap-3 group/wa"
-              onClick={() => { trackWhatsAppClick('services_header'); window.open(getWhatsAppUrl(), '_blank'); }}
+              onClick={() => { trackWhatsAppClick('services_header'); window.open(getWhatsAppUrlForPage('Services', 'services_header'), '_blank'); }}
             >
               <MessageCircle className="w-4 h-4 group-hover/wa:scale-110 transition-transform" />
               WHATSAPP US

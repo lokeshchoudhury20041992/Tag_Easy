@@ -5,16 +5,14 @@ import { cn, getAuditCalendarUrl } from '../lib/utils';
 import { Terminal, ArrowUpRight, Shield, Globe, Zap } from 'lucide-react';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
-import { organizationSchema, buildBreadcrumbSchema } from '../lib/seoSchema';
+import { organizationSchema, buildCaseStudiesCollectionSchema } from '../lib/seoSchema';
+import { getPublishedCaseStudies } from '../lib/caseStudyData';
 
 const caseStudiesSchema = {
   '@context': 'https://schema.org',
   '@graph': [
     organizationSchema,
-    buildBreadcrumbSchema([
-      { name: 'Home', path: '/' },
-      { name: 'Case Studies', path: '/case-studies' },
-    ]),
+    ...buildCaseStudiesCollectionSchema(getPublishedCaseStudies())['@graph'],
   ],
 };
 

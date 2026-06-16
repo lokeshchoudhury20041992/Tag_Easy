@@ -20,7 +20,7 @@ import {
   Workflow,
   Zap
 } from 'lucide-react';
-import { cn, getAuditCalendarUrl, getWhatsAppUrl } from '../lib/utils';
+import { cn, getAuditCalendarUrl, getWhatsAppUrlForPage } from '../lib/utils';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
 import FAQ from '../components/FAQ';
@@ -160,7 +160,7 @@ const AIAutomation = () => {
                 Build My Automation
                 <ArrowRight className="w-4 h-4" />
               </Button>
-              <Button variant="secondary" onClick={() => { trackWhatsAppClick('ai_hero'); window.open(getWhatsAppUrl(), '_blank'); }} className="px-10 py-5 text-xs tracking-[0.2em]">
+              <Button variant="secondary" onClick={() => { trackWhatsAppClick('ai_hero'); window.open(getWhatsAppUrlForPage('AI Automation', 'ai_hero'), '_blank'); }} className="px-10 py-5 text-xs tracking-[0.2em]">
                 WhatsApp Us
                 <MessageCircle className="w-4 h-4" />
               </Button>

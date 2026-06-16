@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Linkedin, Instagram, ArrowUpRight } from 'lucide-react';
+import { Linkedin, Instagram, ArrowUpRight, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { getAuditCalendarUrl } from '../lib/utils';
+import { getAuditCalendarUrl, getWhatsAppUrlForPage } from '../lib/utils';
+import { trackWhatsAppClick } from '../lib/analytics';
 import logo from '../assets/Logo_T.webp';
 
 export default function Footer() {
@@ -17,7 +18,8 @@ export default function Footer() {
     { name: 'Glossary', href: '/glossary' },
     { name: 'FAQs', href: '/faqs' },
     { name: 'Free Audit', href: '/free-audit' },
-    { name: 'Contact', href: '/contact' }
+    { name: 'Contact', href: '/contact' },
+    { name: 'Sitemap', href: '/sitemap' }
   ];
 
   const socialLinks = [
@@ -115,12 +117,23 @@ export default function Footer() {
                   <a href="tel:+917980761008" className="hover:text-white transition-colors">+91 79807 61008</a>
                 </div>
               </address>
-              <button
-                onClick={() => window.open(getAuditCalendarUrl(), '_blank')}
-                className="text-red-500 text-[10px] font-bold uppercase tracking-[0.3em] flex items-center hover:tracking-[0.4em] transition-all"
-              >
-                INITIATE PROJECT <ArrowUpRight className="w-3 h-3 ml-2" />
-              </button>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                <button
+                  onClick={() => window.open(getAuditCalendarUrl(), '_blank')}
+                  className="text-red-500 text-[10px] font-bold uppercase tracking-[0.3em] flex items-center hover:tracking-[0.4em] transition-all"
+                >
+                  INITIATE PROJECT <ArrowUpRight className="w-3 h-3 ml-2" />
+                </button>
+                <a
+                  href={getWhatsAppUrlForPage('site footer', 'footer')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackWhatsAppClick('footer')}
+                  className="text-[#25D366] text-[10px] font-bold uppercase tracking-[0.3em] flex items-center hover:tracking-[0.4em] transition-all"
+                >
+                  <MessageCircle className="w-3 h-3 mr-2" /> WHATSAPP
+                </a>
+              </div>
             </motion.div>
           </div>
         </div>

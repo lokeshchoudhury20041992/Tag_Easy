@@ -140,6 +140,21 @@ const BlogPost = () => {
                     </h2>
                   );
                 }
+                if (block.type === 'list') {
+                  return (
+                    <ul key={index} className="space-y-5 list-none">
+                      {block.items.map((item, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-4 text-white/60 text-lg md:text-xl font-light leading-relaxed"
+                        >
+                          <span className="mt-2.5 w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  );
+                }
                 if (block.type === 'image') {
                   return (
                     <div key={index} className="my-16">

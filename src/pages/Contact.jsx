@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '../lib/utils';
-import { Mail, Phone, Video, ArrowRight, Calendar, User, Building, Briefcase, MessageSquare, Send } from 'lucide-react';
+import { cn, getWhatsAppUrlForPage, getGoogleBusinessProfileUrl } from '../lib/utils';
+import { Mail, Phone, Video, ArrowRight, Calendar, User, Building, Briefcase, MessageSquare, Send, MapPin, Clock, MessageCircle, ArrowUpRight } from 'lucide-react';
 import Button from '../components/Button';
 import { submitToWebhook } from '../lib/submitForm';
 import SEO from '../components/SEO';
 import FAQ from '../components/FAQ';
+import { NAP } from '../lib/locationsData';
 import {
   SITE_URL,
   organizationSchema,
@@ -14,11 +16,13 @@ import {
   buildBreadcrumbSchema,
 } from '../lib/seoSchema';
 import { getFaqsByCategory } from '../lib/faqData';
+import { getAttribution } from '../lib/utmTracking';
 import {
   trackContactFormSubmit,
   trackGenerateLead,
   trackPhoneClick,
   trackEmailClick,
+  trackWhatsAppClick,
 } from '../lib/analytics';
 
 const contactFaqs = getFaqsByCategory('Working With Tag Easy');
@@ -44,6 +48,7 @@ const contactSchema = {
 };
 
 const Contact = () => {
+  const navigate = useNavigate();
   const itemVariants = {
     hidden: { opacity: 0, y: 15 },
     visible: { opacity: 1, y: 0 }
@@ -66,7 +71,7 @@ const Contact = () => {
     setSubmitStatus(null);
 
     try {
-      await submitToWebhook({ name, company, role, phone, email, notes });
+      await submitToWebhook({ name, company, role, phone, email, notes, source: 'contact_form', pagePath: '/contact', ...getAttribution() });
       trackContactFormSubmit();
       trackGenerateLead('contact_form');
       setSubmitStatus('success');
@@ -76,7 +81,7 @@ const Contact = () => {
       setPhone('');
       setEmail('');
       setNotes('');
-      setTimeout(() => setSubmitStatus(null), 5000);
+      setTimeout(() => navigate('/contact/thank-you'), 400);
     } catch (error) {
       console.error(error);
       setSubmitStatus('error');
@@ -215,6 +220,63 @@ const Contact = () => {
             </form>
         </motion.div>
       </div>
+
+      {/* Phase 2 · Task 3 — Local trust / Google Business Profile section.
+          NAP here matches the LocalBusiness schema and Google Business Profile. */}
+      <section className="px-4 md:px-6 py-16 md:py-24">
+        <div className="max-w-7xl mx-auto">
+          <span className="text-red-500 text-[10px] font-semibold tracking-[0.4em] uppercase block mb-6">Local Trust</span>
+          <h2 className="text-4xl md:text-6xl text-white tracking-tighter font-instrument leading-none mb-12">
+            Visit or Contact Tag Easy in Kolkata
+          </h2>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="liquid-glass rounded-[2rem] p-8 md:p-10 border border-white/5">
+              <h3 className="text-white text-2xl font-instrument tracking-tighter mb-2">{NAP.name}</h3>
+              <p className="text-white/30 text-xs uppercase tracking-widest mb-6">{NAP.legalName}</p>
+              <address className="not-italic space-y-4 text-white/60 text-sm font-light">
+                <div className="flex items-start gap-3"><MapPin className="w-4 h-4 text-red-500 mt-0.5 shrink-0" /> <span>{NAP.addressLocality}, {NAP.addressRegion}, {NAP.country}</span></div>
+                <div className="flex items-center gap-3"><Phone className="w-4 h-4 text-red-500 shrink-0" /> <a href={NAP.phoneHref} onClick={() => trackPhoneClick('contact_local')} className="hover:text-white transition-colors">{NAP.phone}</a></div>
+                <div className="flex items-center gap-3"><MessageCircle className="w-4 h-4 text-red-500 shrink-0" /> <a href={getWhatsAppUrlForPage('Contact', 'contact_page')} target="_blank" rel="noopener noreferrer" onClick={() => trackWhatsAppClick('contact_local')} className="hover:text-white transition-colors">WhatsApp: {NAP.phone}</a></div>
+                <div className="flex items-center gap-3"><Mail className="w-4 h-4 text-red-500 shrink-0" /> <a href={`mailto:${NAP.email}`} onClick={() => trackEmailClick('contact_local')} className="hover:text-white transition-colors break-all">{NAP.email}</a></div>
+                <div className="flex items-center gap-3"><Clock className="w-4 h-4 text-red-500 shrink-0" /> <span>{NAP.hours}</span></div>
+              </address>
+
+              <div className="mt-6 pt-6 border-t border-white/5">
+                <span className="text-white/30 text-[10px] uppercase tracking-[0.3em] block mb-3">Service areas</span>
+                <div className="flex flex-wrap gap-2">
+                  {['Kolkata', 'North Dumdum', 'West Bengal', 'India', 'Remote'].map((a) => (
+                    <span key={a} className="text-white/50 text-[11px] border border-white/10 rounded-full px-3 py-1">{a}</span>
+                  ))}
+                </div>
+              </div>
+
+              <p className="text-white/40 text-xs font-light mt-6">
+                We work remotely and by appointment — book a call or message us on WhatsApp and we will confirm a time.
+              </p>
+
+              <a
+                href={getGoogleBusinessProfileUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-6 text-red-500 text-[11px] uppercase tracking-widest font-bold hover:tracking-[0.2em] transition-all"
+              >
+                View our Google Business Profile <ArrowUpRight className="w-3 h-3" />
+              </a>
+            </div>
+
+            <div className="rounded-[2rem] overflow-hidden border border-white/5 min-h-[360px]">
+              <iframe
+                title="Tag Easy location — Kolkata"
+                src="https://www.google.com/maps?q=Kolkata,%20West%20Bengal,%20India&output=embed"
+                className="w-full h-full min-h-[360px]"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
       <FAQ
         faqs={contactFaqs}

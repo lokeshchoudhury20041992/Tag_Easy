@@ -241,6 +241,165 @@ export const buildGlossarySchema = (terms) => ({
   })),
 });
 
+// Phase 2 · Task 1 — Service detail page graph (Service + FAQ + custom
+// breadcrumb). Unlike buildServiceSchema this supports a full breadcrumb trail
+// (Home › Services › <service>) and is used by /services/<slug> pages.
+export const buildServiceDetailSchema = ({ name, description, path, faqs = [], breadcrumb = [] }) => {
+  const url = `${SITE_URL}${path}/`;
+  const graph = [
+    {
+      '@type': 'Service',
+      '@id': `${url}#service`,
+      name,
+      description,
+      serviceType: name,
+      url,
+      provider: { '@id': ORG_ID },
+      areaServed: ['Kolkata', 'West Bengal', 'India'],
+    },
+  ];
+
+  if (breadcrumb.length) {
+    graph.push(buildBreadcrumbSchema(breadcrumb));
+  }
+
+  if (faqs.length) {
+    graph.push({
+      '@type': 'FAQPage',
+      '@id': `${url}#faq`,
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+      })),
+    });
+  }
+
+  return { '@context': 'https://schema.org', '@graph': graph };
+};
+
+// Phase 2 · Task 2 — Per-location LocalBusiness graph. Reuses the canonical
+// address/contact so NAP stays consistent, but scopes areaServed + url to the
+// location page.
+export const buildLocationSchema = (location, faqs = []) => {
+  const url = `${SITE_URL}/locations/${location.slug}/`;
+  const graph = [
+    {
+      '@type': 'ProfessionalService',
+      '@id': `${url}#localbusiness`,
+      name: `Tag Easy — ${location.name}`,
+      legalName: 'TAG EASY LLP',
+      url,
+      image: `${SITE_URL}/logo.jpg`,
+      telephone: '+91-7980761008',
+      email: 'lokesh.choudhury@tageasy.org',
+      priceRange: '₹₹',
+      address,
+      areaServed: location.areaServed && location.areaServed.length ? location.areaServed : ['Kolkata', 'West Bengal', 'India'],
+      openingHours: 'Mo-Fr 09:00-19:00',
+      parentOrganization: { '@id': ORG_ID },
+      sameAs,
+    },
+    buildBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: location.name, path: `/locations/${location.slug}` },
+    ]),
+  ];
+
+  if (faqs.length) {
+    graph.push({
+      '@type': 'FAQPage',
+      '@id': `${url}#faq`,
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+      })),
+    });
+  }
+
+  return { '@context': 'https://schema.org', '@graph': graph };
+};
+
+// Phase 2 · Task 10 — CollectionPage + ItemList for the case-studies index.
+export const buildCaseStudiesCollectionSchema = (studies) => ({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      '@id': `${SITE_URL}/case-studies/#collection`,
+      name: 'Tag Easy Case Studies',
+      url: `${SITE_URL}/case-studies/`,
+      isPartOf: { '@type': 'WebSite', '@id': `${SITE_URL}/#website` },
+      about: { '@id': ORG_ID },
+    },
+    {
+      '@type': 'ItemList',
+      itemListElement: studies.map((cs, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `${SITE_URL}${cs.path}/`,
+        name: cs.title,
+      })),
+    },
+    buildBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Case Studies', path: '/case-studies' },
+    ]),
+  ],
+});
+
+// Phase 2 · Task 11 — Article graph for a data-driven case study detail page.
+export const buildCaseStudyArticleSchema = (cs) => ({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      '@id': `${SITE_URL}${cs.path}/#article`,
+      headline: `${cs.title} Case Study`,
+      description: cs.summary || cs.overview || cs.problem,
+      image: cs.image ? `${SITE_URL}${cs.image}` : `${SITE_URL}/logo.jpg`,
+      about: cs.clientType,
+      author: { '@id': ORG_ID },
+      publisher: { '@id': ORG_ID },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}${cs.path}/` },
+    },
+    buildBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Case Studies', path: '/case-studies' },
+      { name: cs.title, path: cs.path },
+    ]),
+  ],
+});
+
+// Phase 2 · Task 4 — Review + AggregateRating, built ONLY from verified +
+// consented testimonials. Pass getVerifiedTestimonials(); returns null when
+// there are none so no fake review schema is ever emitted.
+export const buildReviewSchema = (verifiedTestimonials = []) => {
+  if (!verifiedTestimonials.length) return null;
+  const ratings = verifiedTestimonials.map((t) => Number(t.rating) || 5);
+  const avg = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': ORG_ID,
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: avg.toFixed(1),
+      reviewCount: verifiedTestimonials.length,
+      bestRating: '5',
+      worstRating: '1',
+    },
+    review: verifiedTestimonials.map((t) => ({
+      '@type': 'Review',
+      reviewRating: { '@type': 'Rating', ratingValue: String(Number(t.rating) || 5), bestRating: '5' },
+      author: { '@type': 'Person', name: t.name },
+      reviewBody: t.quote,
+      ...(t.date ? { datePublished: t.date } : {}),
+    })),
+  };
+};
+
 // Build a Person graph for a team member page.
 export const buildPersonSchema = (member) => ({
   '@context': 'https://schema.org',

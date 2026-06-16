@@ -11,7 +11,7 @@ import TeamSection from '../components/TeamSection';
 import Button from '../components/Button';
 import SEO from '../components/SEO';
 import { homepageSchema } from '../lib/seoSchema';
-import { testimonials } from '../lib/testimonialData';
+import TestimonialsSection from '../components/TestimonialsSection';
 import BlogSection from '../components/BlogSection';
 import logoT from '../assets/Logo_T.webp';
 import { getClaim } from '../lib/proofClaims';
@@ -705,99 +705,6 @@ const WhyBetterSection = () => {
           </motion.div>
         </div>
       </div>
-    </SectionContainer>
-  );
-};
-
-// --- Network Trust (Testimonials) Section ---
-
-const TestimonialsSection = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: {
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1]
-      }
-    }
-  };
-
-  return (
-    <SectionContainer className="bg-black pb-32">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-8">
-        <div>
-          <span className="text-red-500 text-[10px] font-semibold tracking-[0.4em] uppercase block mb-6">Network Trust</span>
-          <h2 className="text-5xl md:text-8xl text-white tracking-tighter font-instrument leading-none">
-            Client <span className="text-white/20 italic">Protocols</span>
-          </h2>
-        </div>
-        <p className="text-white/30 text-lg font-light max-w-md">
-          Verified outcomes from global leaders synchronizing their vision with our engineering edge.
-        </p>
-      </div>
-
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-      >
-        {testimonials.map((t, i) => (
-          <motion.div
-            key={i}
-            variants={itemVariants}
-            whileHover={{ y: -10, scale: 1.02 }}
-            className={cn(
-              "group cursor-pointer",
-              i === 0 ? "lg:col-span-2" : "",
-              i === 3 ? "lg:col-span-2" : ""
-            )}
-          >
-            <GlassCard className="h-full flex flex-col justify-between border border-white/5 hover:border-red-500/30 transition-all duration-700 p-12 relative overflow-hidden">
-              {/* Subtle background glow on hover */}
-              <div className="absolute inset-0 bg-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-              
-              <div className="relative z-10 space-y-8">
-                <div className="flex justify-between items-center">
-                  <span className="text-red-500 text-[9px] uppercase font-bold tracking-[0.3em]">{t.tag}</span>
-                  <div className="flex gap-1">
-                    {[1,2,3].map(j => <div key={j} className="w-1 h-1 rounded-full bg-red-500/40 group-hover:bg-red-500 transition-colors" />)}
-                  </div>
-                </div>
-                <p className="text-white text-xl md:text-2xl font-instrument italic leading-tight tracking-tight">
-                  "{t.quote}"
-                </p>
-              </div>
-
-              <div className="relative z-10 pt-12 border-t border-white/5 mt-auto">
-                <div className="flex items-center gap-4 pl-5 border-l border-red-500/30">
-                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-red-500 font-bold text-xs group-hover:neon-red-glow transition-all duration-500">
-                    {t.author.charAt(0)}
-                  </div>
-                  <div>
-                    <h5 className="text-white text-sm font-semibold">{t.author}</h5>
-                    <p className="text-white/30 text-[10px] uppercase tracking-widest">{t.role}</p>
-                  </div>
-                </div>
-              </div>
-            </GlassCard>
-          </motion.div>
-        ))}
-      </motion.div>
     </SectionContainer>
   );
 };
