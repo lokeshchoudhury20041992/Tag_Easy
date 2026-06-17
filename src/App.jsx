@@ -14,6 +14,7 @@ const CaseStudyDetail = React.lazy(() => import('./pages/CaseStudyDetail'));
 const Contact = React.lazy(() => import('./pages/Contact'));
 const About = React.lazy(() => import('./pages/About'));
 const Industries = React.lazy(() => import('./pages/Industries'));
+const Team = React.lazy(() => import('./pages/Team'));
 const TeamMember = React.lazy(() => import('./pages/TeamMember'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
 const FreeAudit = React.lazy(() => import('./pages/FreeAudit'));
@@ -59,6 +60,7 @@ function App() {
             <Route path="industries" element={<Industries />} />
             <Route path="contact" element={<Contact />} />
             <Route path="contact/thank-you" element={<ThankYou />} />
+            <Route path="team" element={<Team />} />
             <Route path="team/:slug" element={<TeamMember />} />
             <Route path="free-audit" element={<FreeAudit />} />
             <Route path="free-audit/thank-you" element={<ThankYou />} />

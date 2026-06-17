@@ -42,7 +42,7 @@ const TeamSection = () => {
               viewport={{ once: true }}
               className="text-4xl md:text-6xl font-instrument text-white tracking-tight mb-6"
             >
-              Meet the Founders & Team
+              Meet the Founders
             </motion.h2>
             <motion.p 
               initial={{ opacity: 0, y: 10 }}
