@@ -518,7 +518,7 @@ const BentoServices = () => {
   const services = [
     { tag: "Performance", title: "Ads Hub", icon: Zap, desc: "Intelligent advertising engines built for scaling brand awareness and conversion dominance.", video: "https://www.pexels.com/download/video/8072444/", videoType: "direct" },
     { tag: "Ecosystems", title: "Web Site Development", icon: Monitor, desc: "Intelligent digital ecosystems built to architect scale and engineered for high-performance dominance.", video: "https://www.pexels.com/download/video/2887463/", videoType: "direct" },
-    { tag: "Intelligence", title: "AI Automation", icon: Brain, desc: "Intelligent systems built to automate ads, leads, SEO, content, CRM logic, and business intelligence.", video: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4", videoType: "direct", href: "/ai-automation" }
+    { tag: "Intelligence", title: "AI Automation", icon: Brain, desc: "Voice calling assistants, lead capture, direct lead calling, lead generation, AI ad creation, CRM logic, and business intelligence.", video: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4", videoType: "direct", href: "/ai-automation" }
   ];
 
   const VideoRenderer = ({ service, index, parallaxY }) => {

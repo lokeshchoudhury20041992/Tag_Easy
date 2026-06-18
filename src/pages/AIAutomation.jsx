@@ -3,22 +3,23 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
-  ArrowUpRight,
   BarChart3,
   Brain,
+  BriefcaseBusiness,
+  Building2,
   Calendar,
   CheckCircle2,
-  Cpu,
   DatabaseZap,
   FileSearch,
+  Megaphone,
   MessageCircle,
   MousePointerClick,
-  Network,
+  PhoneCall,
   Search,
   Sparkles,
+  Stethoscope,
   Target,
-  Workflow,
-  Zap
+  Users
 } from 'lucide-react';
 import { cn, getAuditCalendarUrl, getWhatsAppUrlForPage } from '../lib/utils';
 import Button from '../components/Button';
@@ -42,7 +43,7 @@ const aiAutomationSchema = {
     ...buildServiceSchema({
       name: 'AI Automation Services',
       description:
-        'AI automation systems for ads, lead generation, SEO, CRM workflows, reporting, content pipelines, and custom AI agents.',
+        'AI automation systems for voice calling assistants, lead capture, direct lead calling, lead generation, ad creation, CRM workflows, reporting, and custom AI agents.',
       path: '/ai-automation',
     })['@graph'],
     buildFaqSchema(aiFaqs),
@@ -54,7 +55,7 @@ const aiAutomationSchema = {
 };
 
 const SectionContainer = ({ children, className, id }) => (
-  <section id={id} className={cn("bg-black relative overflow-hidden px-4 md:px-6 py-16 md:py-24", className)}>
+  <section id={id} className={cn("bg-black relative overflow-hidden px-4 md:px-6 py-12 md:py-16", className)}>
     <div className="max-w-7xl mx-auto">
       {children}
     </div>
@@ -62,7 +63,7 @@ const SectionContainer = ({ children, className, id }) => (
 );
 
 const GlassCard = ({ children, className }) => (
-  <div className={cn("group liquid-glass rounded-[2rem] md:rounded-[3rem] p-7 md:p-10 h-full aura-card border border-white/5 hover:border-red-500/40 hover:bg-black/60 transition-all duration-700", className)}>
+  <div className={cn("group liquid-glass rounded-[2rem] p-6 h-full aura-card border border-white/5 hover:border-red-500/40 hover:bg-black/60 transition-all duration-700", className)}>
     {children}
   </div>
 );
@@ -70,55 +71,100 @@ const GlassCard = ({ children, className }) => (
 const automationPillars = [
   {
     title: 'Ads Automation',
-    desc: 'Campaign setup, audience flows, retargeting signals, conversion tracking, and reporting systems that reduce manual campaign work.',
+    desc: 'Ad copy, variants, retargeting, tracking.',
     icon: Target,
-    items: ['Meta and Google workflows', 'Retargeting sequences', 'Performance reporting']
+    items: ['Google + Meta', 'AI creatives', 'Reports']
   },
   {
     title: 'Lead Generation',
-    desc: 'Capture, qualify, route, and follow up with leads automatically so sales conversations happen faster.',
+    desc: 'Capture, qualify, route, follow up.',
     icon: MousePointerClick,
-    items: ['Lead capture logic', 'CRM routing', 'WhatsApp and email follow-up']
+    items: ['Lead capture', 'Lead gen', 'Follow-up']
   },
   {
     title: 'SEO Automation',
-    desc: 'Content planning, technical checks, keyword tracking, indexing workflows, and recurring optimization systems.',
+    desc: 'Briefs, checks, alerts, indexing.',
     icon: Search,
-    items: ['Keyword opportunity tracking', 'Content briefs', 'Technical SEO alerts']
+    items: ['Keywords', 'Briefs', 'SEO alerts']
   },
   {
     title: 'AI Content Systems',
-    desc: 'Repeatable AI-assisted content pipelines for blogs, ads, landing pages, social posts, and nurture messages.',
+    desc: 'Content pipelines for ads and pages.',
     icon: FileSearch,
-    items: ['Blog and social pipelines', 'Ad copy variants', 'Brand-safe prompts']
+    items: ['Blogs', 'Social', 'Prompts']
   },
   {
     title: 'CRM and Operations',
-    desc: 'Connect forms, sheets, CRMs, calendars, inboxes, and internal tools into one reliable operating layer.',
+    desc: 'Forms, CRM, sheets, calendars.',
     icon: DatabaseZap,
-    items: ['Pipeline automation', 'Task creation', 'Internal notifications']
+    items: ['Pipelines', 'Tasks', 'Alerts']
   },
   {
     title: 'Custom AI Agents',
-    desc: 'Purpose-built assistants that answer, research, summarize, classify, and trigger actions for your business.',
+    desc: 'Agents that answer, call, classify.',
     icon: Brain,
-    items: ['Support agents', 'Research assistants', 'Data classification']
+    items: ['Voice agents', 'Calling agents', 'Classification']
   }
 ];
 
-const processSteps = [
-  { title: 'Audit', desc: 'We map manual work, revenue leaks, and repeated tasks across marketing, sales, and operations.' },
-  { title: 'Architect', desc: 'We design the automation logic, data flow, integrations, fallback rules, and human approval points.' },
-  { title: 'Deploy', desc: 'We build, test, and connect the system using the right mix of AI, APIs, CRM tools, and dashboards.' },
-  { title: 'Optimize', desc: 'We monitor performance, tighten prompts, improve routing, and expand the system as the business grows.' }
+const popularAutomations = [
+  {
+    title: 'Voice Calling',
+    desc: 'Missed calls, reminders, enquiry handling.',
+    icon: PhoneCall,
+    tags: ['ElevenLabs', 'Calls', 'Reminders']
+  },
+  {
+    title: 'Lead Capture',
+    desc: 'Forms, WhatsApp, ads, CRM entry.',
+    icon: MousePointerClick,
+    tags: ['Forms', 'WhatsApp', 'CRM']
+  },
+  {
+    title: 'Direct Lead Calling',
+    desc: 'Instant callback and sales handoff.',
+    icon: Users,
+    tags: ['Callback', 'Qualify', 'Handoff']
+  },
+  {
+    title: 'Lead Generation',
+    desc: 'Prospect lists, enrichment, outreach.',
+    icon: BriefcaseBusiness,
+    tags: ['Research', 'Lists', 'Outreach']
+  },
+  {
+    title: 'AI Ad Creation',
+    desc: 'Angles, copy, briefs, campaign tests.',
+    icon: Megaphone,
+    tags: ['Copy', 'Briefs', 'Tests']
+  }
 ];
 
+const industryScenarios = [
+  {
+    title: 'Real Estate',
+    desc: 'Call fresh leads, qualify budget, book site visits.',
+    icon: Building2
+  },
+  {
+    title: 'Doctor Clinics',
+    desc: 'Book appointments, remind patients, route urgent calls.',
+    icon: Stethoscope
+  },
+  {
+    title: 'Recruiting Agencies',
+    desc: 'Screen candidates, schedule interviews, update pipelines.',
+    icon: BriefcaseBusiness
+  }
+];
+
+const processSteps = ['Audit', 'Build', 'Connect', 'Optimize'];
+
 const outcomes = [
-  'More qualified leads without more manual chasing',
-  'Faster follow-up across WhatsApp, email, forms, and CRM',
-  'Cleaner reporting for ads, SEO, and sales activity',
-  'Lower operating load for repetitive marketing tasks',
-  'Scalable systems that can grow into full AI agents'
+  'Faster response',
+  'More qualified leads',
+  'Lower manual work',
+  'Cleaner reporting'
 ];
 
 const AIAutomation = () => {
@@ -126,12 +172,12 @@ const AIAutomation = () => {
     <main className="bg-black relative min-h-screen">
       <SEO
         title="AI Automation Services | Tag Easy"
-        description="Tag Easy builds AI automation systems for ads, lead generation, SEO, CRM workflows, reporting, and custom AI agents."
+        description="Tag Easy builds AI automation systems for voice calling assistants, lead capture, direct lead calling, lead generation, ad creation, CRM workflows, reporting, and custom AI agents."
         path="/ai-automation"
         schemaData={aiAutomationSchema}
       />
 
-      <section className="relative min-h-[92vh] px-4 md:px-6 pt-32 md:pt-44 pb-20 overflow-hidden flex items-center bg-black">
+      <section className="relative min-h-[72vh] px-4 md:px-6 pt-28 md:pt-36 pb-14 overflow-hidden flex items-center bg-black">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 right-[-10%] w-[520px] h-[520px] rounded-full bg-red-500/10 blur-[120px]" />
           <div className="absolute bottom-0 left-[-10%] w-[420px] h-[420px] rounded-full bg-white/5 blur-[120px]" />
@@ -148,13 +194,20 @@ const AIAutomation = () => {
             <span className="text-red-500 text-[10px] font-semibold tracking-[0.4em] uppercase block mb-8">
               Core Tag Easy Skill
             </span>
-            <h1 className="text-5xl md:text-8xl lg:text-[7.5rem] text-white tracking-tighter font-instrument leading-[0.82] mb-10">
+            <h1 className="text-4xl md:text-6xl lg:text-[5.75rem] text-white tracking-tighter font-instrument leading-[0.88] mb-8">
               AI Automation <br />
-              <span className="text-white/20 italic">that sells while you scale</span>
+              <span className="text-white/20 italic">for calls, leads, and ads</span>
             </h1>
-            <p className="text-white/45 text-xl md:text-2xl font-light max-w-3xl leading-relaxed mb-12 hover:text-white/80 transition-colors duration-500">
-              We build automation systems for ads, lead generation, SEO, CRM, reporting, content, and custom AI workflows. If it repeats, waits, routes, analyzes, or follows up, we can usually automate it.
+            <p className="text-white/45 text-base md:text-lg font-light max-w-2xl leading-relaxed mb-8 hover:text-white/80 transition-colors duration-500">
+              Sellable AI workflows for service businesses: phone calls, lead capture, direct lead calling, lead generation, ad creation, CRM, SEO, and reporting.
             </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10 max-w-2xl">
+              {['ElevenLabs voice assistants', 'Lead capture + calling', 'AI ad creation help'].map((item) => (
+                <div key={item} className="rounded-2xl border border-red-500/20 bg-red-500/[0.06] px-4 py-3 text-white/70 text-xs uppercase tracking-[0.16em] font-semibold">
+                  {item}
+                </div>
+              ))}
+            </div>
             <div className="flex flex-col sm:flex-row gap-5">
               <Button variant="primary" onClick={() => { trackBookCallClick('ai_hero'); window.open(getAuditCalendarUrl(), '_blank'); }} className="px-10 py-5 text-xs tracking-[0.2em]">
                 Build My Automation
@@ -171,16 +224,16 @@ const AIAutomation = () => {
             initial={{ opacity: 0, scale: 0.94, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5"
+            className="hidden lg:block lg:col-span-5"
           >
             <div className="liquid-glass rounded-[3rem] p-6 md:p-8 border border-red-500/20 bg-black/50 relative overflow-hidden shadow-[0_50px_120px_rgba(0,0,0,0.75)]">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(239,68,68,0.16)_0%,_transparent_58%)] pointer-events-none" />
-              <div className="relative z-10 space-y-5">
+              <div className="relative z-10 space-y-3">
                 {[
                   { label: 'Lead captured', icon: MousePointerClick, active: true },
                   { label: 'AI qualifies intent', icon: Brain, active: true },
-                  { label: 'CRM updated', icon: DatabaseZap, active: true },
-                  { label: 'Sales team notified', icon: MessageCircle, active: true },
+                  { label: 'Assistant calls or follows up', icon: PhoneCall, active: true },
+                  { label: 'CRM updated and team notified', icon: DatabaseZap, active: true },
                   { label: 'Report refreshed', icon: BarChart3, active: false }
                 ].map((item, index) => (
                   <div key={item.label} className="flex items-center gap-4 rounded-2xl border border-white/5 bg-white/[0.03] p-4 group hover:border-red-500/30 transition-all duration-500">
@@ -207,124 +260,87 @@ const AIAutomation = () => {
         </div>
       </section>
 
-      <SectionContainer id="automation-systems" className="pt-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
-          <div>
+      <SectionContainer id="popular-ai-automations" className="pt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-12">
+          <div className="lg:col-span-6">
             <span className="text-red-500 text-[10px] font-semibold tracking-[0.4em] uppercase block mb-6">
-              What We Automate
+              Popular Automations
             </span>
-            <h2 className="text-5xl md:text-8xl text-white tracking-tighter font-instrument leading-none">
-              Revenue systems, <span className="text-white/20 italic">not small tricks</span>
+            <h2 className="text-4xl md:text-6xl text-white tracking-tighter font-instrument leading-none mb-8">
+              Clear offers. Easy to sell.
             </h2>
           </div>
-          <p className="text-white/35 text-lg font-light max-w-md leading-relaxed">
-            The goal is simple: remove repetitive work, respond faster, and give the client a system that can keep earning.
-          </p>
+          <div className="lg:col-span-6 flex items-end">
+            <p className="text-white/40 text-lg font-light leading-relaxed max-w-2xl">
+              The five automation products most buyers understand immediately.
+            </p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {automationPillars.map((pillar, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4 mb-8">
+          {popularAutomations.map((item, index) => (
             <motion.div
-              key={pillar.title}
-              initial={{ opacity: 0, y: 30 }}
+              key={item.title}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.7, delay: index * 0.06 }}
+              transition={{ duration: 0.65, delay: index * 0.05 }}
+              className="rounded-[2rem] border border-red-500/20 bg-red-500/[0.045] p-6 min-h-[260px] hover:bg-red-500/[0.08] hover:border-red-500/40 transition-all duration-500"
             >
-              <GlassCard>
-                <div className="flex items-center justify-between mb-8">
-                  <div className="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                    <pillar.icon className="w-7 h-7 text-red-500" />
+              <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/25 flex items-center justify-center mb-6">
+                <item.icon className="w-6 h-6 text-red-500" />
+              </div>
+              <h3 className="text-2xl text-white font-instrument tracking-tighter mb-3">{item.title}</h3>
+              <p className="text-white/45 text-sm leading-relaxed font-light mb-5">{item.desc}</p>
+              <div className="flex flex-wrap gap-2">
+                {item.tags.map((tag) => (
+                  <div key={tag} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-white/55 text-[10px] uppercase tracking-[0.16em] font-semibold">
+                    {tag}
                   </div>
-                  <ArrowUpRight className="w-5 h-5 text-white/10 group-hover:text-red-500 transition-colors" />
-                </div>
-                <h3 className="text-3xl text-white font-instrument tracking-tighter mb-5">{pillar.title}</h3>
-                <p className="text-white/40 text-sm leading-relaxed font-light mb-8">{pillar.desc}</p>
-                <div className="space-y-3">
-                  {pillar.items.map((item) => (
-                    <div key={item} className="flex items-center gap-3 text-white/45 text-xs font-light">
-                      <Zap className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </GlassCard>
+                ))}
+              </div>
             </motion.div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10">
+          {industryScenarios.map((scenario) => (
+            <div key={scenario.title} className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 flex gap-5 items-start">
+              <div className="w-12 h-12 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center flex-shrink-0">
+                <scenario.icon className="w-6 h-6 text-red-500" />
+              </div>
+              <div>
+                <h3 className="text-xl text-white font-instrument tracking-tight mb-3">{scenario.title}</h3>
+                <p className="text-white/40 text-sm font-light leading-relaxed">{scenario.desc}</p>
+              </div>
+            </div>
           ))}
         </div>
       </SectionContainer>
 
-      <SectionContainer className="py-10 md:py-16">
-        <div className="liquid-glass rounded-[3rem] md:rounded-[5rem] p-8 md:p-16 border border-white/5 relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(239,68,68,0.08)_0%,_transparent_70%)] pointer-events-none" />
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-5">
-              <span className="text-red-500 text-[10px] font-semibold tracking-[0.4em] uppercase block mb-6">
-                Automation Engine
-              </span>
-              <h2 className="text-4xl md:text-7xl text-white tracking-tighter font-instrument leading-[0.9] mb-8">
-                One connected flow from visitor to revenue.
-              </h2>
-              <p className="text-white/40 text-lg leading-relaxed font-light">
-                We connect the client&apos;s marketing channels, website, CRM, inbox, calendar, sheets, analytics, and AI logic into one operating system.
-              </p>
-            </div>
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                { label: 'Website Forms', icon: Workflow },
-                { label: 'Ad Platforms', icon: Target },
-                { label: 'SEO Data', icon: Search },
-                { label: 'CRM Pipeline', icon: Network },
-                { label: 'AI Reasoning', icon: Cpu },
-                { label: 'Dashboards', icon: BarChart3 }
-              ].map((node, index) => (
-                <motion.div
-                  key={node.label}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.06 }}
-                  className="rounded-2xl border border-white/5 bg-white/[0.03] p-5 flex items-center gap-4 hover:border-red-500/30 transition-all duration-500"
-                >
-                  <div className="w-11 h-11 rounded-2xl bg-white/[0.04] flex items-center justify-center">
-                    <node.icon className="w-5 h-5 text-red-500" />
-                  </div>
-                  <span className="text-white/70 text-sm font-medium">{node.label}</span>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </SectionContainer>
-
-      <SectionContainer>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-5">
+      <SectionContainer id="automation-systems">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          <div className="lg:col-span-4">
             <span className="text-red-500 text-[10px] font-semibold tracking-[0.4em] uppercase block mb-6">
-              Delivery Model
+              Also Automates
             </span>
-            <h2 className="text-5xl md:text-8xl text-white tracking-tighter font-instrument leading-none mb-8">
-              Built carefully. <span className="text-white/20 italic">Scaled aggressively.</span>
+            <h2 className="text-4xl md:text-5xl text-white tracking-tighter font-instrument leading-none mb-6">
+              Keep the rest visible.
             </h2>
-            <p className="text-white/40 text-lg leading-relaxed font-light mb-10">
-              Automation should not break the business when volume increases. We build the logic with testing, visibility, and clear human control points.
-            </p>
-            <Button variant="secondary" href="/services" className="px-10 py-5 text-xs tracking-[0.2em]">
-              View Pricing
-              <ArrowUpRight className="w-4 h-4" />
-            </Button>
           </div>
 
-          <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {processSteps.map((step, index) => (
-              <GlassCard key={step.title} className="min-h-[220px] flex flex-col justify-between">
-                <div className="flex items-center justify-between mb-8">
-                  <span className="text-red-500 text-[10px] uppercase font-bold tracking-[0.3em]">0{index + 1}</span>
-                  <Sparkles className="w-5 h-5 text-white/15" />
+          <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-4">
+            {automationPillars.map((pillar) => (
+              <GlassCard key={pillar.title} className="min-h-[190px]">
+                <div className="w-11 h-11 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-5">
+                  <pillar.icon className="w-5 h-5 text-red-500" />
                 </div>
-                <div>
-                  <h3 className="text-3xl text-white font-instrument tracking-tighter mb-4">{step.title}</h3>
-                  <p className="text-white/40 text-sm leading-relaxed font-light">{step.desc}</p>
+                <h3 className="text-xl text-white font-instrument tracking-tight mb-3">{pillar.title}</h3>
+                <p className="text-white/40 text-xs leading-relaxed font-light mb-4">{pillar.desc}</p>
+                <div className="flex flex-wrap gap-2">
+                  {pillar.items.map((item) => (
+                    <span key={item} className="text-white/45 text-[10px] border border-white/10 rounded-full px-2 py-1">{item}</span>
+                  ))}
                 </div>
               </GlassCard>
             ))}
@@ -332,20 +348,28 @@ const AIAutomation = () => {
         </div>
       </SectionContainer>
 
-      <SectionContainer className="pt-0 pb-24">
+      <SectionContainer className="pt-0 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <div className="lg:col-span-7 liquid-glass rounded-[3rem] md:rounded-[5rem] p-10 md:p-16 border border-white/5 relative overflow-hidden">
             <Calendar className="absolute right-10 top-10 w-28 h-28 text-white/5" />
             <span className="text-red-500 text-[10px] font-semibold tracking-[0.4em] uppercase block mb-6">
               Expected Impact
             </span>
-            <h2 className="text-4xl md:text-7xl text-white tracking-tighter font-instrument leading-[0.9] mb-10">
-              Automation becomes a high-ticket growth asset.
+            <h2 className="text-3xl md:text-5xl text-white tracking-tighter font-instrument leading-[0.95] mb-8">
+              Built in 4 focused steps.
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {processSteps.map((step, index) => (
+                <div key={step} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                  <Sparkles className="w-5 h-5 text-red-500 mb-5" />
+                  <div className="text-red-500 text-[10px] uppercase tracking-[0.3em] font-bold mb-2">0{index + 1}</div>
+                  <div className="text-white text-2xl font-instrument tracking-tight">{step}</div>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8">
               {outcomes.map((outcome) => (
-                <div key={outcome} className="flex items-start gap-3 text-white/45 text-sm font-light leading-relaxed">
-                  <CheckCircle2 className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                <div key={outcome} className="rounded-2xl border border-red-500/15 bg-red-500/[0.05] p-4 text-white/60 text-xs uppercase tracking-[0.16em] font-semibold">
                   {outcome}
                 </div>
               ))}
@@ -357,11 +381,11 @@ const AIAutomation = () => {
               <span className="text-red-500 text-[10px] font-semibold tracking-[0.4em] uppercase block mb-6">
                 Start Here
               </span>
-              <h3 className="text-4xl md:text-6xl text-white tracking-tighter font-instrument leading-[0.9] mb-8">
-                Let&apos;s find what can be automated first.
+              <h3 className="text-3xl md:text-5xl text-white tracking-tighter font-instrument leading-[0.95] mb-6">
+                Pick the first workflow.
               </h3>
-              <p className="text-white/40 text-lg leading-relaxed font-light">
-                We will audit the client&apos;s current ads, leads, SEO, tools, and manual tasks, then propose the fastest automation wins.
+              <p className="text-white/40 text-base leading-relaxed font-light">
+                We will map the fastest sellable automation for the client&apos;s current leads, calls, ads, and tools.
               </p>
             </div>
             <div className="flex flex-col gap-4">

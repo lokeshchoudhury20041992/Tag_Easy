@@ -88,9 +88,9 @@ const Services = () => {
     },
     {
       title: 'AI Automation',
-      desc: 'High-ticket AI systems for ads, lead generation, SEO, CRM workflows, reporting, and business intelligence.',
+      desc: 'High-ticket AI systems for voice calling assistants, lead capture, direct lead calling, lead generation, ad creation, CRM workflows, reporting, and business intelligence.',
       icon: Brain,
-      tags: ['Ads', 'Lead Gen', 'SEO', 'AI Agents'],
+      tags: ['Voice Calls', 'Lead Gen', 'Ad Creation', 'AI Agents'],
       video: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4'
     }
   ];
