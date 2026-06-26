@@ -149,6 +149,8 @@ export const serviceDetailPages = [
     glossarySlugs: ['technical-seo', 'local-seo', 'schema-markup', 'core-web-vitals'],
     formHeading: 'Request an SEO Audit',
     formCta: 'Get My SEO Audit',
+    shortAnswer:
+      'SEO is the combination of a crawlable technical foundation, content that answers real queries, and local signals that win your market. Tag Easy builds all three — technical, on-page, and local SEO — and ties them to lead tracking so you can see search turn into revenue.',
     cta: {
       heading: 'See exactly what is holding your rankings back',
       text: 'Book a free SEO audit and we will show you the highest-impact fixes for your site.',
@@ -189,6 +191,8 @@ export const serviceDetailPages = [
     glossarySlugs: ['technical-seo', 'react-seo', 'crawl-budget', 'core-web-vitals', 'schema-markup', 'indexnow'],
     formHeading: 'Request a Technical SEO Audit',
     formCta: 'Audit My Site',
+    shortAnswer:
+      'Technical SEO fixes the foundation that decides whether a site can rank: crawlability, indexing, canonicals, Core Web Vitals, and structured data. For React and modern sites it means making every route render real, indexable HTML before any JavaScript runs.',
     cta: {
       heading: 'Stop losing pages to the SPA indexing problem',
       text: 'We will crawl your site and show you which pages are invisible to Google — and why.',
@@ -229,6 +233,8 @@ export const serviceDetailPages = [
     glossarySlugs: ['local-seo', 'google-business-profile', 'schema-markup'],
     formHeading: 'Request a Local SEO Audit',
     formCta: 'Boost My Local Ranking',
+    shortAnswer:
+      'Local SEO helps a business appear in Google Maps and the local pack for "near me" searches — through Google Business Profile optimisation, consistent NAP signals, LocalBusiness schema, reviews, and location-relevant content — then captures the resulting calls and visits.',
     cta: {
       heading: 'Own the local pack in your area',
       text: 'Book a free local audit and we will benchmark you against the businesses outranking you.',
@@ -268,6 +274,8 @@ export const serviceDetailPages = [
     glossarySlugs: ['react-seo', 'core-web-vitals', 'technical-seo'],
     formHeading: 'Start a Website Project',
     formCta: 'Start My Website Project',
+    shortAnswer:
+      'High-performance website development means a fast, crawlable, conversion-focused site — engineered for Core Web Vitals in React or Next.js, SEO-ready with schema and clean URLs, and instrumented with analytics and lead tracking from day one.',
     cta: {
       heading: 'Build a website that ranks and converts',
       text: 'Tell us about your project and we will scope a fast, SEO-ready build.',
@@ -312,6 +320,8 @@ export const serviceDetailPages = [
     glossarySlugs: ['ai-automation', 'lead-automation', 'geo'],
     formHeading: 'Discuss an Automation Workflow',
     formCta: 'Plan My Automation',
+    shortAnswer:
+      'AI automation connects your forms, ads, CRM, and messaging into one system that captures every lead, qualifies intent with AI, follows up instantly over WhatsApp, email, or voice, and routes it to the right person — with human approval points where they matter.',
     cta: {
       heading: 'Stop losing leads to slow follow-up',
       text: 'Book a free automation audit and we will map your best voice, lead capture, lead calling, lead generation, or ad creation workflow.',
@@ -350,6 +360,8 @@ export const serviceDetailPages = [
     glossarySlugs: ['conversion-tracking', 'lead-automation'],
     formHeading: 'Get an Ads Strategy Call',
     formCta: 'Plan My Ad Campaigns',
+    shortAnswer:
+      'Paid ads management runs Google and Meta campaigns engineered for ROI — with proper conversion tracking, audience flows, and retargeting — and optimises against cost-per-lead so every rupee of ad spend is accountable to real business outcomes.',
     cta: {
       heading: 'Make every rupee of ad spend accountable',
       text: 'Book a free ads audit and we will show you where budget is leaking and how to fix it.',
@@ -388,6 +400,8 @@ export const serviceDetailPages = [
     glossarySlugs: [],
     formHeading: 'Discuss Your Brand',
     formCta: 'Start My Brand Project',
+    shortAnswer:
+      'Branding builds a clear, consistent visual identity and messaging system — logo, palette, typography, and tone of voice — that stays consistent across your website, ads, and Google Business Profile so every touchpoint reinforces the same, credible brand.',
     cta: {
       heading: 'Build a brand that looks as good as your work',
       text: 'Tell us about your brand and we will scope an identity that stays consistent everywhere.',
@@ -426,6 +440,8 @@ export const serviceDetailPages = [
     glossarySlugs: ['conversion-tracking'],
     formHeading: 'Set Up My Tracking',
     formCta: 'Fix My Analytics',
+    shortAnswer:
+      'Analytics and conversion tracking set up GA4 with clean events for forms, calls, and WhatsApp, attribute leads back to their source with UTMs, and build dashboards — all while keeping personal data and form content out of analytics tools.',
     cta: {
       heading: 'Finally know what drives your leads',
       text: 'Book a free tracking review and we will show you the gaps in your current setup.',
@@ -465,6 +481,8 @@ export const serviceDetailPages = [
     glossarySlugs: ['google-business-profile', 'local-seo'],
     formHeading: 'Optimise My Google Profile',
     formCta: 'Improve My Listing',
+    shortAnswer:
+      'Google Business Profile optimisation makes your listing the obvious local choice — accurate categories, complete services and photos, active posts and Q&A, steady reviews, and NAP that matches your website and schema — so you rank in Google Maps and the local pack.',
     cta: {
       heading: 'Get found first in Google Maps',
       text: 'Book a free profile review and we will show you exactly what to fix to rank locally.',

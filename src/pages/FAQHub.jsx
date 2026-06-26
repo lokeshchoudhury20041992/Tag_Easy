@@ -50,6 +50,18 @@ const FAQHub = () => (
         </p>
       </div>
 
+      {/* GEO short answer */}
+      <section className="short-answer mb-10">
+        <div className="liquid-glass rounded-[2rem] border border-white/5 border-l-2 border-l-red-500/60 p-7 md:p-9">
+          <h2 className="text-red-500 text-[10px] uppercase font-bold tracking-[0.4em] mb-4">Short answer</h2>
+          <p className="text-white/70 text-lg font-light leading-relaxed">
+            Tag Easy answers the most common questions about its SEO, AI automation, website development, Google
+            Business Profile, paid ads, analytics, pricing, and process — concisely and factually, so the answers are
+            easy to scan and easy for AI engines to quote.
+          </p>
+        </div>
+      </section>
+
       {/* Category jump links */}
       <div className="flex flex-wrap gap-2 mb-4">
         {faqCategories.map((c) => (

@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Clock } from 'lucide-react';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
+import ShortAnswer from '../components/ShortAnswer';
+import Sources from '../components/Sources';
 import { getPostBySlug, getRedirectMap } from '../lib/blogData';
 import { getAuthor } from '../lib/authors';
 import { buildBlogPostingSchema } from '../lib/seoSchema';
@@ -118,6 +120,8 @@ const BlogPost = () => {
             </Link>
           </div>
 
+          {post.shortAnswer && <ShortAnswer text={post.shortAnswer} className="!px-0 !py-0 mb-12" />}
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -180,6 +184,9 @@ const BlogPost = () => {
                 return null;
               })}
           </motion.div>
+
+          {/* Citation / source block */}
+          {post.sources && post.sources.length > 0 && <Sources sources={post.sources} />}
 
           {/* Author bio block (Task 3 — real named author from central source) */}
           <div className="mt-20 pt-10 border-t border-white/5">

@@ -24,6 +24,20 @@ const expertiseBySlug = {
 const cleanSameAs = (socials = {}) =>
   Object.values(socials).filter((href) => href && href !== '#' && href.startsWith('http'));
 
+// Authors who get their own public, indexable /authors/<slug> profile page.
+// Deliberately scoped to verifiable, non-hidden authors (see team hidden flags)
+// so author E-E-A-T pages only ever feature real, public individuals.
+export const INDEXABLE_AUTHOR_SLUGS = ['lokesh-choudhury'];
+
+export const isIndexableAuthor = (id) => INDEXABLE_AUTHOR_SLUGS.includes(id);
+
+// Author profiles link here; non-indexable authors keep their team URL (and are
+// never surfaced standalone because getAuthor() falls back to the house author).
+const authorProfilePath = (slug) =>
+  INDEXABLE_AUTHOR_SLUGS.includes(slug)
+    ? `${SITE_URL}/authors/${slug}/`
+    : `${SITE_URL}/team/${slug}/`;
+
 // Normalised author objects, keyed by slug.
 export const authors = teamMembers.reduce((acc, member) => {
   acc[member.slug] = {
@@ -32,7 +46,7 @@ export const authors = teamMembers.reduce((acc, member) => {
     role: member.role,
     bio: member.bio,
     image: member.image,
-    url: `${SITE_URL}/team/${member.slug}/`,
+    url: authorProfilePath(member.slug),
     sameAs: cleanSameAs(member.socials),
     expertise: expertiseBySlug[member.slug] || [],
     worksFor: 'Tag Easy',
@@ -51,3 +65,7 @@ export const getAuthor = (id) => {
   }
   return authors[DEFAULT_AUTHOR_ID];
 };
+
+// Authors that get a public, indexable profile page.
+export const getIndexableAuthors = () =>
+  INDEXABLE_AUTHOR_SLUGS.map((slug) => authors[slug]).filter(Boolean);

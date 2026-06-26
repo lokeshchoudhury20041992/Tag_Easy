@@ -13,6 +13,7 @@ import FAQ from '../components/FAQ';
 import Breadcrumbs from '../components/Breadcrumbs';
 import LeadForm from '../components/LeadForm';
 import RelatedLinks from '../components/RelatedLinks';
+import ShortAnswer from '../components/ShortAnswer';
 import TestimonialsSection from '../components/TestimonialsSection';
 import NotFound from './NotFound';
 import { getServiceDetail } from '../lib/servicesData';
@@ -117,6 +118,8 @@ const ServiceDetail = () => {
           </motion.div>
         </div>
       </SectionContainer>
+
+      <ShortAnswer text={svc.shortAnswer} />
 
       {/* Audience + problems + deliverables */}
       <SectionContainer>

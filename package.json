@@ -11,7 +11,8 @@
     "indexnow": "node scripts/indexnow.mjs",
     "seo:check": "node scripts/seo-check.mjs",
     "links:check": "node scripts/links-check.mjs",
-    "seo:report": "node scripts/seo-report.mjs"
+    "seo:report": "node scripts/seo-report.mjs",
+    "content:freshness": "node scripts/content-freshness.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

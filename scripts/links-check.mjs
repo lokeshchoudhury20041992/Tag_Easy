@@ -15,6 +15,7 @@ import { getIndexablePosts, getRedirectMap } from '../src/lib/blogData.js';
 import { glossaryTerms } from '../src/lib/glossaryData.js';
 import { faqCategories } from '../src/lib/faqData.js';
 import { getRelatedLinks } from '../src/lib/internalLinks.js';
+import { redirectByFrom } from '../src/lib/redirects.js';
 
 const SITE_URL = 'https://tageasy.org';
 const srcDir = path.resolve('src');
@@ -31,12 +32,20 @@ const validRoutes = new Set(pages.map((p) => p.path));
 validRoutes.add('/');
 validRoutes.add('/seo-dashboard'); // SPA-only shell route
 validRoutes.add('/404'); // real 404.html (served via _redirects), used by invalid-slug redirects
-const staticFiles = new Set(['/sitemap.xml', '/robots.txt', '/llms.txt', '/llms-full.txt', '/humans.txt']);
+const staticFiles = new Set([
+  '/sitemap.xml',
+  '/sitemaps/pages.xml', '/sitemaps/services.xml', '/sitemaps/locations.xml',
+  '/sitemaps/blog.xml', '/sitemaps/images.xml',
+  '/robots.txt', '/llms.txt', '/llms-full.txt', '/humans.txt',
+]);
 const glossarySlugs = new Set(glossaryTerms.map((t) => t.slug));
 const serviceSlugs = new Set(serviceDetailPages.map((s) => s.slug));
 const publishedCsSlugs = new Set(getPublishedCaseStudies().map((c) => c.slug));
 const validFaqCategories = new Set(faqCategories);
 const redirectMap = getRedirectMap();
+// Site-wide path redirects (Task 25): a `from` is a valid (redirecting) target,
+// but internal links should use the canonical `to` — flagged as a warning.
+const redirectFroms = new Set(Object.keys(redirectByFrom));
 
 const norm = (route) => (route === '/' ? '/' : route.replace(/\/+$/, ''));
 
@@ -50,6 +59,7 @@ const isValidTarget = (raw) => {
   if (!basePart) return { ok: true }; // pure in-page anchor
   if (validRoutes.has(base)) return { ok: true };
   if (staticFiles.has(basePart) || staticFiles.has(base)) return { ok: true };
+  if (redirectFroms.has(base)) return { ok: true }; // redirects (warned separately)
   return { ok: false, reason: 'no matching route' };
 };
 
@@ -125,6 +135,10 @@ const checkSourceLinks = async () => {
         if (blogSlug && redirectMap[blogSlug]) {
           warn(`${rel}: link to redirected blog URL ${target} → use /blog/${redirectMap[blogSlug]}`);
         }
+        // Site-wide path redirects (Task 25): prefer the canonical destination.
+        if (redirectByFrom[base]) {
+          warn(`${rel}: link to redirected path ${target} → use ${redirectByFrom[base].to}`);
+        }
       }
     }
   };
@@ -134,21 +148,24 @@ const checkSourceLinks = async () => {
 // --- 3) Sitemap URLs resolve (only if dist built) -------------------------
 
 const checkSitemap = async () => {
-  let xml;
+  // Validate route <loc>s across every child sitemap under /sitemaps/.
+  let childFiles = [];
   try {
-    await access(path.join(distDir, 'sitemap.xml'));
-    xml = await readFile(path.join(distDir, 'sitemap.xml'), 'utf8');
+    childFiles = (await readdir(path.join(distDir, 'sitemaps'))).filter((f) => f.endsWith('.xml'));
   } catch {
-    warn('dist/sitemap.xml not found — run `npm run build` first to validate sitemap URLs');
+    warn('dist/sitemaps/*.xml not found — run `npm run build` first to validate sitemap URLs');
     return;
   }
-  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  for (const loc of locs) {
-    const route = norm(loc.replace(SITE_URL, ''));
-    if (!validRoutes.has(route || '/')) err(`sitemap.xml: <loc> ${loc} has no matching route`);
-    // Sitemap should never list a noindex route.
-    const page = pages.find((p) => p.path === (route || '/'));
-    if (page && page.noindex) err(`sitemap.xml: lists noindex route ${route}`);
+  for (const f of childFiles) {
+    const xml = await readFile(path.join(distDir, 'sitemaps', f), 'utf8');
+    const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+    for (const loc of locs) {
+      const route = norm(loc.replace(SITE_URL, ''));
+      if (!validRoutes.has(route || '/')) err(`sitemaps/${f}: <loc> ${loc} has no matching route`);
+      // Sitemap should never list a noindex route.
+      const page = pages.find((p) => p.path === (route || '/'));
+      if (page && page.noindex) err(`sitemaps/${f}: lists noindex route ${route}`);
+    }
   }
 };
 

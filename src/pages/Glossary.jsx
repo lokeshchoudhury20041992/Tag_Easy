@@ -50,6 +50,18 @@ const Glossary = () => (
         </p>
       </div>
 
+      {/* GEO short answer */}
+      <section className="short-answer mb-16">
+        <div className="liquid-glass rounded-[2rem] border border-white/5 border-l-2 border-l-red-500/60 p-7 md:p-9">
+          <h2 className="text-red-500 text-[10px] uppercase font-bold tracking-[0.4em] mb-4">Short answer</h2>
+          <p className="text-white/70 text-lg font-light leading-relaxed">
+            This glossary gives plain-language, extractable definitions of the core SEO, AI automation, local SEO,
+            schema, Core Web Vitals, IndexNow, and GEO terms Tag Easy uses with clients — each with a short definition
+            and an expanded explanation.
+          </p>
+        </div>
+      </section>
+
       {/* Quick index */}
       <div className="flex flex-wrap gap-2 mb-16">
         {glossaryTerms.map((t) => (

@@ -22,6 +22,12 @@ export const blogPosts = [
   {
     id: 1,
     slug: 'why-react-pages-not-indexing-google',
+    shortAnswer:
+      'React single-page apps often serve one empty HTML shell for every route, so Google indexes only the homepage. The durable fix is to prerender or server-render every route so each page ships real, indexable HTML — with its own title, canonical, structured data, and crawlable body — before any JavaScript runs.',
+    sources: [
+      { title: 'JavaScript SEO Basics', url: 'https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics', publisher: 'Google Search Central', accessedDate: '2026-06-26' },
+      { title: 'Google Search Central Documentation', url: 'https://developers.google.com/search/docs', publisher: 'Google', accessedDate: '2026-06-26' },
+    ],
     title: 'Why Your React Website Pages Are Not Indexing on Google (and How to Fix It)',
     excerpt:
       'React single-page apps often serve one empty HTML shell for every route, so Google indexes only the homepage. Here is exactly why it happens and the prerendering fix.',
@@ -49,6 +55,8 @@ export const blogPosts = [
   {
     id: 2,
     slug: 'ai-automation-lead-follow-up-systems',
+    shortAnswer:
+      'A lead automation system removes the gap between a lead arriving and the first response: it captures the lead, qualifies intent (often with an AI step), routes it into the CRM, notifies the right person, and sends an instant follow-up over WhatsApp or email — with human approval points where they matter.',
     title: 'AI Automation for Lead Follow-Up: Stop Losing Leads to Slow Responses',
     excerpt:
       'Most leads go cold because no one replies fast enough. Here is how to build an AI automation system that captures, qualifies, and follows up with leads in seconds.',
@@ -75,6 +83,11 @@ export const blogPosts = [
   {
     id: 3,
     slug: 'core-web-vitals-checklist-for-marketing-sites',
+    shortAnswer:
+      'Core Web Vitals measure real-world page experience — loading (LCP), interactivity (INP), and visual stability (CLS). To pass, give the hero a lightweight poster and preload it, set width and height on every image to prevent layout shift, keep JavaScript lean and deferred, and serve responsive WebP/AVIF images.',
+    sources: [
+      { title: 'Web Vitals', url: 'https://web.dev/articles/vitals', publisher: 'web.dev (Google)', accessedDate: '2026-06-26' },
+    ],
     title: 'A Practical Core Web Vitals Checklist for Marketing Websites',
     excerpt:
       'Core Web Vitals are a ranking and conversion signal. This is the practical checklist we use to ship fast, stable pages — especially on mobile.',
@@ -101,6 +114,11 @@ export const blogPosts = [
   {
     id: 4,
     slug: 'local-seo-google-business-profile-guide',
+    shortAnswer:
+      'To win "near me" searches, optimise your Google Business Profile (accurate primary category, services, photos, and reviews), keep NAP details identical across the web, add LocalBusiness schema, and create locally-relevant content — then track the calls and direction requests that result.',
+    sources: [
+      { title: 'Google Business Profile Help', url: 'https://support.google.com/business', publisher: 'Google', accessedDate: '2026-06-26' },
+    ],
     title: 'Local SEO: How to Win "Near Me" Searches with Google Business Profile',
     excerpt:
       'For local businesses, the Google Business Profile and consistent NAP signals decide who shows up in the map pack. Here is how to do local SEO properly.',
@@ -127,6 +145,12 @@ export const blogPosts = [
   {
     id: 5,
     slug: 'generative-engine-optimization-geo-guide',
+    shortAnswer:
+      'Generative Engine Optimization (GEO) makes content easy for AI answer engines like ChatGPT, Perplexity, and Google AI Overviews to extract and cite: write clear factual claims, add structured data (Organization, Service, FAQPage, Article, Person), strengthen your entity with consistent sameAs links and NAP, and publish AI-readable files like llms.txt.',
+    sources: [
+      { title: 'Schema.org', url: 'https://schema.org/', publisher: 'Schema.org', accessedDate: '2026-06-26' },
+      { title: 'Structured Data General Guidelines', url: 'https://developers.google.com/search/docs/appearance/structured-data/sd-policies', publisher: 'Google Search Central', accessedDate: '2026-06-26' },
+    ],
     title: 'Generative Engine Optimization (GEO): Getting Cited by ChatGPT and AI Overviews',
     excerpt:
       'AI answer engines are a new discovery channel. GEO is how you structure content and entities so ChatGPT, Perplexity, and Google AI Overviews cite your business.',
@@ -153,6 +177,12 @@ export const blogPosts = [
   {
     id: 6,
     slug: 'schema-markup-that-actually-moves-rankings',
+    shortAnswer:
+      'The schema types worth implementing are Organization and LocalBusiness (entity), Service (offerings), FAQPage (rich snippets and AI-citable Q&A), BreadcrumbList, and Article/Person (authorship). Use valid JSON-LD in one graph, make the markup match visible content, and validate with the Rich Results Test.',
+    sources: [
+      { title: 'Schema.org', url: 'https://schema.org/', publisher: 'Schema.org', accessedDate: '2026-06-26' },
+      { title: 'Structured Data General Guidelines', url: 'https://developers.google.com/search/docs/appearance/structured-data/sd-policies', publisher: 'Google Search Central', accessedDate: '2026-06-26' },
+    ],
     title: 'Schema Markup That Actually Moves Rankings (and AI Citations)',
     excerpt:
       'Not all structured data is worth your time. Here are the schema types that genuinely help with rich results and AI answer citations — and how to keep them valid.',
@@ -179,6 +209,12 @@ export const blogPosts = [
   {
     id: 7,
     slug: 'why-react-websites-struggle-with-seo',
+    shortAnswer:
+      'React sites struggle with SEO because a standard single-page app ships near-empty HTML and builds pages in the browser, so crawlers and AI engines often see nothing. The fix is to render real, route-specific HTML before JavaScript runs — via SSR, static generation, or prerendering — plus unique per-route metadata, canonicals, and structured data.',
+    sources: [
+      { title: 'JavaScript SEO Basics', url: 'https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics', publisher: 'Google Search Central', accessedDate: '2026-06-26' },
+      { title: 'Web Vitals', url: 'https://web.dev/articles/vitals', publisher: 'web.dev (Google)', accessedDate: '2026-06-26' },
+    ],
     title: 'Why React Websites Struggle With SEO — And How to Fix Them',
     excerpt:
       'React sites look great in the browser but often render blank to crawlers. Here is why React struggles with SEO and the rendering fixes that recover rankings.',
@@ -216,6 +252,11 @@ export const blogPosts = [
   {
     id: 8,
     slug: 'google-business-profile-optimization-checklist',
+    shortAnswer:
+      'To optimise a Google Business Profile, complete every field and choose an accurate primary category, keep NAP identical everywhere, earn and respond to reviews, add photos, posts, and Q&A regularly, back the profile with citations and LocalBusiness schema, and track calls and direction requests.',
+    sources: [
+      { title: 'Google Business Profile Help', url: 'https://support.google.com/business', publisher: 'Google', accessedDate: '2026-06-26' },
+    ],
     title: 'Google Business Profile Optimization: The Local SEO Checklist Every Business Needs',
     excerpt:
       'Your Google Business Profile decides whether you appear in the map pack. This is the practical local SEO checklist we use to win more calls and bookings.',

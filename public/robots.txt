@@ -26,4 +26,5 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
+# Sitemap index — declares the child sitemaps under /sitemaps/
 Sitemap: https://tageasy.org/sitemap.xml

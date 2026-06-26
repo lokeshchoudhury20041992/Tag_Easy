@@ -31,9 +31,17 @@ const run = async () => {
   const indexable = pages.filter((p) => !p.noindex);
   const noindex = pages.filter((p) => p.noindex);
 
-  // Sitemap URL count
-  const sitemap = await readIn(distDir, 'sitemap.xml');
-  const sitemapUrls = sitemap ? (sitemap.match(/<loc>/g) || []).length : 0;
+  // Sitemap URL count — sum of all URL sitemaps under /sitemaps/ (excl. images).
+  let sitemap = null;
+  let sitemapUrls = 0;
+  try {
+    const childXmls = (await readdir(path.join(distDir, 'sitemaps')))
+      .filter((f) => f.endsWith('.xml') && f !== 'images.xml');
+    for (const f of childXmls) {
+      const xml = await readIn(distDir, `sitemaps/${f}`);
+      if (xml) { sitemap = xml; sitemapUrls += (xml.match(/<loc>/g) || []).length; }
+    }
+  } catch { /* dist not built */ }
 
   // Schema coverage across prerendered indexable pages.
   let withSchema = 0;

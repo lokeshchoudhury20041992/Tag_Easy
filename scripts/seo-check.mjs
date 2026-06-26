@@ -15,7 +15,12 @@ const SITE_URL = 'https://tageasy.org';
 // Routes that intentionally exist only as the SPA shell (no prerendered file).
 const SPA_ONLY_ROUTES = new Set(['/seo-dashboard']);
 // Static files that are valid internal link targets.
-const STATIC_TARGETS = new Set(['/sitemap.xml', '/robots.txt', '/llms.txt']);
+const STATIC_TARGETS = new Set([
+  '/sitemap.xml',
+  '/sitemaps/pages.xml', '/sitemaps/services.xml', '/sitemaps/locations.xml',
+  '/sitemaps/blog.xml', '/sitemaps/images.xml',
+  '/robots.txt', '/llms.txt',
+]);
 
 const errors = [];
 const warnings = [];
@@ -40,6 +45,11 @@ const requiredSchemaFor = (route) => {
   if (route.startsWith('/services/')) return ['Service', 'BreadcrumbList'];
   if (route.startsWith('/locations/')) return ['ProfessionalService', 'BreadcrumbList'];
   if (route.startsWith('/case-studies/') && route !== '/case-studies') return ['Article', 'BreadcrumbList'];
+  if (route.startsWith('/industries/')) return ['Service', 'BreadcrumbList'];
+  if (route === '/compare') return ['CollectionPage', 'BreadcrumbList'];
+  if (route.startsWith('/compare/')) return ['Article', 'BreadcrumbList'];
+  if (route === '/learn' || route.startsWith('/learn/')) return ['CollectionPage', 'BreadcrumbList'];
+  if (route.startsWith('/authors/')) return ['Person', 'BreadcrumbList'];
   return [];
 };
 
@@ -201,12 +211,23 @@ const checkLinks = () => {
 const run = async () => {
   for (const page of pages) await checkPage(page);
 
-  // Orphan check: every indexable page must appear in the sitemap.
-  const sitemap = await read('sitemap.xml');
+  // Sitemap index (/sitemap.xml) + child sitemaps under /sitemaps/. Scalable:
+  // every *.xml child is discovered and validated automatically.
+  const sitemapIndex = await read('sitemap.xml');
+  let childFiles = [];
+  try {
+    childFiles = (await readdir(path.join(distDir, 'sitemaps'))).filter((f) => f.endsWith('.xml')).sort();
+  } catch { /* dist not built yet */ }
+  const childContents = {};
+  for (const f of childFiles) childContents[f] = await read(`sitemaps/${f}`);
+  const urlChildFiles = childFiles.filter((f) => f !== 'images.xml');
+  const combinedUrlXml = urlChildFiles.map((f) => childContents[f] || '').join('\n');
+
+  // Orphan check: every indexable page must appear in a URL sitemap.
   for (const page of pages) {
     if (page.noindex) continue;
-    if (sitemap && !sitemap.includes(canonicalFor(page.path))) {
-      warn(`Possible orphan: ${page.path} is indexable but not in sitemap.xml`);
+    if (urlChildFiles.length && !combinedUrlXml.includes(canonicalFor(page.path))) {
+      warn(`Possible orphan: ${page.path} is indexable but not in any URL sitemap`);
     }
   }
 
@@ -218,19 +239,32 @@ const run = async () => {
     if (count > 1) err(`Duplicate canonical used by ${count} pages: ${can}`);
   }
 
-  // Sitemap
-  if (!sitemap) err('sitemap.xml is missing');
+  // Sitemap index — must reference every child sitemap present under /sitemaps/.
+  if (!sitemapIndex) err('sitemap.xml is missing');
+  else if (!sitemapIndex.includes('<sitemapindex')) err('sitemap.xml is not a valid sitemap index (no <sitemapindex>)');
   else {
-    if (!sitemap.includes('<urlset')) err('sitemap.xml is not valid XML (no <urlset>)');
-    else pass('sitemap.xml present and well-formed');
-    if (sitemap.includes(`${SITE_URL}/404`)) err('sitemap includes the 404 page');
-    // No noindex page should appear in sitemap
-    for (const page of pages) {
-      if (page.noindex && sitemap.includes(canonicalFor(page.path))) {
-        err(`sitemap includes noindex page ${page.path}`);
-      }
+    pass('sitemap.xml present and is a valid sitemap index');
+    if (!childFiles.length) err('no child sitemaps found under dist/sitemaps/');
+    for (const f of childFiles) {
+      if (!sitemapIndex.includes(`${SITE_URL}/sitemaps/${f}`)) err(`sitemap index does not reference sitemaps/${f}`);
     }
   }
+
+  // Each child sitemap must be a well-formed <urlset> with no 404 entry.
+  for (const f of childFiles) {
+    const xml = childContents[f];
+    if (!xml) { err(`sitemaps/${f} is missing`); continue; }
+    if (!xml.includes('<urlset')) err(`sitemaps/${f} is not valid XML (no <urlset>)`);
+    else pass(`sitemaps/${f} present and well-formed`);
+    if (xml.includes(`${SITE_URL}/404`)) err(`sitemaps/${f} includes the 404 page`);
+  }
+  // No noindex page should appear in any URL sitemap.
+  for (const page of pages) {
+    if (page.noindex && combinedUrlXml.includes(canonicalFor(page.path))) {
+      err(`URL sitemap includes noindex page ${page.path}`);
+    }
+  }
+  if (!childFiles.includes('images.xml')) err('sitemaps/images.xml is missing');
 
   // Required root files
   for (const f of ['robots.txt', 'llms.txt', 'llms-full.txt', 'humans.txt', 'security.txt']) {

@@ -5,8 +5,9 @@
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { pages, navLinks, siteUrl } from './pages.mjs';
+import { pages, navLinks, siteUrl, imageSitemapEntries } from './pages.mjs';
 import { renderOgSvg, ogKeyForPath } from './ogImage.mjs';
+import { redirects, toRedirectRules } from '../src/lib/redirects.js';
 
 const defaultImage = `${siteUrl}/logo.jpg`;
 const buildDate = new Date().toISOString().split('T')[0];
@@ -109,24 +110,101 @@ const writeOgImages = async () => {
   return pages.length;
 };
 
-// --- Sitemap — only indexable canonical URLs ------------------------------
+// --- Sitemaps — only indexable canonical URLs, split by section -----------
 
-const buildSitemap = () => {
-  const urls = pages
-    .filter((page) => !page.noindex)
-    .map((page) => `  <url>
+const urlEntry = (page) => `  <url>
     <loc>${canonicalFor(page.path)}</loc>
     <lastmod>${page.lastmod || buildDate}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-  </url>`)
+  </url>`;
+
+const buildUrlset = (list) => `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${list.map(urlEntry).join('\n')}
+</urlset>
+`;
+
+// Scalable section-based sitemaps. Each indexable page is assigned to the FIRST
+// matching section below; `pages.xml` is the catch-all and MUST stay last. To
+// add a new child sitemap (e.g. industries.xml) just add a section here — it is
+// then written under /sitemaps/ and referenced by the index automatically.
+const URL_SECTIONS = [
+  { file: 'services.xml', match: (p) => p.path.startsWith('/services/') },
+  { file: 'locations.xml', match: (p) => p.path.startsWith('/locations/') },
+  { file: 'blog.xml', match: (p) => /^\/blog\/.+/.test(p.path) },
+  { file: 'pages.xml', match: () => true },
+];
+const indexablePages = pages.filter((page) => !page.noindex);
+const sectionFileFor = (page) => URL_SECTIONS.find((s) => s.match(page)).file;
+const urlSections = URL_SECTIONS.map((s) => ({
+  file: s.file,
+  urls: indexablePages.filter((p) => sectionFileFor(p) === s.file),
+})).filter((s) => s.urls.length > 0);
+
+// --- Image sitemap (Task 23) — real public images per indexable page -------
+
+const absUrl = (p) => (p.startsWith('http') ? p : `${siteUrl}${p}`);
+
+const buildImageSitemap = () => {
+  const urls = imageSitemapEntries
+    .map((entry) => {
+      const images = entry.images
+        .map(
+          (img) => `    <image:image>
+      <image:loc>${escapeHtml(absUrl(img.url))}</image:loc>
+      <image:title>${escapeHtml(img.title)}</image:title>
+    </image:image>`
+        )
+        .join('\n');
+      return `  <url>
+    <loc>${canonicalFor(entry.loc)}</loc>
+${images}
+  </url>`;
+    })
     .join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${urls}
 </urlset>
 `;
+};
+
+// --- Sitemap index (Task 24) — /sitemap.xml references child sitemaps -------
+// Child sitemaps live under /sitemaps/ (pages.xml + images.xml); /sitemap.xml is
+// the single well-known entry point that robots and search engines discover.
+
+const childSitemaps = [...urlSections.map((s) => `sitemaps/${s.file}`), 'sitemaps/images.xml'];
+
+const buildSitemapIndex = () =>
+  `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${childSitemaps
+  .map(
+    (child) => `  <sitemap>
+    <loc>${siteUrl}/${child}</loc>
+    <lastmod>${buildDate}</lastmod>
+  </sitemap>`
+  )
+  .join('\n')}
+</sitemapindex>
+`;
+
+// --- Site-wide path redirects (Task 25) -----------------------------------
+// Prepend managed redirect rules to dist/_redirects so they take precedence
+// over the SPA + catch-all rules. No-op when there are no redirects. Idempotent.
+const REDIRECT_MARKER = '# --- managed redirects (src/lib/redirects.js) ---';
+
+const applyRedirects = async () => {
+  if (!redirects.length) return 0;
+  const redirectsPath = path.join(distDir, '_redirects');
+  let existing = '';
+  try { existing = await readFile(redirectsPath, 'utf8'); } catch { /* not copied yet */ }
+  const base = existing.split(REDIRECT_MARKER)[0].trimEnd();
+  const block = `${REDIRECT_MARKER}\n${toRedirectRules()}`;
+  await writeFile(redirectsPath, `${block}\n\n${base}\n`);
+  return redirects.length;
 };
 
 // --- Run ------------------------------------------------------------------
@@ -147,6 +225,20 @@ const notFoundPage = {
 await writeFile(path.join(distDir, '404.html'), renderPage(template, notFoundPage));
 
 const ogCount = await writeOgImages();
-await writeFile(path.join(distDir, 'sitemap.xml'), buildSitemap());
+// Child sitemaps under /sitemaps/, with /sitemap.xml as the index.
+const sitemapsDir = path.join(distDir, 'sitemaps');
+await mkdir(sitemapsDir, { recursive: true });
+await Promise.all(urlSections.map((s) => writeFile(path.join(sitemapsDir, s.file), buildUrlset(s.urls))));
+await writeFile(path.join(sitemapsDir, 'images.xml'), buildImageSitemap());
+await writeFile(path.join(distDir, 'sitemap.xml'), buildSitemapIndex());
 
-console.log(`Prerendered SEO HTML for ${pages.length} routes (+ 404.html). Generated ${ogCount} OG images.`);
+// Apply site-wide path redirects to the host redirects file (Task 25).
+const redirectsApplied = await applyRedirects();
+
+const imageCount = imageSitemapEntries.reduce((n, e) => n + e.images.length, 0);
+const sectionSummary = urlSections.map((s) => `${s.file} (${s.urls.length})`).join(', ');
+console.log(
+  `Prerendered SEO HTML for ${pages.length} routes (+ 404.html). Generated ${ogCount} OG images. ` +
+    `Sitemap index → ${sectionSummary}, images.xml (${imageCount} images / ${imageSitemapEntries.length} pages). ` +
+    `Redirect rules applied: ${redirectsApplied}.`
+);

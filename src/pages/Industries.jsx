@@ -1,12 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  ShoppingCart, Landmark, Cpu, BarChart3, 
-  Building2, GraduationCap, Plane, HeartPulse 
+import { Link } from 'react-router-dom';
+import {
+  ShoppingCart, Building2, HeartPulse, GraduationCap,
+  Store, Rocket, Briefcase, ArrowUpRight,
 } from 'lucide-react';
 import { getAuditCalendarUrl } from '../lib/utils';
 import SEO from '../components/SEO';
 import { organizationSchema, buildBreadcrumbSchema } from '../lib/seoSchema';
+import { getIndexableIndustries } from '../lib/industriesData';
 
 const industriesSchema = {
   '@context': 'https://schema.org',
@@ -19,33 +21,49 @@ const industriesSchema = {
   ],
 };
 
-const IndustryCard = ({ icon: Icon, title, desc, i }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ delay: i * 0.1 }}
-    viewport={{ once: true }}
-    className="liquid-glass p-8 rounded-3xl group hover:bg-white/[0.04] transition-all border border-white/5"
-  >
-    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform">
-      <Icon className="w-6 h-6" />
-    </div>
-    <h3 className="text-2xl font-instrument text-white mb-4 group-hover:italic transition-all">{title}</h3>
-    <p className="text-white/40 text-sm leading-relaxed">{desc}</p>
-  </motion.div>
-);
+// Icon per industry slug (keeps the page's existing visual language).
+const ICONS = {
+  healthcare: HeartPulse,
+  'real-estate': Building2,
+  ecommerce: ShoppingCart,
+  education: GraduationCap,
+  'local-businesses': Store,
+  startups: Rocket,
+  'professional-services': Briefcase,
+};
+
+const IndustryCard = ({ slug, title, desc, i }) => {
+  const Icon = ICONS[slug] || Briefcase;
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: i * 0.08 }}
+      viewport={{ once: true }}
+    >
+      <Link
+        to={`/industries/${slug}`}
+        className="liquid-glass p-8 rounded-3xl group hover:bg-white/[0.04] transition-all border border-white/5 hover:border-red-500/40 flex flex-col h-full"
+      >
+        <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center mb-6 text-white group-hover:scale-110 transition-transform">
+          <Icon className="w-6 h-6" />
+        </div>
+        <h3 className="text-2xl font-instrument text-white mb-4 group-hover:italic transition-all">{title}</h3>
+        <p className="text-white/40 text-sm leading-relaxed mb-6 flex-1">{desc}</p>
+        <span className="text-red-500 text-[10px] uppercase tracking-widest font-bold flex items-center gap-1">
+          Explore {title} <ArrowUpRight className="w-3 h-3" />
+        </span>
+      </Link>
+    </motion.div>
+  );
+};
 
 const Industries = () => {
-  const industries = [
-    { title: "E-Commerce", icon: ShoppingCart, desc: "Scale your revenue with high-performance storefronts and technical SEO that dominates the SERPs." },
-    { title: "FinTech", icon: Landmark, desc: "Secure, reliable, and compliant digital banking and payment systems built for heavy traffic." },
-    { title: "SaaS & Tech", icon: Cpu, desc: "Engineering-first growth strategies for software platforms looking to disrupt and scale." },
-    { title: "Data Analytics", icon: BarChart3, desc: "Transform your raw data into actionable business intelligence with modular AI logic." },
-    { title: "Real Estate", icon: Building2, desc: "Premium digital experiences for luxury properties and large-scale asset management." },
-    { title: "Education", icon: GraduationCap, desc: "Modernize learning with high-speed LMS architectures and technical SEO for institutions." },
-    { title: "Travel & Hospitality", icon: Plane, desc: "Dynamic booking engines and localized digital footprints for global travelers." },
-    { title: "Healthcare", icon: HeartPulse, desc: "Patient-first digital care portals and performance-driven visibility for tech-enabled clinics." }
-  ];
+  const industries = getIndexableIndustries().map((ind) => ({
+    slug: ind.slug,
+    title: ind.name,
+    desc: ind.tagline,
+  }));
 
   return (
     <main className="min-h-screen bg-black pt-24 pb-16">
@@ -73,7 +91,7 @@ const Industries = () => {
 
       <section className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {industries.map((item, i) => (
-          <IndustryCard key={i} {...item} i={i} />
+          <IndustryCard key={item.slug} {...item} i={i} />
         ))}
       </section>
 

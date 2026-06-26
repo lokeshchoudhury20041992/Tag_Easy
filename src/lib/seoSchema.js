@@ -20,6 +20,13 @@ const address = {
   addressCountry: 'IN',
 };
 
+// Stable @id anchors used across the entity graph (Task — advanced schema graph
+// linking). Centralised so every node references the same canonical identifiers.
+export const WEBSITE_ID = `${SITE_URL}/#website`;
+export const LOCALBUSINESS_ID = `${SITE_URL}/#localbusiness`;
+export const SERVICE_CATALOG_ID = `${SITE_URL}/#service-catalog`;
+export const FOUNDER_ID = `${SITE_URL}/authors/lokesh-choudhury/#person`;
+
 export const organizationSchema = {
   '@type': 'Organization',
   '@id': ORG_ID,
@@ -36,6 +43,7 @@ export const organizationSchema = {
   areaServed: ['Kolkata', 'West Bengal', 'India'],
   founder: {
     '@type': 'Person',
+    '@id': FOUNDER_ID,
     name: 'Lokesh Choudhury',
     jobTitle: 'Founder & Director',
   },
@@ -47,12 +55,16 @@ export const organizationSchema = {
     areaServed: 'IN',
     availableLanguage: ['en'],
   },
+  // Connect the entity graph: Organization → LocalBusiness + OfferCatalog.
+  // These @id references resolve to nodes defined on the relevant pages.
+  subOrganization: { '@id': LOCALBUSINESS_ID },
+  hasOfferCatalog: { '@id': SERVICE_CATALOG_ID },
   sameAs,
 };
 
 export const localBusinessSchema = {
   '@type': 'ProfessionalService',
-  '@id': `${SITE_URL}/#localbusiness`,
+  '@id': LOCALBUSINESS_ID,
   name: 'Tag Easy',
   legalName: 'TAG EASY LLP',
   url: SITE_URL,
@@ -63,6 +75,7 @@ export const localBusinessSchema = {
   address,
   areaServed: ['Kolkata', 'West Bengal', 'India'],
   openingHours: 'Mo-Fr 09:00-19:00',
+  parentOrganization: { '@id': ORG_ID },
   sameAs,
 };
 
@@ -182,12 +195,25 @@ export const buildBlogPostingSchema = (post, author) => {
         dateModified: post.dateModified || post.date,
         articleSection: post.category,
         keywords: (post.keywords || []).join(', '),
+        ...(post.sources && post.sources.length
+          ? {
+              citation: post.sources.map((s) => ({
+                '@type': 'CreativeWork',
+                name: s.title,
+                url: s.url,
+                ...(s.publisher ? { publisher: { '@type': 'Organization', name: s.publisher } } : {}),
+              })),
+            }
+          : {}),
         mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+        isPartOf: { '@id': WEBSITE_ID },
         author: author
           ? {
               '@type': 'Person',
+              ...(author.url ? { '@id': `${author.url.replace(/\/$/, '')}#person` } : {}),
               name: author.name,
               url: author.url,
+              worksFor: { '@id': ORG_ID },
               ...(author.sameAs && author.sameAs.length ? { sameAs: author.sameAs } : {}),
             }
           : { '@id': ORG_ID },
@@ -255,6 +281,8 @@ export const buildServiceDetailSchema = ({ name, description, path, faqs = [], b
       serviceType: name,
       url,
       provider: { '@id': ORG_ID },
+      isPartOf: { '@id': WEBSITE_ID },
+      mainEntityOfPage: url,
       areaServed: ['Kolkata', 'West Bengal', 'India'],
     },
   ];
@@ -267,6 +295,8 @@ export const buildServiceDetailSchema = ({ name, description, path, faqs = [], b
     graph.push({
       '@type': 'FAQPage',
       '@id': `${url}#faq`,
+      // Link the FAQ back to the Service it documents (Service → FAQ).
+      about: { '@id': `${url}#service` },
       mainEntity: faqs.map((faq) => ({
         '@type': 'Question',
         name: faq.question,
@@ -359,9 +389,15 @@ export const buildCaseStudyArticleSchema = (cs) => ({
       headline: `${cs.title} Case Study`,
       description: cs.summary || cs.overview || cs.problem,
       image: cs.image ? `${SITE_URL}${cs.image}` : `${SITE_URL}/logo.jpg`,
-      about: cs.clientType,
+      // Link the case study to the client type AND the Services it demonstrates
+      // (CaseStudy Article → Service) so engines connect proof to offerings.
+      about: [
+        ...(cs.clientType ? [{ '@type': 'Thing', name: cs.clientType }] : []),
+        ...(cs.relatedServices || []).map((s) => ({ '@id': `${SITE_URL}/services/${s}/#service` })),
+      ],
       author: { '@id': ORG_ID },
       publisher: { '@id': ORG_ID },
+      isPartOf: { '@id': WEBSITE_ID },
       mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}${cs.path}/` },
     },
     buildBreadcrumbSchema([
@@ -414,3 +450,157 @@ export const buildPersonSchema = (member) => ({
     (href) => href && href !== '#' && href.startsWith('http')
   ),
 });
+
+// =====================================================================
+// Programmatic GEO/SEO page families — industry, service+location,
+// comparison, topic-cluster hub, and author profile graphs. Each leads
+// with a typed entity, links a BreadcrumbList, and (where relevant) a
+// FAQPage that references the entity it documents.
+// =====================================================================
+
+const faqPageNode = (url, faqs, aboutId) => ({
+  '@type': 'FAQPage',
+  '@id': `${url}#faq`,
+  ...(aboutId ? { about: { '@id': aboutId } } : {}),
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+});
+
+// Industry landing page — a Service scoped to an industry audience.
+export const buildIndustrySchema = ({ name, description, path, audience, faqs = [], breadcrumb = [] }) => {
+  const url = `${SITE_URL}${path}/`;
+  const serviceId = `${url}#service`;
+  const graph = [
+    {
+      '@type': 'Service',
+      '@id': serviceId,
+      name,
+      description,
+      serviceType: name,
+      url,
+      provider: { '@id': ORG_ID },
+      isPartOf: { '@id': WEBSITE_ID },
+      mainEntityOfPage: url,
+      areaServed: ['Kolkata', 'West Bengal', 'India'],
+      ...(audience ? { audience: { '@type': 'Audience', audienceType: audience } } : {}),
+    },
+  ];
+  if (breadcrumb.length) graph.push(buildBreadcrumbSchema(breadcrumb));
+  if (faqs.length) graph.push(faqPageNode(url, faqs, serviceId));
+  return { '@context': 'https://schema.org', '@graph': graph };
+};
+
+// Service + location combination page — a localised Service plus a
+// location-scoped LocalBusiness, so it reads as a genuine local offering.
+export const buildServiceLocationSchema = ({ name, description, path, areaServed = [], faqs = [], breadcrumb = [] }) => {
+  const url = `${SITE_URL}${path}/`;
+  const serviceId = `${url}#service`;
+  const area = areaServed.length ? areaServed : ['Kolkata', 'West Bengal', 'India'];
+  const graph = [
+    {
+      '@type': 'Service',
+      '@id': serviceId,
+      name,
+      description,
+      serviceType: name,
+      url,
+      provider: { '@id': ORG_ID },
+      isPartOf: { '@id': WEBSITE_ID },
+      mainEntityOfPage: url,
+      areaServed: area,
+    },
+    {
+      '@type': 'ProfessionalService',
+      '@id': `${url}#localbusiness`,
+      name: 'Tag Easy',
+      legalName: 'TAG EASY LLP',
+      url,
+      image: `${SITE_URL}/logo.jpg`,
+      telephone: '+91-7980761008',
+      email: 'lokesh.choudhury@tageasy.org',
+      priceRange: '₹₹',
+      address,
+      areaServed: area,
+      openingHours: 'Mo-Fr 09:00-19:00',
+      parentOrganization: { '@id': ORG_ID },
+      sameAs,
+    },
+  ];
+  if (breadcrumb.length) graph.push(buildBreadcrumbSchema(breadcrumb));
+  if (faqs.length) graph.push(faqPageNode(url, faqs, serviceId));
+  return { '@context': 'https://schema.org', '@graph': graph };
+};
+
+// Comparison page — an Article (extractable answer) plus FAQ + breadcrumb.
+export const buildComparisonSchema = ({ title, description, path, datePublished, dateModified, faqs = [], breadcrumb = [] }) => {
+  const url = `${SITE_URL}${path}/`;
+  const graph = [
+    {
+      '@type': 'Article',
+      '@id': `${url}#article`,
+      headline: title,
+      description,
+      author: { '@id': ORG_ID },
+      publisher: { '@id': ORG_ID },
+      isPartOf: { '@id': WEBSITE_ID },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+      ...(datePublished ? { datePublished } : {}),
+      ...(dateModified || datePublished ? { dateModified: dateModified || datePublished } : {}),
+    },
+  ];
+  if (breadcrumb.length) graph.push(buildBreadcrumbSchema(breadcrumb));
+  if (faqs.length) graph.push(faqPageNode(url, faqs));
+  return { '@context': 'https://schema.org', '@graph': graph };
+};
+
+// Topic-cluster hub — a CollectionPage + ItemList of the resources it gathers.
+export const buildLearnHubSchema = ({ name, description, path, items = [], breadcrumb = [] }) => {
+  const url = `${SITE_URL}${path}/`;
+  const graph = [
+    {
+      '@type': 'CollectionPage',
+      '@id': `${url}#collection`,
+      name,
+      description,
+      url,
+      isPartOf: { '@id': WEBSITE_ID },
+      about: { '@id': ORG_ID },
+    },
+    {
+      '@type': 'ItemList',
+      '@id': `${url}#itemlist`,
+      itemListElement: items.map((item, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: item.url.startsWith('http') ? item.url : `${SITE_URL}${item.url}`,
+        name: item.name,
+      })),
+    },
+  ];
+  if (breadcrumb.length) graph.push(buildBreadcrumbSchema(breadcrumb));
+  return { '@context': 'https://schema.org', '@graph': graph };
+};
+
+// Author profile page — a Person tied to the Organization (E-E-A-T).
+export const buildAuthorSchema = (author, breadcrumb = []) => {
+  const url = author.url;
+  const graph = [
+    {
+      '@type': 'Person',
+      '@id': `${url.replace(/\/$/, '')}#person`,
+      name: author.name,
+      jobTitle: author.role,
+      description: author.bio,
+      url,
+      image: author.image ? `${SITE_URL}${author.image}` : `${SITE_URL}/logo.jpg`,
+      worksFor: { '@id': ORG_ID },
+      ...(author.expertise && author.expertise.length ? { knowsAbout: author.expertise } : {}),
+      ...(author.sameAs && author.sameAs.length ? { sameAs: author.sameAs } : {}),
+    },
+  ];
+  if (breadcrumb.length) graph.push(buildBreadcrumbSchema(breadcrumb));
+  return { '@context': 'https://schema.org', '@graph': graph };
+};

@@ -21,15 +21,24 @@ import {
   buildCaseStudyArticleSchema,
   buildCaseStudiesCollectionSchema,
   buildReviewSchema,
+  buildIndustrySchema,
+  buildServiceLocationSchema,
+  buildComparisonSchema,
+  buildLearnHubSchema,
+  buildAuthorSchema,
 } from '../src/lib/seoSchema.js';
 import { teamMembers } from '../src/lib/teamData.js';
 import { getIndexablePosts } from '../src/lib/blogData.js';
-import { getAuthor } from '../src/lib/authors.js';
+import { getAuthor, getIndexableAuthors } from '../src/lib/authors.js';
 import { glossaryTerms } from '../src/lib/glossaryData.js';
 import { faqs as allFaqs, getFaqsByCategory, getFaqsByCategories } from '../src/lib/faqData.js';
-import { serviceCatalog, getIndexableServiceDetails } from '../src/lib/servicesData.js';
+import { serviceCatalog, getIndexableServiceDetails, getServiceDetail } from '../src/lib/servicesData.js';
 import { getPublishedCaseStudies } from '../src/lib/caseStudyData.js';
-import { getIndexableLocations } from '../src/lib/locationsData.js';
+import { getIndexableLocations, getLocation } from '../src/lib/locationsData.js';
+import { getIndexableIndustries } from '../src/lib/industriesData.js';
+import { getIndexableServiceLocations } from '../src/lib/serviceLocationData.js';
+import { getComparisons } from '../src/lib/compareData.js';
+import { getLearnHubs } from '../src/lib/learnData.js';
 import { getVerifiedTestimonials } from '../src/lib/testimonialsData.js';
 import { ogImageUrl } from './ogImage.mjs';
 
@@ -193,6 +202,7 @@ const corePages = [
     priority: '0.6', changefreq: 'monthly',
     schema: graph(buildGlossarySchema(glossaryTerms), crumbs([{ name: 'Home', path: '/' }, { name: 'Glossary', path: '/glossary' }])),
     content: [
+      'Short answer: This glossary gives plain-language, extractable definitions of the core SEO, AI automation, local SEO, schema, Core Web Vitals, IndexNow, and GEO terms Tag Easy uses with clients.',
       'A glossary of SEO, AI automation, and digital engineering terms used by Tag Easy.',
       glossaryTerms.slice(0, 6).map((t) => `${t.term}: ${t.short}`).join(' '),
     ],
@@ -204,6 +214,7 @@ const corePages = [
     priority: '0.6', changefreq: 'monthly',
     schema: graph(buildFaqSchema(allFaqs), crumbs([{ name: 'Home', path: '/' }, { name: 'FAQs', path: '/faqs' }])),
     content: [
+      'Short answer: Tag Easy answers the most common questions about its SEO, AI automation, website development, Google Business Profile, paid ads, analytics, pricing, and process — concisely and factually.',
       'Frequently asked questions about Tag Easy SEO, AI automation, websites, ads, analytics, pricing, and how we work.',
       allFaqs.slice(0, 4).map((f) => `${f.question} ${f.answer}`).join(' '),
     ],
@@ -257,7 +268,7 @@ const servicePages = getIndexableServiceDetails().map((svc) => {
         ],
       })['@graph'],
     ),
-    content: [svc.intro, `What you get: ${svc.deliverables.join('; ')}.`],
+    content: [svc.shortAnswer || svc.intro, svc.intro, `What you get: ${svc.deliverables.join('; ')}.`],
   };
 });
 
@@ -318,7 +329,8 @@ const blogPages = getIndexablePosts().map((post) => ({
   ogType: 'article',
   schema: buildBlogPostingSchema(post, getAuthor(post.authorId)),
   content: [
-    post.excerpt,
+    post.shortAnswer || post.excerpt,
+    ...(post.shortAnswer ? [post.excerpt] : []),
     ...post.content
       .map((b) =>
         b.type === 'paragraph' ? b.text : b.type === 'list' ? b.items.join(' ') : null
@@ -327,6 +339,179 @@ const blogPages = getIndexablePosts().map((post) => ({
       .slice(0, 4),
   ],
 }));
+
+// --- Industry landing pages ----------------------------------------------
+
+const industryPages = getIndexableIndustries().map((ind) => {
+  const path = `/industries/${ind.slug}`;
+  const faqs = getFaqsByCategories(ind.faqCategories || []);
+  return {
+    path, category: 'Industry',
+    title: ind.metaTitle,
+    description: ind.metaDescription,
+    priority: '0.7', changefreq: 'monthly',
+    schema: graph(
+      buildIndustrySchema({
+        name: ind.h1,
+        description: ind.metaDescription,
+        path,
+        audience: ind.audience,
+        faqs,
+        breadcrumb: [
+          { name: 'Home', path: '/' },
+          { name: 'Industries', path: '/industries' },
+          { name: ind.name, path },
+        ],
+      })['@graph'],
+    ),
+    content: [ind.shortAnswer, ind.intro],
+  };
+});
+
+// --- Service + location combination pages ---------------------------------
+
+const serviceLocationPages = getIndexableServiceLocations().map((sl) => {
+  const svc = getServiceDetail(sl.service);
+  const loc = getLocation(sl.location);
+  const serviceShortName = svc.h1.replace(/ —.*$/, '');
+  const path = `/services/${sl.service}/${sl.location}`;
+  const faqs = getFaqsByCategories(sl.faqCategories || []);
+  return {
+    path, category: 'Local Service',
+    title: sl.metaTitle,
+    description: sl.metaDescription,
+    priority: '0.7', changefreq: 'monthly',
+    schema: graph(
+      buildServiceLocationSchema({
+        name: `${serviceShortName} in ${loc.name}`,
+        description: sl.metaDescription,
+        path,
+        areaServed: loc.areaServed,
+        faqs,
+        breadcrumb: [
+          { name: 'Home', path: '/' },
+          { name: 'Services', path: '/services' },
+          { name: serviceShortName, path: `/services/${sl.service}` },
+          { name: loc.name, path },
+        ],
+      })['@graph'],
+    ),
+    content: [sl.shortAnswer, sl.intro, sl.localProof],
+  };
+});
+
+// --- Comparison pages (index + details) -----------------------------------
+
+const comparePages = [
+  {
+    path: '/compare', category: 'Compare',
+    title: 'Compare Digital Growth Approaches | Tag Easy',
+    description:
+      'Side-by-side comparisons — SEO vs paid ads, AI automation vs manual marketing, custom vs template websites, and more — to help you choose the right approach.',
+    priority: '0.6', changefreq: 'monthly',
+    schema: graph(
+      buildLearnHubSchema({
+        name: 'Tag Easy Comparisons',
+        description: 'Side-by-side comparisons to help you choose the right digital growth approach.',
+        path: '/compare',
+        items: getComparisons().map((c) => ({ name: c.h1, url: `/compare/${c.slug}` })),
+        breadcrumb: [{ name: 'Home', path: '/' }, { name: 'Compare', path: '/compare' }],
+      })['@graph'],
+    ),
+    content: [
+      'Honest, side-by-side comparisons to help you choose the right approach for your business.',
+      getComparisons().map((c) => c.h1).join('; '),
+    ],
+  },
+  ...getComparisons().map((cmp) => {
+    const path = `/compare/${cmp.slug}`;
+    return {
+      path, category: 'Compare', ogType: 'article',
+      title: cmp.metaTitle,
+      description: cmp.metaDescription,
+      priority: '0.7', changefreq: 'monthly',
+      lastmod: cmp.dateModified || cmp.datePublished,
+      schema: graph(
+        buildComparisonSchema({
+          title: cmp.h1,
+          description: cmp.metaDescription,
+          path,
+          datePublished: cmp.datePublished,
+          dateModified: cmp.dateModified,
+          faqs: cmp.faqs,
+          breadcrumb: [{ name: 'Home', path: '/' }, { name: 'Compare', path: '/compare' }, { name: cmp.h1, path }],
+        })['@graph'],
+      ),
+      content: [cmp.shortAnswer, cmp.recommendation],
+    };
+  }),
+];
+
+// --- Topic-cluster hub pages (index + details) ----------------------------
+
+const learnPages = [
+  {
+    path: '/learn', category: 'Learn',
+    title: 'Learn — SEO, Local SEO, AI Automation & More | Tag Easy',
+    description:
+      'Topic hubs gathering Tag Easy guides, FAQs, glossary terms, and services on SEO, local SEO, AI automation, website development, Google Business Profile, and analytics.',
+    priority: '0.6', changefreq: 'weekly',
+    schema: graph(
+      buildLearnHubSchema({
+        name: 'Tag Easy Learn — Topic Hubs',
+        description: 'Topic hubs gathering Tag Easy guides, FAQs, glossary terms, and services by subject.',
+        path: '/learn',
+        items: getLearnHubs().map((h) => ({ name: h.h1, url: `/learn/${h.slug}` })),
+        breadcrumb: [{ name: 'Home', path: '/' }, { name: 'Learn', path: '/learn' }],
+      })['@graph'],
+    ),
+    content: [
+      'Everything Tag Easy publishes, organised by topic — guides, FAQs, definitions, and the services that put them into practice.',
+      getLearnHubs().map((h) => h.h1).join('; '),
+    ],
+  },
+  ...getLearnHubs().map((hub) => {
+    const path = `/learn/${hub.slug}`;
+    const services = (hub.serviceSlugs || []).map(getServiceDetail).filter(Boolean);
+    const items = services.map((s) => ({ name: s.h1.replace(/ —.*$/, ''), url: `/services/${s.slug}` }));
+    return {
+      path, category: 'Learn',
+      title: hub.metaTitle,
+      description: hub.metaDescription,
+      priority: '0.6', changefreq: 'monthly',
+      schema: graph(
+        buildLearnHubSchema({
+          name: hub.h1,
+          description: hub.metaDescription,
+          path,
+          items,
+          breadcrumb: [{ name: 'Home', path: '/' }, { name: 'Learn', path: '/learn' }, { name: hub.name, path }],
+        })['@graph'],
+      ),
+      content: [hub.shortAnswer, hub.intro],
+    };
+  }),
+];
+
+// --- Author profile pages (indexable authors only) ------------------------
+
+const authorPages = getIndexableAuthors().map((author) => {
+  const path = `/authors/${author.id}`;
+  return {
+    path, category: 'Author', ogType: 'profile',
+    title: `${author.name} — ${author.role} | Tag Easy`,
+    description: `${author.name} — ${author.role} at Tag Easy, specialising in ${(author.expertise || []).slice(0, 3).join(', ')}.`,
+    priority: '0.5', changefreq: 'monthly',
+    schema: graph(
+      buildAuthorSchema(author, [
+        { name: 'Home', path: '/' },
+        { name: 'About', path: '/about' },
+        { name: author.name, path },
+      ])['@graph'],
+    ),
+    content: [`${author.name} is the ${author.role} at Tag Easy.`, author.bio],
+  };
+});
 
 // --- Thank-you pages (Task 17) — noindex, NOT in sitemap ------------------
 
@@ -344,7 +529,12 @@ const thankYouPages = [
 const allPages = [
   ...corePages,
   ...servicePages,
+  ...serviceLocationPages,
   ...locationPages,
+  ...industryPages,
+  ...comparePages,
+  ...learnPages,
+  ...authorPages,
   ...caseStudyPages,
   ...teamPages,
   ...blogPages,
@@ -356,3 +546,26 @@ export const pages = allPages.map((page) => ({
   category: page.category || 'Tag Easy',
   image: ogImageUrl(page.path),
 }));
+
+// --- Image sitemap source (Task 23) --------------------------------------
+// Real, public content images grouped by the indexable page they appear on.
+// OG SVGs and placeholder assets are intentionally excluded. Consumed by
+// scripts/prerender-seo.mjs to emit dist/image-sitemap.xml.
+export const imageSitemapEntries = [
+  { loc: '/', images: [{ url: '/logo.jpg', title: 'Tag Easy' }] },
+  ...getIndexableServiceDetails().map((s) => ({
+    loc: `/services/${s.slug}`,
+    images: [{ url: s.image, title: s.h1.replace(/ —.*$/, '') }],
+  })),
+  ...getPublishedCaseStudies().map((c) => ({
+    loc: c.path,
+    images: [{ url: c.image, title: `${c.title} case study` }],
+  })),
+  ...getIndexablePosts().map((post) => ({
+    loc: `/blog/${post.slug}`,
+    images: [{ url: post.image, title: post.title }],
+  })),
+  ...teamMembers
+    .filter((m) => !m.hidden)
+    .map((m) => ({ loc: `/team/${m.slug}`, images: [{ url: m.image, title: `${m.name} — ${m.role}` }] })),
+].filter((e) => e.images.every((i) => i.url && !i.url.startsWith('/og/') && !/placeholder/i.test(i.url)));

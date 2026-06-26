@@ -7,12 +7,17 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { organizationSchema, buildBreadcrumbSchema } from '../lib/seoSchema';
-import { serviceDetailPages } from '../lib/servicesData';
-import { getIndexableLocations } from '../lib/locationsData';
+import { serviceDetailPages, getServiceDetail } from '../lib/servicesData';
+import { getIndexableLocations, getLocation } from '../lib/locationsData';
 import { getPublishedCaseStudies } from '../lib/caseStudyData';
 import { getIndexablePosts } from '../lib/blogData';
 import { glossaryTerms } from '../lib/glossaryData';
 import { faqCategories } from '../lib/faqData';
+import { getIndexableIndustries } from '../lib/industriesData';
+import { getIndexableServiceLocations } from '../lib/serviceLocationData';
+import { getComparisons } from '../lib/compareData';
+import { getLearnHubs } from '../lib/learnData';
+import { getIndexableAuthors } from '../lib/authors';
 
 const breadcrumbItems = [
   { name: 'Home', path: '/' },
@@ -48,6 +53,8 @@ const HtmlSitemap = () => {
     { label: 'Case Studies', href: '/case-studies' },
     { label: 'About', href: '/about' },
     { label: 'Blog', href: '/blog' },
+    { label: 'Learn', href: '/learn' },
+    { label: 'Compare', href: '/compare' },
     { label: 'Glossary', href: '/glossary' },
     { label: 'FAQs', href: '/faqs' },
     { label: 'Contact', href: '/contact' },
@@ -60,10 +67,30 @@ const HtmlSitemap = () => {
     href: `/services/${s.slug}`,
   }));
 
+  const serviceLocationLinks = getIndexableServiceLocations().map((sl) => {
+    const svc = getServiceDetail(sl.service);
+    const loc = getLocation(sl.location);
+    return {
+      label: `${svc.h1.replace(/ —.*$/, '')} — ${loc.name}`,
+      href: `/services/${sl.service}/${sl.location}`,
+    };
+  });
+
   const locationLinks = getIndexableLocations().map((l) => ({
     label: `${l.name} (${l.type})`,
     href: `/locations/${l.slug}`,
   }));
+
+  const industryLinks = getIndexableIndustries().map((i) => ({
+    label: i.name,
+    href: `/industries/${i.slug}`,
+  }));
+
+  const compareLinks = getComparisons().map((c) => ({ label: c.h1, href: `/compare/${c.slug}` }));
+
+  const learnLinks = getLearnHubs().map((h) => ({ label: h.name, href: `/learn/${h.slug}` }));
+
+  const authorLinks = getIndexableAuthors().map((a) => ({ label: a.name, href: `/authors/${a.id}` }));
 
   const caseStudyLinks = getPublishedCaseStudies().map((c) => ({ label: c.title, href: c.path }));
 
@@ -89,7 +116,7 @@ const HtmlSitemap = () => {
         <h1 className="text-4xl md:text-7xl text-white tracking-tighter font-instrument leading-[0.9] mb-6">Sitemap</h1>
         <p className="text-white/40 text-lg font-light max-w-2xl">
           Every page on tageasy.org, grouped for quick access. Looking for the machine-readable version?
-          See <a href="/sitemap.xml" className="text-red-500 hover:underline">sitemap.xml</a>.
+          See the <a href="/sitemap.xml" className="text-red-500 hover:underline">sitemap index</a> (pages, blog, and images).
         </p>
       </header>
 
@@ -97,9 +124,14 @@ const HtmlSitemap = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-10 gap-y-14">
           <Group title="Main Pages" links={mainPages} />
           <Group title="Services" links={serviceLinks} />
+          <Group title="Local Services" links={serviceLocationLinks} />
+          <Group title="Industries" links={industryLinks} />
           <Group title="Locations" links={locationLinks} />
+          <Group title="Compare" links={compareLinks} />
+          <Group title="Learn" links={learnLinks} />
           <Group title="Case Studies" links={caseStudyLinks} />
           <Group title="Blog" links={blogLinks} />
+          <Group title="Authors" links={authorLinks} />
           <Group title="Glossary" links={glossaryLinks} />
           <Group title="FAQs" links={faqLinks} />
         </div>

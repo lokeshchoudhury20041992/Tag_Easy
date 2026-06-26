@@ -7,7 +7,12 @@ import { captureUtmParams } from './lib/utmTracking';
 const Home = React.lazy(() => import('./pages/Home'));
 const Services = React.lazy(() => import('./pages/Services'));
 const ServiceDetail = React.lazy(() => import('./pages/ServiceDetail'));
+const ServiceLocation = React.lazy(() => import('./pages/ServiceLocation'));
 const LocationPage = React.lazy(() => import('./pages/LocationPage'));
+const IndustryDetail = React.lazy(() => import('./pages/IndustryDetail'));
+const Compare = React.lazy(() => import('./pages/Compare'));
+const LearnHub = React.lazy(() => import('./pages/LearnHub'));
+const AuthorProfile = React.lazy(() => import('./pages/AuthorProfile'));
 const AIAutomation = React.lazy(() => import('./pages/AIAutomation'));
 const CaseStudies = React.lazy(() => import('./pages/CaseStudies'));
 const CaseStudyDetail = React.lazy(() => import('./pages/CaseStudyDetail'));
@@ -52,12 +57,19 @@ function App() {
             <Route index element={<Home />} />
             <Route path="services" element={<Services />} />
             <Route path="services/:slug" element={<ServiceDetail />} />
+            <Route path="services/:slug/:location" element={<ServiceLocation />} />
             <Route path="locations/:slug" element={<LocationPage />} />
             <Route path="ai-automation" element={<AIAutomation />} />
             <Route path="case-studies" element={<CaseStudies />} />
             <Route path="case-studies/:slug" element={<CaseStudyDetail />} />
             <Route path="about" element={<About />} />
             <Route path="industries" element={<Industries />} />
+            <Route path="industries/:slug" element={<IndustryDetail />} />
+            <Route path="compare" element={<Compare />} />
+            <Route path="compare/:slug" element={<Compare />} />
+            <Route path="learn" element={<LearnHub />} />
+            <Route path="learn/:slug" element={<LearnHub />} />
+            <Route path="authors/:slug" element={<AuthorProfile />} />
             <Route path="contact" element={<Contact />} />
             <Route path="contact/thank-you" element={<ThankYou />} />
             <Route path="team" element={<Team />} />
